@@ -1,0 +1,11 @@
+{
+  "name": "coll",
+  "version": "0.0.1",
+  "author": "Cory Martin",
+  "description": "JavaScript collection classes.",
+  "main": "index.js",
+  "devDependencies": {
+    "expect.js": "*",
+    "mocha": "*"
+  }
+}
