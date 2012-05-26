@@ -760,7 +760,7 @@
         return expect(l1.length).to.be(4);
       });
     });
-    return describe('#unique', function() {
+    describe('#unique', function() {
       var l1, l2, l3, o1, o2;
       l1 = l2 = l3 = null;
       o1 = o2 = null;
@@ -801,6 +801,33 @@
         l3.unique();
         expect(l3).to.be.a(TypedList);
         return expect(l3.length).to.be(5);
+      });
+    });
+    return describe('#intersect', function() {
+      var l1, l2;
+      l1 = l2 = null;
+      beforeEach(function() {
+        l1 = TypedList('String', 'abcabcd');
+        return l2 = TypedList('String', 'zxczxaab');
+      });
+      it('should return a new list containing items found in both lists', function() {
+        var x;
+        x = l1.intersect(l2);
+        expect(x).to.be.a(TypedList);
+        expect(x).not.to.be(l1);
+        expect(x).not.to.be(l2);
+        expect(x.length).to.be(3);
+        expect(x).to.contain('a');
+        expect(x).to.contain('b');
+        return expect(x).to.contain('c');
+      });
+      return it('should not modify either the instance list or the passed list', function() {
+        var x;
+        x = l1.intersect(l2);
+        expect(l1).to.be.a(TypedList);
+        expect(l2).to.be.a(TypedList);
+        expect(l1.length).to.be(7);
+        return expect(l2.length).to.be(8);
       });
     });
   });

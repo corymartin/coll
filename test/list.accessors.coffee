@@ -659,5 +659,27 @@ describe 'TypedList / List Accessor Methods', ->
       expect(l3.length).to.be 5
 
 
+  describe '#intersect', ->
+    l1 = l2 = null
 
+    beforeEach ->
+      l1 = TypedList 'String', 'abcabcd'
+      l2 = TypedList 'String', 'zxczxaab'
+
+    it 'should return a new list containing items found in both lists', ->
+      x = l1.intersect l2
+      expect(x).to.be.a TypedList
+      expect(x).not.to.be l1
+      expect(x).not.to.be l2
+      expect(x.length).to.be 3
+      expect(x).to.contain 'a'
+      expect(x).to.contain 'b'
+      expect(x).to.contain 'c'
+
+    it 'should not modify either the instance list or the passed list', ->
+      x = l1.intersect l2
+      expect(l1).to.be.a TypedList
+      expect(l2).to.be.a TypedList
+      expect(l1.length).to.be 7
+      expect(l2.length).to.be 8
 
