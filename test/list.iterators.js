@@ -15,7 +15,7 @@
         ls1items = TypedList('String', ['a']);
         return ls3items = TypedList('String', ['a', 'b', 'c']);
       });
-      describe('reduce', function() {
+      describe('#reduce', function() {
         it('accumulates each value in the list (L to R) applying a function to them, resulting in a single value', function() {
           var result;
           result = ls3items.reduce(function(a, b) {
