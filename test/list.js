@@ -49,6 +49,27 @@
         });
       });
     });
+    describe('#_new', function() {
+      it('should return a new, empty list of the same constructor and type', function() {
+        var l1, l1new, l2, l2new;
+        l1 = TypedList('RegExp', [/fizz/, /buzz/]);
+        l1new = l1._new();
+        expect(l1new).to.be.a(TypedList);
+        expect(l1new.length).to.be(0);
+        expect(l1new.type).to.be('RegExp');
+        l2 = List([new Date, 'a']);
+        l2new = l2._new();
+        expect(l2new).to.be.a(List);
+        expect(l2new.length).to.be(0);
+        return expect(l2new.type).to.be('Any');
+      });
+      return it('should accept an additional type parameter in TypedList instances', function() {
+        var l1, l1new;
+        l1 = TypedList('String', 'asdf');
+        l1new = l1._new('Number');
+        return expect(l1new.type).to.be('Number');
+      });
+    });
     return describe('Unmodified methods inherited directly from Array prototype', function() {
       expect(TypedList.prototype.pop).to.be.a(Function);
       expect(TypedList.prototype.reverse).to.be.a(Function);
