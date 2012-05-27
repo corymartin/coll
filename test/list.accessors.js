@@ -394,7 +394,7 @@
         return expect(l2.length).to.be(8);
       });
     });
-    return describe('#intersperse', function() {
+    describe('#intersperse', function() {
       var l1, l2;
       l1 = l2 = null;
       beforeEach(function() {
@@ -428,6 +428,207 @@
         l2.intersperse('-');
         expect(l1.length).to.be(3);
         return expect(l2.length).to.be(4);
+      });
+    });
+    describe('#take', function() {
+      var l1, l2;
+      l1 = l2 = null;
+      beforeEach(function() {
+        l1 = TypedList('String', 'hello world');
+        return l2 = List([1, 2, 3, 4, 5]);
+      });
+      it('should return a new list of the first `howMany` items', function() {
+        var x;
+        x = l1.take(6);
+        expect(x.join('')).to.be('hello ');
+        expect(x).to.be.a(TypedList);
+        x = l2.take(2);
+        expect(x.length).to.be(2);
+        expect(x[0]).to.be(1);
+        expect(x[1]).to.be(2);
+        return expect(x).to.be.a(List);
+      });
+      it('should return a copy of the entire list if `howMany` is greater than\nor equal to the length of the list', function() {
+        var x;
+        x = l1.take(99);
+        expect(x.join('')).to.be('hello world');
+        x = l1.take(11);
+        return expect(x.join('')).to.be('hello world');
+      });
+      it('should return an empty list if `howMany` is less than or equal to zero', function() {
+        var x;
+        x = l1.take(-1);
+        expect(x.length).to.be(0);
+        x = l2.take(0);
+        return expect(x.length).to.be(0);
+      });
+      it('should throw a `TypeError` if `howMany` is not passed', function() {
+        return expect(function() {
+          return l1.take();
+        }).to.throwError(function(e) {
+          return expect(e).to.be.a(TypeError);
+        });
+      });
+      it('should throw a `TypeError` if `howMany` is not a number', function() {
+        return expect(function() {
+          return l1.take('foo');
+        }).to.throwError(function(e) {
+          return expect(e).to.be.a(TypeError);
+        });
+      });
+      return it('should not mutate the instance list', function() {
+        var x;
+        x = l1.take(3);
+        return expect(l1.join('')).to.be('hello world');
+      });
+    });
+    describe('#takeWhile', function() {
+      var l1, l2;
+      l1 = l2 = null;
+      beforeEach(function() {
+        l1 = TypedList('String', 'hello world');
+        return l2 = List([1, 2, 3, 4, 5]);
+      });
+      it('should return a new list of contiguous items from the beginning\nof the list until the iterator function returns false', function() {
+        var x;
+        x = l1.takeWhile(function(val) {
+          return val !== ' ';
+        });
+        expect(x.join('')).to.be('hello');
+        expect(x).to.be.a(TypedList);
+        x = l2.takeWhile(function(val) {
+          return val < 4;
+        });
+        expect(x.length).to.be(3);
+        expect(x[0]).to.be(1);
+        expect(x[1]).to.be(2);
+        expect(x[2]).to.be(3);
+        return expect(x).to.be.a(List);
+      });
+      it('should return an empty list if the first item does not pass\nthe iterator test', function() {
+        var x;
+        x = l2.takeWhile(function(val) {
+          return val < 0;
+        });
+        return expect(x.length).to.be(0);
+      });
+      it('should pass 3 values to the iterator function:\ncurrent value, index, the list', function() {
+        var i;
+        i = 0;
+        return l1.takeWhile(function() {
+          expect(arguments.length).to.be(3);
+          expect(arguments[0]).to.be(l1[i]);
+          expect(arguments[1]).to.be(i);
+          expect(arguments[2]).to.be(l1);
+          return false;
+        });
+      });
+      return it('should not mutate the instance list', function() {
+        var x;
+        x = l1.takeWhile(function(val) {
+          return val !== ' ';
+        });
+        return expect(l1.join('')).to.be('hello world');
+      });
+    });
+    describe('#drop', function() {
+      var l1, l2;
+      l1 = l2 = null;
+      beforeEach(function() {
+        l1 = TypedList('String', 'hello world');
+        return l2 = List([1, 2, 3, 4, 5]);
+      });
+      it('should return a new list, dropping the first `howMany` items\nfrom the instance list', function() {
+        var x;
+        x = l1.drop(5);
+        expect(x.join('')).to.be(' world');
+        expect(x).to.be.a(TypedList);
+        x = l2.drop(3);
+        expect(x.length).to.be(2);
+        expect(x[0]).to.be(4);
+        expect(x[1]).to.be(5);
+        return expect(x).to.be.a(List);
+      });
+      it('should return a copy of the entire list if `howMany` is less than\nor equal to zero', function() {
+        var x;
+        x = l1.drop(0);
+        expect(x.join('')).to.be('hello world');
+        x = l1.drop(-1);
+        return expect(x.join('')).to.be('hello world');
+      });
+      it('should return an empty list if `howMany` is greater than or equal\nto the length of the list', function() {
+        var x;
+        x = l1.drop(11);
+        expect(x.length).to.be(0);
+        x = l2.drop(99);
+        return expect(x.length).to.be(0);
+      });
+      it('should throw a `TypeError` if `howMany` is not passed', function() {
+        return expect(function() {
+          return l1.drop();
+        }).to.throwError(function(e) {
+          return expect(e).to.be.a(TypeError);
+        });
+      });
+      it('should throw a `TypeError` if `howMany` is not a number', function() {
+        return expect(function() {
+          return l1.drop('foo');
+        }).to.throwError(function(e) {
+          return expect(e).to.be.a(TypeError);
+        });
+      });
+      return it('should not mutate the instance list', function() {
+        var x;
+        x = l1.drop(3);
+        return expect(l1.join('')).to.be('hello world');
+      });
+    });
+    return describe('#dropWhile', function() {
+      var l1, l2;
+      l1 = l2 = null;
+      beforeEach(function() {
+        l1 = TypedList('String', 'hello world');
+        return l2 = List([1, 2, 3, 4, 5]);
+      });
+      it('should return a new list, dropping the contiguous items from the\nbeginning of the list that pass the iterator test', function() {
+        var x;
+        x = l1.dropWhile(function(val) {
+          return val !== ' ';
+        });
+        expect(x.join('')).to.be(' world');
+        expect(x).to.be.a(TypedList);
+        x = l2.dropWhile(function(val) {
+          return val < 4;
+        });
+        expect(x.length).to.be(2);
+        expect(x[0]).to.be(4);
+        expect(x[1]).to.be(5);
+        return expect(x).to.be.a(List);
+      });
+      it('should return a copy of the entire list if the first item does\nnot pass the iterator test', function() {
+        var x;
+        x = l2.dropWhile(function(val) {
+          return val < 0;
+        });
+        return expect(x.length).to.be(5);
+      });
+      it('should pass 3 values to the iterator function:\ncurrent value, index, the list', function() {
+        var i;
+        i = 0;
+        return l1.dropWhile(function() {
+          expect(arguments.length).to.be(3);
+          expect(arguments[0]).to.be(l1[i]);
+          expect(arguments[1]).to.be(i);
+          expect(arguments[2]).to.be(l1);
+          return false;
+        });
+      });
+      return it('should not mutate the instance list', function() {
+        var x;
+        x = l1.dropWhile(function(val) {
+          return val !== ' ';
+        });
+        return expect(l1.join('')).to.be('hello world');
       });
     });
   });
