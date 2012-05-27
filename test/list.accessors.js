@@ -253,37 +253,17 @@
       l1 = l2 = null;
       beforeEach(function() {
         l1 = TypedList('String', 'abcd');
-        return l2 = TypedList('String');
+        return l2 = List();
       });
       it('should return the first item from the list', function() {
         var x;
         x = l1.first();
         return expect(x).to.be('a');
       });
-      it('should return `undefined` if the list is empty', function() {
+      return it('should return `undefined` if the list is empty', function() {
         var x;
         x = l2.first();
         return expect(x).to.be(void 0);
-      });
-      it('should return a list of the first "howMany" items\nif the `howMany` param is passed', function() {
-        var x;
-        x = l1.first(2);
-        expect(x).to.be.a(TypedList);
-        expect(x.length).to.be(2);
-        expect(x[0]).to.be('a');
-        return expect(x[1]).to.be('b');
-      });
-      it('should return an empty list if `howMany` is passed and the list is empty', function() {
-        var x;
-        x = l2.first(2);
-        expect(x).to.be.a(TypedList);
-        return expect(x.length).to.be(0);
-      });
-      return it('should not modify the instance list', function() {
-        l1.first();
-        l1.first(2);
-        expect(l1).to.be.a(TypedList);
-        return expect(l1.length).to.be(4);
       });
     });
     describe('#last', function() {
@@ -291,37 +271,17 @@
       l1 = l2 = null;
       beforeEach(function() {
         l1 = TypedList('String', 'abcd');
-        return l2 = TypedList('String');
+        return l2 = List();
       });
       it('should return the last item from the list', function() {
         var x;
         x = l1.last();
         return expect(x).to.be('d');
       });
-      it('should return `undefined` if the list is empty', function() {
+      return it('should return `undefined` if the list is empty', function() {
         var x;
         x = l2.last();
         return expect(x).to.be(void 0);
-      });
-      it('should return a list of the last "howMany" items\nif the `howMany` param is passed', function() {
-        var x;
-        x = l1.last(2);
-        expect(x).to.be.a(TypedList);
-        expect(x.length).to.be(2);
-        expect(x[0]).to.be('c');
-        return expect(x[1]).to.be('d');
-      });
-      it('should return an empty list if `howMany` is passed\nand the list is empty', function() {
-        var x;
-        x = l2.last(2);
-        expect(x).to.be.a(TypedList);
-        return expect(x.length).to.be(0);
-      });
-      return it('should not modify the instance list', function() {
-        l1.last();
-        l1.last(2);
-        expect(l1).to.be.a(TypedList);
-        return expect(l1.length).to.be(4);
       });
     });
     describe('#unique', function() {

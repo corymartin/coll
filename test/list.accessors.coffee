@@ -234,7 +234,7 @@ describe 'TypedList / List Accessor Methods', ->
 
     beforeEach ->
       l1 = TypedList 'String', 'abcd'
-      l2 = TypedList 'String'
+      l2 = List()
 
     it 'should return the first item from the list', ->
       x = l1.first()
@@ -244,32 +244,13 @@ describe 'TypedList / List Accessor Methods', ->
       x = l2.first()
       expect(x).to.be undefined
 
-    it '''should return a list of the first "howMany" items
-      if the `howMany` param is passed''', ->
-      x = l1.first 2
-      expect(x).to.be.a TypedList
-      expect(x.length).to.be 2
-      expect(x[0]).to.be 'a'
-      expect(x[1]).to.be 'b'
-
-    it 'should return an empty list if `howMany` is passed and the list is empty', ->
-      x = l2.first 2
-      expect(x).to.be.a TypedList
-      expect(x.length).to.be 0
-
-    it 'should not modify the instance list', ->
-      l1.first()
-      l1.first 2
-      expect(l1).to.be.a TypedList
-      expect(l1.length).to.be 4
-
 
   describe '#last', ->
     l1 = l2 = null
 
     beforeEach ->
       l1 = TypedList 'String', 'abcd'
-      l2 = TypedList 'String'
+      l2 = List()
 
     it 'should return the last item from the list', ->
       x = l1.last()
@@ -278,26 +259,6 @@ describe 'TypedList / List Accessor Methods', ->
     it 'should return `undefined` if the list is empty', ->
       x = l2.last()
       expect(x).to.be undefined
-
-    it '''should return a list of the last "howMany" items
-      if the `howMany` param is passed''', ->
-      x = l1.last 2
-      expect(x).to.be.a TypedList
-      expect(x.length).to.be 2
-      expect(x[0]).to.be 'c'
-      expect(x[1]).to.be 'd'
-
-    it '''should return an empty list if `howMany` is passed
-      and the list is empty''', ->
-      x = l2.last 2
-      expect(x).to.be.a TypedList
-      expect(x.length).to.be 0
-
-    it 'should not modify the instance list', ->
-      l1.last()
-      l1.last 2
-      expect(l1).to.be.a TypedList
-      expect(l1.length).to.be 4
 
 
   describe '#unique', ->
