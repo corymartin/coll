@@ -299,6 +299,74 @@ describe 'TypedList / List Accessor Methods', ->
       expect(l3.length).to.be 5
 
 
+  describe '#max', ->
+    l1 = l2 = l3 = null
+    d1 = new Date 2012, 5, 10, 12, 12, 12
+    d2 = new Date 2011, 2, 1, 11, 11, 11
+    d3 = new Date 2012, 5, 15, 12, 12, 12
+    d4 = new Date 2011, 2, 1, 18, 11, 11
+
+    beforeEach ->
+      l1 = TypedList 'Number', [44,33,4,12,67,33]
+      l2 = List [d1, d2, d3, d4]
+      l3 = List ['zzzz', 'zzz', 'zzzzzz', 'zzzzz']
+
+    it '''should return the maximum value from the list
+      (for ordered types)''', ->
+      x = l1.max()
+      expect(x).to.be 67
+      x = l2.max()
+      expect(x).to.be d3
+
+    it '''should use the value returned by the optional iterator function to
+      determine the max value''', ->
+      x = l3.max (val) -> val.length
+      expect(x).to.be 'zzzzzz'
+
+    it 'should accept a context object for the callback as an
+      optional second parameter', ->
+      obj = foo: 'bar'
+      l3.max ((v) ->
+        expect(this).to.be obj
+        expect(this.foo).to.be 'bar'
+        v.length
+      ), obj
+
+
+  describe '#min', ->
+    l1 = l2 = l3 = null
+    d1 = new Date 2012, 5, 10, 12, 12, 12
+    d2 = new Date 2011, 2, 1, 11, 11, 11
+    d3 = new Date 2012, 5, 15, 12, 12, 12
+    d4 = new Date 2011, 2, 1, 18, 11, 11
+
+    beforeEach ->
+      l1 = TypedList 'Number', [44,33,4,12,67,33]
+      l2 = List [d1, d2, d3, d4]
+      l3 = List ['zzzz', 'zzz', 'zzzzzz', 'zzzzz']
+
+    it '''should return the minimum value from the list
+      (for ordered types)''', ->
+      x = l1.min()
+      expect(x).to.be 4
+      x = l2.min()
+      expect(x).to.be d2
+
+    it '''should use the value returned by the optional iterator function to
+      determine the min value''', ->
+      x = l3.min (val) -> val.length
+      expect(x).to.be 'zzz'
+
+    it 'should accept a context object for the callback as an
+      optional second parameter', ->
+      obj = foo: 'bar'
+      l3.min ((v) ->
+        expect(this).to.be obj
+        expect(this.foo).to.be 'bar'
+        v.length
+      ), obj
+
+
   describe '#intersect', ->
     l1 = l2 = null
 
@@ -322,42 +390,4 @@ describe 'TypedList / List Accessor Methods', ->
       expect(l2).to.be.a TypedList
       expect(l1.length).to.be 7
       expect(l2.length).to.be 8
-
-
-  describe '#intersperse', ->
-    l1 = l2 = null
-
-    beforeEach ->
-      l1 = TypedList 'Number', [1,2,3]
-      l2 = List ['a', new Date, [1,2], true]
-
-    it '''should return a new list with the passed item inserted between
-      every item in the original list''', ->
-      x = l1.intersperse 0
-      expect(x).to.be.a TypedList
-      expect(x.length).to.be 5
-      expect(x[0]).to.be 1
-      expect(x[1]).to.be 0
-      expect(x[2]).to.be 2
-      expect(x[3]).to.be 0
-      expect(x[4]).to.be 3
-
-      regex = /foo/
-      x = l2.intersperse regex
-      expect(x).to.be.a List
-      expect(x.length).to.be 7
-      expect(x[0]).to.be 'a'
-      expect(x[1]).to.be regex
-      expect(x[2]).to.be.a Date
-      expect(x[3]).to.be regex
-      expect(x[4]).to.eql [1,2]
-      expect(x[5]).to.be regex
-      expect(x[6]).to.be true
-
-
-    it 'should not modify the instance list', ->
-      l1.intersperse 0
-      l2.intersperse '-'
-      expect(l1.length).to.be 3
-      expect(l2.length).to.be 4
 

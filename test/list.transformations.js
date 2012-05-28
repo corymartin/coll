@@ -95,7 +95,7 @@
         });
       });
     });
-    return describe('#map', function() {
+    describe('#map', function() {
       var l1;
       l1 = null;
       beforeEach(function() {
@@ -160,6 +160,42 @@
           expect(list).to.be(ls);
           return val;
         });
+      });
+    });
+    return describe('#intersperse', function() {
+      var l1, l2;
+      l1 = l2 = null;
+      beforeEach(function() {
+        l1 = TypedList('Number', [1, 2, 3]);
+        return l2 = List(['a', new Date, [1, 2], true]);
+      });
+      it('should return a new list with the passed item inserted between\nevery item in the original list', function() {
+        var regex, x;
+        x = l1.intersperse(0);
+        expect(x).to.be.a(TypedList);
+        expect(x.length).to.be(5);
+        expect(x[0]).to.be(1);
+        expect(x[1]).to.be(0);
+        expect(x[2]).to.be(2);
+        expect(x[3]).to.be(0);
+        expect(x[4]).to.be(3);
+        regex = /foo/;
+        x = l2.intersperse(regex);
+        expect(x).to.be.a(List);
+        expect(x.length).to.be(7);
+        expect(x[0]).to.be('a');
+        expect(x[1]).to.be(regex);
+        expect(x[2]).to.be.a(Date);
+        expect(x[3]).to.be(regex);
+        expect(x[4]).to.eql([1, 2]);
+        expect(x[5]).to.be(regex);
+        return expect(x[6]).to.be(true);
+      });
+      return it('should not modify the instance list', function() {
+        l1.intersperse(0);
+        l2.intersperse('-');
+        expect(l1.length).to.be(3);
+        return expect(l2.length).to.be(4);
       });
     });
   });

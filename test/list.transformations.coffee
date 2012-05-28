@@ -123,3 +123,41 @@ describe 'TypedList / List Transformation Methods', ->
         val
 
 
+  describe '#intersperse', ->
+    l1 = l2 = null
+
+    beforeEach ->
+      l1 = TypedList 'Number', [1,2,3]
+      l2 = List ['a', new Date, [1,2], true]
+
+    it '''should return a new list with the passed item inserted between
+      every item in the original list''', ->
+      x = l1.intersperse 0
+      expect(x).to.be.a TypedList
+      expect(x.length).to.be 5
+      expect(x[0]).to.be 1
+      expect(x[1]).to.be 0
+      expect(x[2]).to.be 2
+      expect(x[3]).to.be 0
+      expect(x[4]).to.be 3
+
+      regex = /foo/
+      x = l2.intersperse regex
+      expect(x).to.be.a List
+      expect(x.length).to.be 7
+      expect(x[0]).to.be 'a'
+      expect(x[1]).to.be regex
+      expect(x[2]).to.be.a Date
+      expect(x[3]).to.be regex
+      expect(x[4]).to.eql [1,2]
+      expect(x[5]).to.be regex
+      expect(x[6]).to.be true
+
+
+    it 'should not modify the instance list', ->
+      l1.intersperse 0
+      l2.intersperse '-'
+      expect(l1.length).to.be 3
+      expect(l2.length).to.be 4
+
+
