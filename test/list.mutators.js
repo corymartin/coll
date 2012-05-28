@@ -8,7 +8,7 @@
 
   describe('TypedList / List Mutator Methods', function() {
     describe('#push', function() {
-      it('adds one or more items to the end of the list', function() {
+      it('should add one or more items to the end of the list', function() {
         var ls;
         ls = TypedList('String');
         ls.push('a');
@@ -18,7 +18,7 @@
         expect(ls[1]).to.be('b');
         return expect(ls[2]).to.be('c');
       });
-      it('type checks the values it adds', function() {
+      it('should type check the values it adds', function() {
         var Bar, Foo, lsN, lsO, lsS;
         lsS = TypedList('String');
         expect(function() {
@@ -63,13 +63,13 @@
           return lsO.push(new Foo, new Foo, new Foo);
         }).not.to.throwError();
       });
-      it('it returns the new length of the list', function() {
+      it('should return the new length of the list', function() {
         var ls;
         ls = TypedList('Number', [2, 4]);
         expect(ls.push(6)).to.be(3);
         return expect(ls.push(8, 10)).to.be(5);
       });
-      return it('does not alter list to another type', function() {
+      return it('should not alter list to another type', function() {
         var ls;
         ls = TypedList('Number', [2, 4]);
         ls.push(4, 6);
@@ -78,7 +78,7 @@
       });
     });
     describe('#unshift', function() {
-      it('add one or more items to the beginning of the list', function() {
+      it('should add one or more items to the beginning of the list', function() {
         var ls;
         ls = TypedList('String', ['a', 'b', 'c']);
         ls.unshift('d');
@@ -91,7 +91,7 @@
         expect(ls[4]).to.be('b');
         return expect(ls[5]).to.be('c');
       });
-      it('type checks the values it adds', function() {
+      it('should type checks the values it adds', function() {
         var Bar, Foo, lsN, lsO, lsS;
         lsS = TypedList('String');
         expect(function() {
@@ -136,13 +136,13 @@
           return lsO.unshift(new Foo, new Foo, new Foo);
         }).not.to.throwError();
       });
-      it('it returns the new length of the list', function() {
+      it('should return the new length of the list', function() {
         var ls;
         ls = TypedList('Number', [2, 4]);
         expect(ls.unshift(6)).to.be(3);
         return expect(ls.unshift(8, 10)).to.be(5);
       });
-      return it('does not alter list to another type', function() {
+      return it('should not alter list to another type', function() {
         var ls;
         ls = TypedList('Number', [2, 4]);
         ls.unshift(4, 6);
@@ -158,12 +158,12 @@
         ls2 = TypedList('Number', [2, 4, 6, 8]);
         return ls3 = TypedList('String', ['aa', 'bb', 'cc', 'dd', 'ee']);
       });
-      it('adds items to the list at specified index', function() {
+      it('should add items to the list at specified index', function() {
         ls1.splice(3, 0, 'x', 'y', 'z');
         expect(ls1.length).to.be(6);
         return expect(ls1[3]).to.be('x');
       });
-      it('adds items to the list and removes a specified number items', function() {
+      it('should add items to the list and removes a specified number items', function() {
         ls1.splice(2, 1, 'x', 'y', 'z');
         expect(ls1.length).to.be(5);
         expect(ls1[0]).to.be('a');
@@ -172,22 +172,22 @@
         expect(ls1[3]).to.be('y');
         return expect(ls1[4]).to.be('z');
       });
-      it('removes items from the list after a specified index', function() {
+      it('should remove items from the list after a specified index', function() {
         ls2.splice(1);
         expect(ls2.length).to.be(1);
         return expect(ls2[0]).to.be(2);
       });
-      it('removes a specified number of items from the list at a specified index', function() {
+      it('should remove a specified number of items from the list at a specified index', function() {
         ls2.splice(1, 2);
         expect(ls2.length).to.be(2);
         expect(ls2[0]).to.be(2);
         return expect(ls2[1]).to.be(8);
       });
-      it('does not change the list to an array', function() {
+      it('should not change the list to an array', function() {
         ls1.splice(3, 0, 'x', 'y', 'z');
         return expect(ls1 instanceof TypedList).to.be(true);
       });
-      it('returns a list of the elements removed', function() {
+      it('should return a list of the elements removed', function() {
         var lsNew, lsNew2, lsNew3;
         lsNew = ls1.splice(1, 2, 'x', 'y', 'z');
         expect(lsNew instanceof TypedList).to.be(true);
@@ -206,7 +206,7 @@
         expect(lsNew3[1]).to.be('dd');
         return expect(lsNew3[2]).to.be('ee');
       });
-      return it('checks the type of items added to the list', function() {
+      return it('should check the type of items added to the list', function() {
         expect(function() {
           return ls2.splice(1, 0, 'a');
         }).to.throwError(/Expected Number/);
@@ -219,15 +219,29 @@
       });
     });
     describe('#sort', function() {
-      it('sorts Numbers numerically', function() {
+      it('should sort Numbers numerically', function() {
         var ls, ls2, ls3;
-        ls = TypedList('Number', [2, 33, 4, 77, 8]);
+        ls = TypedList('Number', [33, 4, 77, 5, 2, 8]);
         ls.sort();
         expect(ls[0]).to.be(2);
         expect(ls[1]).to.be(4);
-        expect(ls[2]).to.be(8);
-        expect(ls[3]).to.be(33);
-        expect(ls[4]).to.be(77);
+        expect(ls[2]).to.be(5);
+        expect(ls[3]).to.be(8);
+        expect(ls[4]).to.be(33);
+        expect(ls[5]).to.be(77);
+        ls = TypedList('Number', [1, 2, 3, 2, 4, 5, 2, 6, 7, 8, 9]);
+        ls.sort();
+        expect(ls[0]).to.be(1);
+        expect(ls[1]).to.be(2);
+        expect(ls[2]).to.be(2);
+        expect(ls[3]).to.be(2);
+        expect(ls[4]).to.be(3);
+        expect(ls[5]).to.be(4);
+        expect(ls[6]).to.be(5);
+        expect(ls[7]).to.be(6);
+        expect(ls[8]).to.be(7);
+        expect(ls[9]).to.be(8);
+        expect(ls[10]).to.be(9);
         ls2 = TypedList('Number', [2.0001, 33.0001, 4.0001, 77.0001, 8.0001]);
         ls2.sort();
         expect(ls2[0]).to.be(2.0001);
@@ -242,7 +256,7 @@
         expect(ls3[2].toString()).to.be('5');
         return expect(ls3[3].toString()).to.be('7');
       });
-      it('sorts Dates chronologically', function() {
+      it('should sort Dates chronologically', function() {
         var a, b, c, d, ls, ls2;
         a = new Date('4/5/2012');
         b = new Date('12/9/2011');
@@ -261,7 +275,7 @@
         expect(ls2[2]).to.be(c);
         return expect(ls2[3]).to.be(a);
       });
-      it('uses Array::sort lexicographic order for other types', function() {
+      it('should use Array#sort lexicographic order for other types', function() {
         var a, b, c, d, ls, ls2;
         a = /mmm/;
         b = /zzz/;

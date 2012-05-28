@@ -7,7 +7,7 @@ expect = require 'expect.js'
 describe 'TypedList / List Mutator Methods', ->
 
   describe '#push', ->
-    it 'adds one or more items to the end of the list', ->
+    it 'should add one or more items to the end of the list', ->
       ls = TypedList 'String'
       ls.push 'a'
       ls.push 'b', 'c'
@@ -16,7 +16,7 @@ describe 'TypedList / List Mutator Methods', ->
       expect(ls[1]).to.be 'b'
       expect(ls[2]).to.be 'c'
 
-    it 'type checks the values it adds', ->
+    it 'should type check the values it adds', ->
       lsS = TypedList 'String'
       expect(-> lsS.push 'a', 'b', 34).to.throwError /Expected String/
       expect(-> lsS.push 'a', 'b', 'a').not.to.throwError()
@@ -33,12 +33,12 @@ describe 'TypedList / List Mutator Methods', ->
       expect(-> lsO.push new Foo, new Bar, new Foo).to.throwError()
       expect(-> lsO.push new Foo, new Foo, new Foo).not.to.throwError()
 
-    it 'it returns the new length of the list', ->
+    it 'should return the new length of the list', ->
       ls = TypedList 'Number', [2, 4]
       expect(ls.push 6).to.be 3
       expect(ls.push 8, 10).to.be 5
 
-    it 'does not alter list to another type', ->
+    it 'should not alter list to another type', ->
       ls = TypedList 'Number', [2, 4]
       ls.push 4, 6
       expect(ls instanceof TypedList).to.be true
@@ -47,7 +47,7 @@ describe 'TypedList / List Mutator Methods', ->
 
   #XXX
   describe '#unshift', ->
-    it 'add one or more items to the beginning of the list', ->
+    it 'should add one or more items to the beginning of the list', ->
       ls = TypedList 'String', ['a', 'b', 'c']
 
       ls.unshift 'd'
@@ -62,7 +62,7 @@ describe 'TypedList / List Mutator Methods', ->
       expect(ls[4]).to.be 'b'
       expect(ls[5]).to.be 'c'
 
-    it 'type checks the values it adds', ->
+    it 'should type checks the values it adds', ->
       lsS = TypedList 'String'
 
       expect(-> lsS.unshift 'a', 'b', 34).to.throwError /Expected String/
@@ -82,13 +82,13 @@ describe 'TypedList / List Mutator Methods', ->
       expect(-> lsO.unshift new Foo, new Bar, new Foo).to.throwError()
       expect(-> lsO.unshift new Foo, new Foo, new Foo).not.to.throwError()
 
-    it 'it returns the new length of the list', ->
+    it 'should return the new length of the list', ->
       ls = TypedList 'Number', [2, 4]
 
       expect(ls.unshift 6).to.be 3
       expect(ls.unshift 8, 10).to.be 5
 
-    it 'does not alter list to another type', ->
+    it 'should not alter list to another type', ->
       ls = TypedList 'Number', [2, 4]
       ls.unshift 4, 6
 
@@ -104,13 +104,13 @@ describe 'TypedList / List Mutator Methods', ->
       ls2 = TypedList 'Number', [2, 4, 6, 8]
       ls3 = TypedList 'String', ['aa', 'bb', 'cc', 'dd', 'ee']
 
-    it 'adds items to the list at specified index', ->
+    it 'should add items to the list at specified index', ->
       ls1.splice 3, 0, 'x', 'y', 'z'
 
       expect(ls1.length).to.be 6
       expect(ls1[3]).to.be 'x'
 
-    it 'adds items to the list and removes a specified number items', ->
+    it 'should add items to the list and removes a specified number items', ->
       ls1.splice 2, 1, 'x', 'y', 'z'
 
       expect(ls1.length).to.be 5
@@ -120,25 +120,25 @@ describe 'TypedList / List Mutator Methods', ->
       expect(ls1[3]).to.be 'y'
       expect(ls1[4]).to.be 'z'
 
-    it 'removes items from the list after a specified index', ->
+    it 'should remove items from the list after a specified index', ->
       ls2.splice 1
 
       expect(ls2.length).to.be 1
       expect(ls2[0]).to.be 2
 
-    it 'removes a specified number of items from the list at a specified index', ->
+    it 'should remove a specified number of items from the list at a specified index', ->
       ls2.splice 1, 2
 
       expect(ls2.length).to.be 2
       expect(ls2[0]).to.be 2
       expect(ls2[1]).to.be 8
 
-    it 'does not change the list to an array', ->
+    it 'should not change the list to an array', ->
       ls1.splice 3, 0, 'x', 'y', 'z'
 
       expect(ls1 instanceof TypedList).to.be true
 
-    it 'returns a list of the elements removed', ->
+    it 'should return a list of the elements removed', ->
       lsNew = ls1.splice 1, 2, 'x', 'y', 'z'
 
       expect(lsNew instanceof TypedList).to.be true
@@ -161,21 +161,37 @@ describe 'TypedList / List Mutator Methods', ->
       expect(lsNew3[1]).to.be 'dd'
       expect(lsNew3[2]).to.be 'ee'
 
-    it 'checks the type of items added to the list', ->
+    it 'should check the type of items added to the list', ->
       expect(-> ls2.splice 1, 0, 'a').to.throwError /Expected Number/
       expect(-> ls2.splice 1, 0, 20, 'a').to.throwError /Expected Number/
       expect(-> ls2.splice 1, 0, 40, 60).not.to.throwError()
 
 
   describe '#sort', ->
-    it 'sorts Numbers numerically', ->
-      ls = TypedList 'Number', [2, 33, 4, 77, 8]
+    it 'should sort Numbers numerically', ->
+      ls = TypedList 'Number', [33, 4, 77, 5, 2, 8]
       ls.sort()
       expect(ls[0]).to.be 2
       expect(ls[1]).to.be 4
-      expect(ls[2]).to.be 8
-      expect(ls[3]).to.be 33
-      expect(ls[4]).to.be 77
+      expect(ls[2]).to.be 5
+      expect(ls[3]).to.be 8
+      expect(ls[4]).to.be 33
+      expect(ls[5]).to.be 77
+
+      #BUG: 5 keeps coming out on top
+      ls = TypedList 'Number', [1,2,3,2,4,5,2,6,7,8,9]
+      ls.sort()
+      expect(ls[0]).to.be 1
+      expect(ls[1]).to.be 2
+      expect(ls[2]).to.be 2
+      expect(ls[3]).to.be 2
+      expect(ls[4]).to.be 3
+      expect(ls[5]).to.be 4
+      expect(ls[6]).to.be 5
+      expect(ls[7]).to.be 6
+      expect(ls[8]).to.be 7
+      expect(ls[9]).to.be 8
+      expect(ls[10]).to.be 9
 
       ls2 = TypedList 'Number', [2.0001, 33.0001, 4.0001, 77.0001, 8.0001]
       ls2.sort()
@@ -192,7 +208,7 @@ describe 'TypedList / List Mutator Methods', ->
       expect(ls3[2].toString()).to.be '5'
       expect(ls3[3].toString()).to.be '7'
 
-    it 'sorts Dates chronologically', ->
+    it 'should sort Dates chronologically', ->
       a = new Date '4/5/2012'
       b = new Date '12/9/2011'
       c = new Date '4/4/2012'
@@ -212,7 +228,7 @@ describe 'TypedList / List Mutator Methods', ->
       expect(ls2[2]).to.be c
       expect(ls2[3]).to.be a
 
-    it 'uses Array::sort lexicographic order for other types', ->
+    it 'should use Array#sort lexicographic order for other types', ->
       a = /mmm/
       b = /zzz/
       c = /aaa/
