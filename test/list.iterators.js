@@ -580,7 +580,7 @@
       });
     });
     return describe('#partition', function() {
-      it('should return an array of two lists,\nthe first composed of items passing the iterator test, the second those that failed', function() {
+      it('should return an array of two lists, the first composed of items\npassing the iterator test, the second those that failed', function() {
         var fail, ls, p, pass;
         ls = TypedList('Number', [1, 2, 3, 4]);
         p = ls.partition(function(val) {
@@ -597,7 +597,7 @@
         expect(fail[0]).to.be(1);
         return expect(fail[1]).to.be(3);
       });
-      it('should accept a context object for the callback as an optional second parameter', function() {
+      it('should accept a context object for the callback as\nan optional second parameter', function() {
         var ls, obj;
         ls = TypedList('String', 'a');
         obj = {
@@ -609,7 +609,7 @@
           return true;
         }), obj);
       });
-      return it('should pass 3 parameters to the callback test: current value, index, the list', function() {
+      return it('should pass 3 parameters to the callback test:\ncurrent value, index, the list', function() {
         var ls;
         ls = TypedList('String', ['foo']);
         return ls.partition(function(val, index, list) {

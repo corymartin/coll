@@ -12,43 +12,43 @@ describe 'TypedList / List Accessor Methods', ->
     beforeEach ->
       l1 = TypedList 'String', ['a', 'b', 'c', 'd']
 
-    it 'returns a new copy of the list if no parameters are passed', ->
+    it '''should return a new copy of the list if
+      no parameters are passed''', ->
       lsNew = l1.slice()
-
       expect(lsNew.length).to.be 4
       expect(lsNew).not.to.be l1
 
-    it 'returns a list of items from the specifed index to the specified end index', ->
+    it '''should return a list of items from the specifed index
+      to the specified end index''', ->
       lsNew = l1.slice 1, 3
-
       expect(lsNew.length).to.be 2
       expect(lsNew[0]).to.be 'b'
       expect(lsNew[1]).to.be 'c'
 
-    it 'returns a list of items from the specifed index to the end if no second parameter', ->
+    it '''should return a list of items from the specifed index
+      to the end if no second parameter''', ->
       lsNew = l1.slice 1
-
       expect(lsNew.length).to.be 3
       expect(lsNew[0]).to.be 'b'
       expect(lsNew[1]).to.be 'c'
       expect(lsNew[2]).to.be 'd'
 
-    it 'returns a specified number of items from the end of the list if only a negative is passed', ->
+    it '''should return a specified number of items from the end of the list
+      if only a negative is passed''', ->
       lsNew = l1.slice -3
-
       expect(lsNew.length).to.be 3
       expect(lsNew[0]).to.be 'b'
       expect(lsNew[1]).to.be 'c'
       expect(lsNew[2]).to.be 'd'
 
-    it 'can use the second parameters as an index from the end of the list if it is negative', ->
+    it '''should use the second parameter as an index from the end of the
+      list if it is negative''', ->
       lsNew = l1.slice 1, -1
-
       expect(lsNew.length).to.be 2
       expect(lsNew[0]).to.be 'b'
       expect(lsNew[1]).to.be 'c'
 
-    it 'does not modify the list instance it is being called upon', ->
+    it 'should not modify the list instance it is being called upon', ->
       lsNew1 = l1.slice()
       lsNew2 = l1.slice 2
       lsNew3 = l1.slice 2, 3
@@ -60,13 +60,11 @@ describe 'TypedList / List Accessor Methods', ->
       expect(l1[2]).to.be 'c'
       expect(l1[3]).to.be 'd'
 
-    it 'returns a TypedList instance', ->
+    it 'should return a TypedList instance', ->
       lsNew = l1.slice()
       expect(lsNew instanceof TypedList).to.be true
-
       lsNew2 = l1.slice 2
       expect(lsNew2 instanceof TypedList).to.be true
-
       lsNew3 = l1.slice 2, 1
       expect(lsNew3 instanceof TypedList).to.be true
 
@@ -78,9 +76,8 @@ describe 'TypedList / List Accessor Methods', ->
       l1 = TypedList 'Number', [1, 2]
       l2 = l1.concat TypedList('Number', [3]), TypedList('Number', [4,5])
 
-    it 'merges a list with one or more other iterables', ->
+    it 'should merge a list with one or more other iterables', ->
       expect(l2.length).to.be 5
-
       expect(l2[0]).to.be 1
       expect(l2[1]).to.be 2
       expect(l2[2]).to.be 3
@@ -98,11 +95,11 @@ describe 'TypedList / List Accessor Methods', ->
       expect(x[2]).to.be 'c'
       expect(x[3]).to.be 'd'
 
-    it 'returns a new list of the merged values', ->
+    it 'should return a new list of the merged values', ->
       expect(l1).not.to.be l2
       expect(l2 instanceof TypedList).to.be true
 
-    it 'works on a list of lists', ->
+    it 'should work on a list of lists', ->
       lsa = TypedList(TypedList, [TypedList('String', ['a', 'b']), TypedList('Number', [3, 4])])
       lsb = TypedList(TypedList, [TypedList('Date', [new Date])])
 
@@ -154,7 +151,8 @@ describe 'TypedList / List Accessor Methods', ->
       x = ls.countIf (val) -> val % 2 == 0
       expect(x).to.be 5
 
-    it 'should accept a context object for the callback as an optional second parameter', ->
+    it 'should accept a context object for the callback as an
+      optional second parameter', ->
       ls = TypedList 'String', 'a'
       obj = foo: 'bar'
       ls.countIf ((v) ->
@@ -163,7 +161,8 @@ describe 'TypedList / List Accessor Methods', ->
         true
       ), obj
 
-    it 'should pass 3 parameters to the callback test: current value, index, the list', ->
+    it 'should pass 3 parameters to the callback test:
+      current value, index, the list', ->
       ls = TypedList 'String', ['foo']
       ls.countIf (val, index, list) ->
         expect(val).to.be 'foo'
@@ -305,7 +304,7 @@ describe 'TypedList / List Accessor Methods', ->
 
     beforeEach ->
       l1 = TypedList 'String', 'abcabcd'
-      l2 = TypedList 'String', 'zxczxaab'
+      l2 = List 'zxczxaab'
 
     it 'should return a new list containing items found in both lists', ->
       x = l1.intersect l2
@@ -361,179 +360,4 @@ describe 'TypedList / List Accessor Methods', ->
       l2.intersperse '-'
       expect(l1.length).to.be 3
       expect(l2.length).to.be 4
-
-
-  describe '#take', ->
-    l1 = l2 =null
-
-    beforeEach ->
-      l1 = TypedList 'String', 'hello world'
-      l2 = List [1,2,3,4,5]
-
-    it 'should return a new list of the first `howMany` items', ->
-      x = l1.take 6
-      expect(x.join '').to.be 'hello '
-      expect(x).to.be.a TypedList
-
-      x = l2.take 2
-      expect(x.length).to.be 2
-      expect(x[0]).to.be 1
-      expect(x[1]).to.be 2
-      expect(x).to.be.a List
-
-    it '''should return a copy of the entire list if `howMany` is greater than
-      or equal to the length of the list''', ->
-      x = l1.take 99
-      expect(x.join '').to.be 'hello world'
-
-      x = l1.take 11
-      expect(x.join '').to.be 'hello world'
-
-    it 'should return an empty list if `howMany` is less than or equal to zero', ->
-      x = l1.take -1
-      expect(x.length).to.be 0
-
-      x = l2.take 0
-      expect(x.length).to.be 0
-
-    it 'should throw a `TypeError` if `howMany` is not passed', ->
-      expect(-> l1.take()).to.throwError (e) ->
-        expect(e).to.be.a TypeError
-
-    it 'should throw a `TypeError` if `howMany` is not a number', ->
-      expect(-> l1.take('foo')).to.throwError (e) ->
-        expect(e).to.be.a TypeError
-
-    it 'should not mutate the instance list', ->
-      x = l1.take 3
-      expect(l1.join '').to.be 'hello world'
-
-
-  describe '#takeWhile', ->
-    l1 = l2 =null
-
-    beforeEach ->
-      l1 = TypedList 'String', 'hello world'
-      l2 = List [1,2,3,4,5]
-
-    it '''should return a new list of contiguous items from the beginning
-      of the list until the iterator function returns false''', ->
-      x = l1.takeWhile (val) -> val != ' '
-      expect(x.join '').to.be 'hello'
-      expect(x).to.be.a TypedList
-
-      x = l2.takeWhile (val) -> val < 4
-      expect(x.length).to.be 3
-      expect(x[0]).to.be 1
-      expect(x[1]).to.be 2
-      expect(x[2]).to.be 3
-      expect(x).to.be.a List
-
-    it '''should return an empty list if the first item does not pass
-      the iterator test''', ->
-      x = l2.takeWhile (val) -> val < 0
-      expect(x.length).to.be 0
-
-    it '''should pass 3 values to the iterator function:
-      current value, index, the list''', ->
-      i = 0
-      l1.takeWhile ->
-        expect(arguments.length).to.be 3
-        expect(arguments[0]).to.be l1[i]
-        expect(arguments[1]).to.be i
-        expect(arguments[2]).to.be l1
-        false
-
-    it 'should not mutate the instance list', ->
-      x = l1.takeWhile (val) -> val != ' '
-      expect(l1.join '').to.be 'hello world'
-
-
-  describe '#drop', ->
-    l1 = l2 =null
-
-    beforeEach ->
-      l1 = TypedList 'String', 'hello world'
-      l2 = List [1,2,3,4,5]
-
-    it '''should return a new list, dropping the first `howMany` items
-      from the instance list''', ->
-      x = l1.drop 5
-      expect(x.join '').to.be ' world'
-      expect(x).to.be.a TypedList
-
-      x = l2.drop 3
-      expect(x.length).to.be 2
-      expect(x[0]).to.be 4
-      expect(x[1]).to.be 5
-      expect(x).to.be.a List
-
-    it '''should return a copy of the entire list if `howMany` is less than
-      or equal to zero''', ->
-      x = l1.drop 0
-      expect(x.join '').to.be 'hello world'
-
-      x = l1.drop -1
-      expect(x.join '').to.be 'hello world'
-
-    it '''should return an empty list if `howMany` is greater than or equal
-      to the length of the list''', ->
-      x = l1.drop 11
-      expect(x.length).to.be 0
-
-      x = l2.drop 99
-      expect(x.length).to.be 0
-
-    it 'should throw a `TypeError` if `howMany` is not passed', ->
-      expect(-> l1.drop()).to.throwError (e) ->
-        expect(e).to.be.a TypeError
-
-    it 'should throw a `TypeError` if `howMany` is not a number', ->
-      expect(-> l1.drop('foo')).to.throwError (e) ->
-        expect(e).to.be.a TypeError
-
-    it 'should not mutate the instance list', ->
-      x = l1.drop 3
-      expect(l1.join '').to.be 'hello world'
-
-
-  describe '#dropWhile', ->
-    l1 = l2 =null
-
-    beforeEach ->
-      l1 = TypedList 'String', 'hello world'
-      l2 = List [1,2,3,4,5]
-
-    it '''should return a new list, dropping the contiguous items from the
-      beginning of the list that pass the iterator test''', ->
-      x = l1.dropWhile (val) -> val != ' '
-      expect(x.join '').to.be ' world'
-      expect(x).to.be.a TypedList
-
-      x = l2.dropWhile (val) -> val < 4
-      expect(x.length).to.be 2
-      expect(x[0]).to.be 4
-      expect(x[1]).to.be 5
-      expect(x).to.be.a List
-
-    it '''should return a copy of the entire list if the first item does
-      not pass the iterator test''', ->
-      x = l2.dropWhile (val) -> val < 0
-      expect(x.length).to.be 5
-
-    it '''should pass 3 values to the iterator function:
-      current value, index, the list''', ->
-      i = 0
-      l1.dropWhile ->
-        expect(arguments.length).to.be 3
-        expect(arguments[0]).to.be l1[i]
-        expect(arguments[1]).to.be i
-        expect(arguments[2]).to.be l1
-        false
-
-    it 'should not mutate the instance list', ->
-      x = l1.dropWhile (val) -> val != ' '
-      expect(l1.join '').to.be 'hello world'
-
-
 

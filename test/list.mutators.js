@@ -645,13 +645,24 @@
         });
         return expect(x).to.be(false);
       });
-      return it('should return `false` if the list is empty', function() {
+      it('should return `false` if the list is empty', function() {
         var x;
         ls = TypedList('String');
         x = ls.removeIf(function(val) {
           return val === 'a';
         });
         return expect(x).to.be(false);
+      });
+      return it('should accept a context object for the callback as an optional second parameter', function() {
+        var obj;
+        obj = {
+          foo: 'bar'
+        };
+        return ls.removeIf((function(v) {
+          expect(this).to.be(obj);
+          expect(this.foo).to.be('bar');
+          return true;
+        }), obj);
       });
     });
     return describe('#removeAll', function() {

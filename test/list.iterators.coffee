@@ -423,8 +423,8 @@ describe 'TypedList / List Iteration Methods', ->
 
 
   describe '#partition', ->
-    it '''should return an array of two lists,
-      the first composed of items passing the iterator test, the second those that failed''', ->
+    it '''should return an array of two lists, the first composed of items
+      passing the iterator test, the second those that failed''', ->
       ls = TypedList 'Number', [1,2,3,4]
       p = ls.partition (val) -> val % 2 == 0
       expect(p).to.be.an Array
@@ -438,7 +438,8 @@ describe 'TypedList / List Iteration Methods', ->
       expect(fail[0]).to.be 1
       expect(fail[1]).to.be 3
 
-    it 'should accept a context object for the callback as an optional second parameter', ->
+    it '''should accept a context object for the callback as
+      an optional second parameter''', ->
       ls = TypedList 'String', 'a'
       obj = foo: 'bar'
       ls.partition ((v) ->
@@ -447,7 +448,8 @@ describe 'TypedList / List Iteration Methods', ->
         true
       ), obj
 
-    it 'should pass 3 parameters to the callback test: current value, index, the list', ->
+    it '''should pass 3 parameters to the callback test:
+      current value, index, the list''', ->
       ls = TypedList 'String', ['foo']
       ls.partition (val, index, list) ->
         expect(val).to.be 'foo'

@@ -569,6 +569,14 @@ describe 'TypedList / List Mutator Methods', ->
       x = ls.removeIf (val) -> val == 'a'
       expect(x).to.be false
 
+    it 'should accept a context object for the callback as an optional second parameter', ->
+      obj = foo: 'bar'
+      ls.removeIf ((v) ->
+        expect(this).to.be obj
+        expect(this.foo).to.be 'bar'
+        true
+      ), obj
+
 
   describe '#removeAll', ->
     ls = null
