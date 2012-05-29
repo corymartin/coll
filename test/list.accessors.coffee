@@ -320,7 +320,7 @@ describe 'TypedList / List Accessor Methods', ->
 
     it '''should use the value returned by the optional iterator function to
       determine the max value''', ->
-      x = l3.max (val) -> val.length
+      x = l3.max (a, b) -> a.length - b.length
       expect(x).to.be 'zzzzzz'
 
     it 'should accept a context object for the callback as an
@@ -354,7 +354,7 @@ describe 'TypedList / List Accessor Methods', ->
 
     it '''should use the value returned by the optional iterator function to
       determine the min value''', ->
-      x = l3.min (val) -> val.length
+      x = l3.min (a, b) -> a.length - b.length
       expect(x).to.be 'zzz'
 
     it 'should accept a context object for the callback as an

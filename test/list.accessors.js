@@ -350,8 +350,8 @@
       });
       it('should use the value returned by the optional iterator function to\ndetermine the max value', function() {
         var x;
-        x = l3.max(function(val) {
-          return val.length;
+        x = l3.max(function(a, b) {
+          return a.length - b.length;
         });
         return expect(x).to.be('zzzzzz');
       });
@@ -389,8 +389,8 @@
       });
       it('should use the value returned by the optional iterator function to\ndetermine the min value', function() {
         var x;
-        x = l3.min(function(val) {
-          return val.length;
+        x = l3.min(function(a, b) {
+          return a.length - b.length;
         });
         return expect(x).to.be('zzz');
       });
