@@ -46,7 +46,7 @@ describe 'TypedList / List', ->
         expect(ls).to.have.property 'length'
 
 
-  describe '#_new', ->
+  describe 'TypedList#_new', ->
     it 'should return a new, empty list of the same constructor and type', ->
       l1 = TypedList 'RegExp', [/fizz/, /buzz/]
       l1new = l1._new()
@@ -54,16 +54,18 @@ describe 'TypedList / List', ->
       expect(l1new.length).to.be 0
       expect(l1new.type).to.be 'RegExp'
 
+    it 'should accept an additional type parameter to return a new type of list', ->
+      l1 = TypedList 'String', 'asdf'
+      l1new = l1._new 'Number'
+      expect(l1new.type).to.be 'Number'
+
+  describe 'List#_new', ->
+    it 'should return a new List', ->
       l2 = List [new Date, 'a']
       l2new = l2._new()
       expect(l2new).to.be.a List
       expect(l2new.length).to.be 0
       expect(l2new.type).to.be 'Any'
-
-    it 'should accept an additional type parameter in TypedList instances', ->
-      l1 = TypedList 'String', 'asdf'
-      l1new = l1._new 'Number'
-      expect(l1new.type).to.be 'Number'
 
 
   describe 'Unmodified methods inherited directly from Array prototype', ->

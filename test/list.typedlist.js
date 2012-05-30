@@ -6,7 +6,7 @@
 
   _ref = require('../lib/coll'), TypedList = _ref.TypedList, List = _ref.List;
 
-  describe('TypedList / List Constructor', function() {
+  describe('TypedList Constructor', function() {
     var ls1, ls2, ls3, ls4;
     ls1 = ls2 = ls3 = ls4 = null;
     beforeEach(function() {
@@ -16,16 +16,16 @@
       return ls4 = TypedList('Number', [1, 2]);
     });
     it('should instantiate a new instance with or without the use of `new`', function() {
-      expect(ls1).to.be.a(TypedList);
-      expect(ls2).to.be.a(TypedList);
-      expect(ls3).to.be.a(TypedList);
-      return expect(ls4).to.be.a(TypedList);
+      expect(ls1 instanceof TypedList).to.be(true);
+      expect(ls2 instanceof TypedList).to.be(true);
+      expect(ls3 instanceof TypedList).to.be(true);
+      return expect(ls4 instanceof TypedList).to.be(true);
     });
     it('should inherit from `Array`', function() {
-      expect(ls1).to.be.an(Array);
-      expect(ls2).to.be.an(Array);
-      expect(ls3).to.be.an(Array);
-      return expect(ls4).to.be.an(Array);
+      expect(ls1 instanceof Array).to.be(true);
+      expect(ls2 instanceof Array).to.be(true);
+      expect(ls3 instanceof Array).to.be(true);
+      return expect(ls4 instanceof Array).to.be(true);
     });
     it('should set the inital length of the list', function() {
       expect(ls1.length).to.be(0);

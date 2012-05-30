@@ -4,7 +4,7 @@ expect = require 'expect.js'
 {TypedList, List} = require '../lib/coll'
 
 
-describe 'TypedList / List Constructor', ->
+describe 'TypedList Constructor', ->
 
   ls1 = ls2 = ls3 = ls4 = null
 
@@ -15,16 +15,16 @@ describe 'TypedList / List Constructor', ->
     ls4 = TypedList 'Number', [1, 2]
 
   it 'should instantiate a new instance with or without the use of `new`', ->
-    expect(ls1).to.be.a TypedList
-    expect(ls2).to.be.a TypedList
-    expect(ls3).to.be.a TypedList
-    expect(ls4).to.be.a TypedList
+    expect(ls1 instanceof TypedList).to.be true
+    expect(ls2 instanceof TypedList).to.be true
+    expect(ls3 instanceof TypedList).to.be true
+    expect(ls4 instanceof TypedList).to.be true
 
   it 'should inherit from `Array`', ->
-    expect(ls1).to.be.an Array
-    expect(ls2).to.be.an Array
-    expect(ls3).to.be.an Array
-    expect(ls4).to.be.an Array
+    expect(ls1 instanceof Array).to.be true
+    expect(ls2 instanceof Array).to.be true
+    expect(ls3 instanceof Array).to.be true
+    expect(ls4 instanceof Array).to.be true
 
   it 'should set the inital length of the list', ->
     expect(ls1.length).to.be 0
