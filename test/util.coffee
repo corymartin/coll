@@ -61,28 +61,28 @@ describe 'util function', ->
 
   describe 'isType()', ->
     it 'should test to see if the passed object is of the passed type', ->
-      expect( util.isType 4, 'Number').to.be true
-      expect( util.isType new Number, Number).to.be true
-      expect( util.isType 'z', 'Number').to.be false
-      expect( util.isType /foo/, 'RegExp').to.be true
+      expect( util.isType 'Number', 4).to.be true
+      expect( util.isType Number, new Number).to.be true
+      expect( util.isType 'Number', 'z').to.be false
+      expect( util.isType 'RegExp', /foo/).to.be true
 
       class Foo
       class Bar extends Foo
       class Zzz extends Array
 
-      expect( util.isType new Foo, Foo).to.be true
-      expect( util.isType new Bar, Foo).to.be true
-      expect( util.isType new Zzz, Foo).to.be false
+      expect( util.isType Foo, new Foo).to.be true
+      expect( util.isType Foo, new Bar).to.be true
+      expect( util.isType Zzz, new Foo).to.be false
 
 
   describe 'isTypeEvery()', ->
     it 'should test if every type in the passed array is of the passed type', ->
-      expect( util.isTypeEvery [2,3,4], 'Number' ).to.be true
-      expect( util.isTypeEvery [2,'a',4], 'Number' ).to.be false
+      expect( util.isTypeEvery 'Number', [2,3,4] ).to.be true
+      expect( util.isTypeEvery 'Number', [2,'a',4] ).to.be false
 
     it 'should only type check items after the optional index, if passed', ->
-      expect( util.isTypeEvery [2,'a',4,6], 'Number', 2 ).to.be true
-      expect( util.isTypeEvery [2,3,'a',6], 'Number', 2 ).to.be false
+      expect( util.isTypeEvery 'Number', [2,'a',4,6], 2 ).to.be true
+      expect( util.isTypeEvery 'Number', [2,3,'a',6], 2 ).to.be false
 
 
 
