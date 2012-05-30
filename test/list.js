@@ -15,7 +15,7 @@
           ls1 = TypedList('String', ['a', 'b']);
           return ls2 = TypedList(RegExp);
         });
-        it('is the type of the contents in the list', function() {
+        it('should be the type of the contents in the list', function() {
           expect(ls1.type).to.be('String');
           return expect(ls2.type).to.be(RegExp);
         });

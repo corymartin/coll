@@ -15,11 +15,17 @@
       ls3 = TypedList('Number');
       return ls4 = TypedList('Number', [1, 2]);
     });
-    it('can be used with or without the use of `new`', function() {
-      expect(ls1 instanceof TypedList).to.be(true);
-      expect(ls2 instanceof TypedList).to.be(true);
-      expect(ls3 instanceof TypedList).to.be(true);
-      return expect(ls4 instanceof TypedList).to.be(true);
+    it('should instantiate a new instance with or without the use of `new`', function() {
+      expect(ls1).to.be.a(TypedList);
+      expect(ls2).to.be.a(TypedList);
+      expect(ls3).to.be.a(TypedList);
+      return expect(ls4).to.be.a(TypedList);
+    });
+    it('should inherit from `Array`', function() {
+      expect(ls1).to.be.an(Array);
+      expect(ls2).to.be.an(Array);
+      expect(ls3).to.be.an(Array);
+      return expect(ls4).to.be.an(Array);
     });
     it('should set the inital length of the list', function() {
       expect(ls1.length).to.be(0);
@@ -27,7 +33,7 @@
       expect(ls3.length).to.be(0);
       return expect(ls4.length).to.be(2);
     });
-    it('requires a type parameter', function() {
+    it('should require a type parameter', function() {
       expect(function() {
         return TypedList();
       }).to.throwError(function(e) {
@@ -41,7 +47,7 @@
         return TypedList(Array);
       }).not.to.throwError();
     });
-    it('can populate itself via the init param', function() {
+    it('should populate itself with some initial values via the init param', function() {
       expect(ls2[0]).to.be('a');
       expect(ls2[1]).to.be('b');
       expect(ls4[0]).to.be(1);
@@ -61,7 +67,7 @@
       };
       return foo('a', 'b');
     });
-    it('type checks the values it adds', function() {
+    it('should type check the values it adds', function() {
       var Bar, Foo;
       expect(function() {
         return TypedList('String', ['a', 'b', 34]);
@@ -112,7 +118,7 @@
         return new TypedList(Foo, [new Foo, new Foo, new Foo]);
       }).not.to.throwError();
     });
-    return it('accepts a special type `Any` that allows any type of value', function() {
+    return it('should accept a special type `Any` that allows any type of value', function() {
       expect(function() {
         return TypedList('Any', [34, 'a', new Date, true, /asdf/]);
       }).not.to.throwError();

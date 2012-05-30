@@ -15,7 +15,7 @@ describe 'TypedList / List', ->
         ls1 = TypedList 'String', ['a', 'b']
         ls2 = TypedList RegExp
 
-      it 'is the type of the contents in the list', ->
+      it 'should be the type of the contents in the list', ->
         expect(ls1.type).to.be 'String'
         expect(ls2.type).to.be RegExp
 
