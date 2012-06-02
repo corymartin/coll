@@ -257,6 +257,33 @@ describe 'TypedList / List Mutator Methods', ->
       expect(ls1.sort (a, b) -> a < b).to.be ls1
 
 
+  ###
+  Private instance function
+  ###
+  describe '#_add', ->
+    l1 = l2 = null
+
+    beforeEach ->
+      l1 = TypedList 'String'
+      l2 = List [2, false, 'z']
+
+    it 'should add one or more items to the end of the list', ->
+      l1._add 'x'
+      l1._add 'y', 'z'
+      expect(l1.length).to.be 3
+      expect(l1[0]).to.be 'x'
+      expect(l1[1]).to.be 'y'
+      expect(l1[2]).to.be 'z'
+
+      l2._add 4, true
+      expect(l2.length).to.be 5
+      expect(l2[3]).to.be 4
+      expect(l2[4]).to.be true
+
+    it 'should not type check the value', ->
+      expect(-> l1._add 2, /foo/).to.not.throwError()
+
+
   describe '#add', ->
     ls = null
 

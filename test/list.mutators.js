@@ -305,6 +305,35 @@
         })).to.be(ls1);
       });
     });
+    /*
+      Private instance function
+    */
+
+    describe('#_add', function() {
+      var l1, l2;
+      l1 = l2 = null;
+      beforeEach(function() {
+        l1 = TypedList('String');
+        return l2 = List([2, false, 'z']);
+      });
+      it('should add one or more items to the end of the list', function() {
+        l1._add('x');
+        l1._add('y', 'z');
+        expect(l1.length).to.be(3);
+        expect(l1[0]).to.be('x');
+        expect(l1[1]).to.be('y');
+        expect(l1[2]).to.be('z');
+        l2._add(4, true);
+        expect(l2.length).to.be(5);
+        expect(l2[3]).to.be(4);
+        return expect(l2[4]).to.be(true);
+      });
+      return it('should not type check the value', function() {
+        return expect(function() {
+          return l1._add(2, /foo/);
+        }).to.not.throwError();
+      });
+    });
     describe('#add', function() {
       var ls;
       ls = null;
