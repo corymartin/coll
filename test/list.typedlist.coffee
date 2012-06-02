@@ -20,12 +20,6 @@ describe 'TypedList Constructor', ->
     expect(ls3 instanceof TypedList).to.be true
     expect(ls4 instanceof TypedList).to.be true
 
-  it 'should inherit from `Array`', ->
-    expect(ls1 instanceof Array).to.be true
-    expect(ls2 instanceof Array).to.be true
-    expect(ls3 instanceof Array).to.be true
-    expect(ls4 instanceof Array).to.be true
-
   it 'should set the inital length of the list', ->
     expect(ls1.length).to.be 0
     expect(ls2.length).to.be 2
