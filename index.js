@@ -1,1 +1,1 @@
-module.exports = require('./lib/coll/');
+module.exports = require('./lib/coll');
