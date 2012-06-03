@@ -573,19 +573,17 @@ describe('TypedList / List Mutator Methods', function() {
       expect(ls[1]).to.be('b');
       return expect(ls[2]).to.be('a');
     });
-    it('should return the number of items removed from the list', function() {
+    it('should return the item removed from the list', function() {
       var x;
       x = ls.removeAt(1);
-      expect(x).to.be(1);
-      x = ls.removeAt(1, 2);
-      return expect(x).to.be(2);
+      return expect(x).to.eql('b');
     });
-    it('should not remove any items if the index is >= the list length', function() {
+    it('should return an array of removed items if there is more than one', function() {
       var x;
-      x = ls.removeAt(99);
-      return expect(x).to.be(0);
+      x = ls.removeAt(1, 2);
+      return expect(x).to.eql(['b', 'a']);
     });
-    it('should use an offset from the end of the list if the index is negative', function() {
+    it('should use an offset from the end of the list if index is negative', function() {
       var x;
       x = ls.removeAt(-2);
       expect(ls.length).to.be(4);
@@ -594,16 +592,23 @@ describe('TypedList / List Mutator Methods', function() {
       expect(ls[2]).to.be('a');
       return expect(ls[3]).to.be('a');
     });
-    it('should not remove anything if the calculated index is less than zero', function() {
-      var x;
-      x = ls.removeAt(-99);
-      return expect(x).to.be(0);
-    });
-    return it('should return `0` if the list is empty', function() {
-      var x;
-      ls = TypedList('String');
-      x = ls.removeAt(1);
-      return expect(x).to.be(0);
+    return it('should throw a `RangeError` if the index is not in the list', function() {
+      expect(function() {
+        return ls.removeAt(9);
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(RangeError);
+      });
+      expect(function() {
+        return ls.removeAt(-9);
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(RangeError);
+      });
+      ls = List();
+      return expect(function() {
+        return ls.removeAt(0);
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(RangeError);
+      });
     });
   });
   describe('#remove', function() {
@@ -625,21 +630,21 @@ describe('TypedList / List Mutator Methods', function() {
       expect(ls[1]).to.be('b');
       return expect(ls[2]).to.be('a');
     });
-    it('should return `true` if the item was successfully removed', function() {
+    it('should return the removed item', function() {
       var x;
       x = ls.remove('b');
-      return expect(x).to.be(true);
+      return expect(x).to.be('b');
     });
-    it('should return `false` if the item was was not removed', function() {
+    it('should return `undefined` if the item was was not removed', function() {
       var x;
       x = ls.remove('z');
-      return expect(x).to.be(false);
+      return expect(x).to.be(void 0);
     });
-    return it('should return `false` if the list is empty', function() {
+    return it('should return `undefined` if the list is empty', function() {
       var x;
       ls = TypedList('String');
       x = ls.remove('a');
-      return expect(x).to.be(false);
+      return expect(x).to.be(void 0);
     });
   });
   describe('#removeIf', function() {
@@ -665,27 +670,38 @@ describe('TypedList / List Mutator Methods', function() {
       expect(ls[1]).to.be('b');
       return expect(ls[2]).to.be('a');
     });
-    it('should return `true` if the item was successfully removed', function() {
+    it('should return the item removed', function() {
       var x;
       x = ls.removeIf(function(val) {
         return val === 'b';
       });
-      return expect(x).to.be(true);
+      return expect(x).to.be('b');
     });
-    it('should return `false` if the item was was not removed', function() {
+    it('should return `undefined` if the item was was not removed', function() {
       var x;
       x = ls.removeIf(function(val) {
         return val === 'z';
       });
-      return expect(x).to.be(false);
+      return expect(x).to.be(void 0);
     });
-    it('should return `false` if the list is empty', function() {
+    it('should return `undefined` if the list is empty', function() {
       var x;
       ls = TypedList('String');
       x = ls.removeIf(function(val) {
         return val === 'a';
       });
-      return expect(x).to.be(false);
+      return expect(x).to.be(void 0);
+    });
+    it('should pass 3 values to the iterator function:\ncurrent value, index, the list', function() {
+      var i;
+      i = 0;
+      return ls.removeIf((function(v) {
+        expect(arguments.length).to.be(3);
+        expect(arguments[0]).to.be(ls[i]);
+        expect(arguments[1]).to.be(i);
+        expect(arguments[2]).to.be(ls);
+        return i++;
+      }));
     });
     return it('should accept a context object for the callback as an optional second parameter', function() {
       var obj;
@@ -699,7 +715,7 @@ describe('TypedList / List Mutator Methods', function() {
       }), obj);
     });
   });
-  return describe('#removeAll', function() {
+  describe('#removeAll', function() {
     var ls;
     ls = null;
     beforeEach(function() {
@@ -713,27 +729,27 @@ describe('TypedList / List Mutator Methods', function() {
       expect(ls[0]).to.be('b');
       return expect(ls[1]).to.be('b');
     });
-    it('should return the number of items removed from the list', function() {
+    it('should return the items removed from the list', function() {
       var x;
       x = ls.removeAll(function(val) {
         return val === 'b';
       });
-      return expect(x).to.be(2);
+      return expect(x).to.eql(['b', 'b']);
     });
-    it('should return `0` if no items are removed', function() {
+    it('should return `[]` if no items are removed', function() {
       var x;
       x = ls.removeAll(function(val) {
         return val === 'z';
       });
-      return expect(x).to.be(0);
+      return expect(x).to.eql([]);
     });
-    it('should return `0` if the list is empty', function() {
+    it('should return `[]` if the list is empty', function() {
       var x;
       ls = TypedList('String');
       x = ls.removeAll(function(val) {
         return val === 'a';
       });
-      return expect(x).to.be(0);
+      return expect(x).to.eql([]);
     });
     it('should accept a context object for the callback as an optional second parameter', function() {
       var obj;
@@ -755,6 +771,219 @@ describe('TypedList / List Mutator Methods', function() {
         expect(list).to.be(ls);
         return true;
       });
+    });
+  });
+  describe('#replaceAt', function() {
+    var l1, l2;
+    l1 = l2 = null;
+    beforeEach(function() {
+      l1 = TypedList('String', 'abcd');
+      return l2 = List('abcd');
+    });
+    it('should replace the item at the given index', function() {
+      l1.replaceAt(2, 'z');
+      expect(l1.length).to.be(4);
+      expect(l1[0]).to.be('a');
+      expect(l1[1]).to.be('b');
+      expect(l1[2]).to.be('z');
+      expect(l1[3]).to.be('d');
+      l2.replaceAt(3, 'z');
+      expect(l2.length).to.be(4);
+      expect(l2[0]).to.be('a');
+      expect(l2[1]).to.be('b');
+      expect(l2[2]).to.be('c');
+      return expect(l2[3]).to.be('z');
+    });
+    it('should return the replaced item', function() {
+      var x;
+      x = l1.replaceAt(2, 'z');
+      expect(x).to.be('c');
+      x = l2.replaceAt(2, 'z');
+      return expect(x).to.be('c');
+    });
+    it('should type check the new item', function() {
+      return expect(function() {
+        return l1.replaceAt(2, /foo/);
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(TypeError);
+      });
+    });
+    it('should use an offset from the end of the list if index is negative', function() {
+      var x;
+      x = l1.replaceAt(-2, 'z');
+      return expect(l1[2]).to.be('z');
+    });
+    return it('should throw a `RangeError` if the index is not in the list', function() {
+      var ls;
+      expect(function() {
+        return l1.replaceAt(9, 'z');
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(RangeError);
+      });
+      expect(function() {
+        return l2.replaceAt(-9, 'z');
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(RangeError);
+      });
+      ls = List();
+      return expect(function() {
+        return ls.replaceAt(0, 'z');
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(RangeError);
+      });
+    });
+  });
+  describe('#replace', function() {
+    var l1, l2;
+    l1 = l2 = null;
+    beforeEach(function() {
+      l1 = TypedList('String', 'abcbd');
+      return l2 = List('abcbd');
+    });
+    it('should replace the first occurence of `olditem` with `newitem`', function() {
+      l1.replace('b', 'z');
+      expect(l1.length).to.be(5);
+      expect(l1[0]).to.be('a');
+      expect(l1[1]).to.be('z');
+      expect(l1[2]).to.be('c');
+      expect(l1[3]).to.be('b');
+      return expect(l1[4]).to.be('d');
+    });
+    it('should return a boolean indicating if `olditem` was found and\nreplaced with `newitem`', function() {
+      var x;
+      x = l1.replace('d', 'z');
+      expect(x).to.be(true);
+      x = l2.replace('x', 'z');
+      return expect(x).to.be(false);
+    });
+    return it('should type check the new item', function() {
+      return expect(function() {
+        return l1.replace('b', /foo/);
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(TypeError);
+      });
+    });
+  });
+  describe('#replaceIf', function() {
+    var l1, l2;
+    l1 = l2 = null;
+    beforeEach(function() {
+      l1 = TypedList('String', 'abcbd');
+      return l2 = List('abcbd');
+    });
+    it('should replace the first item to pass the iterator test with `newitem`', function() {
+      l1.replaceIf((function(v) {
+        return v === 'b';
+      }), 'z');
+      expect(l1.length).to.be(5);
+      expect(l1[0]).to.be('a');
+      expect(l1[1]).to.be('z');
+      expect(l1[2]).to.be('c');
+      expect(l1[3]).to.be('b');
+      return expect(l1[4]).to.be('d');
+    });
+    it('should return a boolean indicating if a matching item was found and\nreplaced with `newitem`', function() {
+      var x;
+      x = l1.replaceIf((function(v) {
+        return v === 'd';
+      }), 'z');
+      expect(x).to.be(true);
+      x = l2.replaceIf((function(v) {
+        return v === 'x';
+      }), 'z');
+      return expect(x).to.be(false);
+    });
+    it('should type check the new item', function() {
+      return expect(function() {
+        return l1.replaceIf((function(v) {
+          return v === 'b';
+        }), /foo/);
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(TypeError);
+      });
+    });
+    it('should pass 3 values to the iterator function:\ncurrent value, index, the list', function() {
+      var i;
+      i = 0;
+      return l1.replaceIf((function(v) {
+        expect(arguments.length).to.be(3);
+        expect(arguments[0]).to.be(l1[i]);
+        expect(arguments[1]).to.be(i);
+        expect(arguments[2]).to.be(l1);
+        return i++;
+      }), 'z');
+    });
+    return it('should accept a context object for the callback as an optional\nsecond parameter', function() {
+      var obj;
+      obj = {
+        foo: 'bar'
+      };
+      return l2.replaceIf((function(v) {
+        expect(this).to.be(obj);
+        expect(this.foo).to.be('bar');
+        return true;
+      }), 'z', obj);
+    });
+  });
+  return describe('#replaceAll', function() {
+    var l1, l2;
+    l1 = l2 = null;
+    beforeEach(function() {
+      l1 = TypedList('String', 'abcbd');
+      return l2 = List('abcbd');
+    });
+    it('should replace all items from the list passing the iterator test\nwith `newitem`', function() {
+      l1.replaceAll((function(v) {
+        return v === 'b';
+      }), 'z');
+      expect(l1.length).to.be(5);
+      expect(l1[0]).to.be('a');
+      expect(l1[1]).to.be('z');
+      expect(l1[2]).to.be('c');
+      expect(l1[3]).to.be('z');
+      return expect(l1[4]).to.be('d');
+    });
+    it('should return a boolean indicating if any items were found and\nreplaced with `newitem`', function() {
+      var x;
+      x = l1.replaceAll((function(v) {
+        return v === 'b';
+      }), 'z');
+      expect(x).to.be(true);
+      x = l2.replaceAll((function(v) {
+        return v === 'x';
+      }), 'z');
+      return expect(x).to.be(false);
+    });
+    it('should type check the new item', function() {
+      return expect(function() {
+        return l1.replaceAll((function(v) {
+          return v === 'b';
+        }), /foo/);
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(TypeError);
+      });
+    });
+    it('should pass 3 values to the iterator function:\ncurrent value, index, the list', function() {
+      var i;
+      i = 0;
+      return l1.replaceAll((function(v) {
+        expect(arguments.length).to.be(3);
+        expect(arguments[0]).to.be(l1[i]);
+        expect(arguments[1]).to.be(i);
+        expect(arguments[2]).to.be(l1);
+        return i++;
+      }), 'z');
+    });
+    return it('should accept a context object for the callback as an optional\nsecond parameter', function() {
+      var obj;
+      obj = {
+        foo: 'bar'
+      };
+      return l2.replaceAll((function(v) {
+        expect(this).to.be(obj);
+        expect(this.foo).to.be('bar');
+        return true;
+      }), 'z', obj);
     });
   });
 });
