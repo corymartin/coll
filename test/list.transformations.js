@@ -73,7 +73,7 @@ describe('TypedList / List Transformation Methods', function() {
       expect(l1[0]).to.be(1);
       return expect(l1[1]).to.be(2);
     });
-    it('should accept a context object for the callback as an optional second parameter', function() {
+    it('should accept a context object for the callback as an\noptional second parameter', function() {
       var obj;
       obj = {
         foo: 'bar'
@@ -84,7 +84,7 @@ describe('TypedList / List Transformation Methods', function() {
         return true;
       }), obj);
     });
-    return it('should pass 3 parameters to the callback test: current value, index, the list', function() {
+    return it('should pass 3 parameters to the callback test:\ncurrent value, index, the list', function() {
       var ls;
       ls = TypedList('String', ['foo']);
       return ls.reject(function(val, index, list) {
@@ -100,7 +100,7 @@ describe('TypedList / List Transformation Methods', function() {
     beforeEach(function() {
       return l1 = TypedList('Number', [1, 2, 3, 4]);
     });
-    it('should return a new list composed of the results returned by the iterator', function() {
+    it('should return a new list composed of the results returned\nby the iterator', function() {
       var x;
       x = l1.map(function(v) {
         return v * 10;
@@ -127,7 +127,7 @@ describe('TypedList / List Transformation Methods', function() {
       });
       return expect(x.type).to.be('Number');
     });
-    it('should return a list of a new type if the optional type paramater is used (TypedList only)', function() {
+    it('should return a list of a new type if the optional type\nparameter is used (TypedList only)', function() {
       var l, x;
       x = l1.map((function(v) {
         return "_" + v + "_";

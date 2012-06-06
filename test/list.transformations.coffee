@@ -58,7 +58,8 @@ describe 'TypedList / List Transformation Methods', ->
       expect(l1[0]).to.be 1
       expect(l1[1]).to.be 2
 
-    it 'should accept a context object for the callback as an optional second parameter', ->
+    it '''should accept a context object for the callback as an
+      optional second parameter''', ->
       obj = foo: 'bar'
       l1.reject ((v) ->
         expect(this).to.be obj
@@ -66,7 +67,8 @@ describe 'TypedList / List Transformation Methods', ->
         true
       ), obj
 
-    it 'should pass 3 parameters to the callback test: current value, index, the list', ->
+    it '''should pass 3 parameters to the callback test:
+      current value, index, the list''', ->
       ls = TypedList 'String', ['foo']
       ls.reject (val, index, list) ->
         expect(val).to.be 'foo'
@@ -80,7 +82,8 @@ describe 'TypedList / List Transformation Methods', ->
     beforeEach ->
       l1 = TypedList 'Number', [1,2,3,4]
 
-    it 'should return a new list composed of the results returned by the iterator', ->
+    it '''should return a new list composed of the results returned
+      by the iterator''', ->
       x = l1.map (v) -> v * 10
       expect(x[0]).to.be 10
       expect(x[1]).to.be 20
@@ -98,7 +101,8 @@ describe 'TypedList / List Transformation Methods', ->
       x = l1.map (v) -> v * 10
       expect(x.type).to.be 'Number'
 
-    it 'should return a list of a new type if the optional type paramater is used (TypedList only)', ->
+    it '''should return a list of a new type if the optional type
+      parameter is used (TypedList only)''', ->
       x = l1.map ((v) -> "_#{v}_"), null, 'String'
       expect(x.type).to.be 'String'
 
