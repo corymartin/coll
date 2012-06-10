@@ -237,16 +237,19 @@ describe('List Accessor Methods', function() {
       ls = List('asd');
       return expect(ls.get(1)).to.be('s');
     });
-    it('should return undefined if the list is empty', function() {
+    return it('should throw a `RangeError` if the index is not in the list', function() {
       var ls;
-      ls = List();
-      return expect(ls.get(0)).to.be(void 0);
-    });
-    return it('should return undefined if the index is out of range', function() {
-      var ls;
-      ls = List('asd');
-      expect(ls.get(99)).to.be(void 0);
-      return expect(ls.get(-99)).to.be(void 0);
+      ls = List('abc');
+      expect(function() {
+        return ls.get(99);
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(RangeError);
+      });
+      return expect(function() {
+        return ls.get(-99);
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(RangeError);
+      });
     });
   });
   describe('#first', function() {

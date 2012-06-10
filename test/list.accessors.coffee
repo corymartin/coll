@@ -218,14 +218,12 @@ describe 'List Accessor Methods', ->
       ls = List 'asd'
       expect(ls.get 1).to.be 's'
 
-    it 'should return undefined if the list is empty', ->
-      ls = List()
-      expect(ls.get 0).to.be undefined
-
-    it 'should return undefined if the index is out of range', ->
-      ls = List 'asd'
-      expect(ls.get 99).to.be undefined
-      expect(ls.get -99).to.be undefined
+    it 'should throw a `RangeError` if the index is not in the list', ->
+      ls = List 'abc'
+      expect(-> ls.get 99).to.throwError (e) ->
+        expect(e).to.be.a RangeError
+      expect(-> ls.get -99).to.throwError (e) ->
+        expect(e).to.be.a RangeError
 
 
   describe '#first', ->
