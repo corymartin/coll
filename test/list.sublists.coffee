@@ -255,11 +255,10 @@ describe 'List Sub-List Methods', ->
     it 'should accept a context object for the callback as an
       optional second parameter', ->
       obj = foo: 'bar'
-      l1.group ((v) ->
+      l1.group obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         v
-      ), obj
 
 
 

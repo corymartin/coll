@@ -151,42 +151,37 @@ describe 'List Indexing Methods', ->
       expect(-> ls.indexIf('foo')).to.throwError()
 
     it 'should accept a starting index as an optional second parameter', ->
-      index = ls.indexIf ((val) -> val % 2 == 0), 0
+      index = ls.indexIf 0, (val) -> val % 2 == 0
       expect(index).to.be 3
-      index = ls.indexIf ((val) -> val % 2 != 0), 1
+      index = ls.indexIf 1, (val) -> val % 2 != 0
       expect(index).to.be 1
-      index = ls.indexIf ((val) -> val % 2 != 0), 3
+      index = ls.indexIf 3, (val) -> val % 2 != 0
       expect(index).to.be 4
 
     it 'should return -1 if the start index is >= to the list length', ->
-      index = ls.indexIf ((val) -> val == 17), 5
+      index = ls.indexIf 5, (val) -> val == 17
       expect(index).to.be -1
-      index = ls.indexIf ((val) -> val == 17), 99
+      index = ls.indexIf 99, (val) -> val == 17
       expect(index).to.be -1
 
     it 'should use an offset from the end of the list if the start index is negative', ->
-      index = ls.indexIf ((val) -> val % 2 != 0), -1
+      index = ls.indexIf -1, (val) -> val % 2 != 0
       expect(index).to.be 4
-      index = ls.indexIf ((val) -> val % 2 != 0), -3
+      index = ls.indexIf -3, (val) -> val % 2 != 0
       expect(index).to.be 2
 
     it 'should search the entire list if the calculated index is less than zero', ->
-      index = ls.indexIf ((val) -> val % 2 != 0), -99
+      index = ls.indexIf -99, (val) -> val % 2 != 0
       expect(index).to.be 0
-      index = ls.indexIf ((val) -> val % 2 == 0), -99
+      index = ls.indexIf -99, (val) -> val % 2 == 0
       expect(index).to.be 3
 
     it 'should accept a context object for the callback as an optional third parameter', ->
       obj = foo: 'bar'
-      index = ls.indexIf(
-        ((val) ->
-          expect(this).to.be obj
-          expect(this.foo).to.be 'bar'
-          false
-        ),
-        0,
-        obj
-      )
+      index = ls.indexIf null, obj, (val) ->
+        expect(this).to.be obj
+        expect(this.foo).to.be 'bar'
+        false
 
     it 'should return -1 if the item is not found', ->
       index = ls.indexIf (val) -> val == 999
@@ -217,42 +212,35 @@ describe 'List Indexing Methods', ->
       expect(-> ls.lastIndexIf('foo')).to.throwError()
 
     it 'should accept an index to search backwards from as an optional second parameter', ->
-      index = ls.lastIndexIf ((val) -> val == 'a'), 2
+      index = ls.lastIndexIf 2, (val) -> val == 'a'
       expect(index).to.be 1
-      index = ls.lastIndexIf ((val) -> val == 'a'), 3
+      index = ls.lastIndexIf 3, (val) -> val == 'a'
       expect(index).to.be 3
-      index = ls.lastIndexIf ((val) -> val == 'a'), 0
+      index = ls.lastIndexIf 0, (val) -> val == 'a'
       expect(index).to.be 0
 
     it 'should search the entire list if the index is >= to the list length', ->
-      index = ls.lastIndexIf ((val) -> val == 'a'), 4
+      index = ls.lastIndexIf 4, (val) -> val == 'a'
       expect(index).to.be 3
-      index = ls.lastIndexIf ((val) -> val == 'a'), 99
+      index = ls.lastIndexIf 99, (val) -> val == 'a'
       expect(index).to.be 3
 
     it 'should use an offset from the end of the list if the index is negative', ->
-      index = ls.lastIndexIf ((val) -> val == 'a'), -1
+      index = ls.lastIndexIf -1, (val) -> val == 'a'
       expect(index).to.be 3
-      index = ls.lastIndexIf ((val) -> val == 'a'), -2
+      index = ls.lastIndexIf -2, (val) -> val == 'a'
       expect(index).to.be 1
 
     it 'should return -1 if the calculated index is less than zero', ->
-      index = ls.lastIndexIf ((val) -> val == 'a'), -99
-      expect(index).to.be -1
-      index = ls.lastIndexIf ((val) -> val == 'b'), -99
+      index = ls.lastIndexIf -99, (val) -> val == 'a'
       expect(index).to.be -1
 
     it 'should accept a context object for the callback as an optional third parameter', ->
       obj = foo: 'bar'
-      index = ls.lastIndexIf(
-        ((val) ->
-          expect(this).to.be obj
-          expect(this.foo).to.be 'bar'
-          false
-        ),
-        0,
-        obj
-      )
+      index = ls.lastIndexIf null, obj, (val) ->
+        expect(this).to.be obj
+        expect(this.foo).to.be 'bar'
+        false
 
     it 'should return -1 if the item is not found', ->
       index = ls.lastIndexIf (val) -> val == 'z'
@@ -281,27 +269,27 @@ describe 'List Indexing Methods', ->
       expect(indexes[2]).to.be 3
 
     it 'should accept a start index as an optional second parameter', ->
-      indexes = ls.indicesIf ((v) -> v == 'a'), 0
+      indexes = ls.indicesIf 0, (v) -> v == 'a'
       expect(indexes.length).to.be 3
-      indexes = ls.indicesIf ((v) -> v == 'a'), 1
+      indexes = ls.indicesIf 1, (v) -> v == 'a'
       expect(indexes.length).to.be 2
-      indexes = ls.indicesIf ((v) -> v == 'a'), 2
+      indexes = ls.indicesIf 2, (v) -> v == 'a'
       expect(indexes.length).to.be 1
 
     it 'should return an empty array if the start index is >= to the list length', ->
-      indexes = ls.indicesIf ((v) -> v == 'a'), 5
+      indexes = ls.indicesIf 5, (v) -> v == 'a'
       expect(indexes.length).to.be 0
-      indexes = ls.indicesIf ((v) -> v == 'a'), 99
+      indexes = ls.indicesIf 99, (v) -> v == 'a'
       expect(indexes.length).to.be 0
 
     it 'should use an offset from the end of the list if the index is negative', ->
-      indexes = ls.indicesIf ((v) -> v == 'a'), -3
+      indexes = ls.indicesIf -3, (v) -> v == 'a'
       expect(indexes.length).to.be 1
-      indexes = ls.indicesIf ((v) -> v == 'a'), -4
+      indexes = ls.indicesIf -4, (v) -> v == 'a'
       expect(indexes.length).to.be 2
 
     it 'should search the entire list if the calculated index is less than zero', ->
-      indexes = ls.indicesIf ((v) -> v == 'a'), -7
+      indexes = ls.indicesIf -7, (v) -> v == 'a'
       expect(indexes.length).to.be 3
 
     it 'should return an empty array if no occurences of the item is found', ->
@@ -312,11 +300,10 @@ describe 'List Indexing Methods', ->
     it 'should accept a context object for the callback as an optional third parameter', ->
       ls = List 'a'
       obj = foo: 'bar'
-      ls.indicesIf ((v) ->
+      ls.indicesIf null, obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), 0, obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
       ls = List ['foo']

@@ -300,11 +300,11 @@ describe('List Sub-List Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return l1.group((function(v) {
+      return l1.group(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return v;
-      }), obj);
+      });
     });
   });
 });

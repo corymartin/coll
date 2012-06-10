@@ -179,50 +179,50 @@ describe('List Indexing Methods', function() {
     });
     it('should accept a starting index as an optional second parameter', function() {
       var index;
-      index = ls.indexIf((function(val) {
+      index = ls.indexIf(0, function(val) {
         return val % 2 === 0;
-      }), 0);
+      });
       expect(index).to.be(3);
-      index = ls.indexIf((function(val) {
+      index = ls.indexIf(1, function(val) {
         return val % 2 !== 0;
-      }), 1);
+      });
       expect(index).to.be(1);
-      index = ls.indexIf((function(val) {
+      index = ls.indexIf(3, function(val) {
         return val % 2 !== 0;
-      }), 3);
+      });
       return expect(index).to.be(4);
     });
     it('should return -1 if the start index is >= to the list length', function() {
       var index;
-      index = ls.indexIf((function(val) {
+      index = ls.indexIf(5, function(val) {
         return val === 17;
-      }), 5);
+      });
       expect(index).to.be(-1);
-      index = ls.indexIf((function(val) {
+      index = ls.indexIf(99, function(val) {
         return val === 17;
-      }), 99);
+      });
       return expect(index).to.be(-1);
     });
     it('should use an offset from the end of the list if the start index is negative', function() {
       var index;
-      index = ls.indexIf((function(val) {
+      index = ls.indexIf(-1, function(val) {
         return val % 2 !== 0;
-      }), -1);
+      });
       expect(index).to.be(4);
-      index = ls.indexIf((function(val) {
+      index = ls.indexIf(-3, function(val) {
         return val % 2 !== 0;
-      }), -3);
+      });
       return expect(index).to.be(2);
     });
     it('should search the entire list if the calculated index is less than zero', function() {
       var index;
-      index = ls.indexIf((function(val) {
+      index = ls.indexIf(-99, function(val) {
         return val % 2 !== 0;
-      }), -99);
+      });
       expect(index).to.be(0);
-      index = ls.indexIf((function(val) {
+      index = ls.indexIf(-99, function(val) {
         return val % 2 === 0;
-      }), -99);
+      });
       return expect(index).to.be(3);
     });
     it('should accept a context object for the callback as an optional third parameter', function() {
@@ -230,11 +230,11 @@ describe('List Indexing Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return index = ls.indexIf((function(val) {
+      return index = ls.indexIf(null, obj, function(val) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return false;
-      }), 0, obj);
+      });
     });
     it('should return -1 if the item is not found', function() {
       var index;
@@ -279,50 +279,46 @@ describe('List Indexing Methods', function() {
     });
     it('should accept an index to search backwards from as an optional second parameter', function() {
       var index;
-      index = ls.lastIndexIf((function(val) {
+      index = ls.lastIndexIf(2, function(val) {
         return val === 'a';
-      }), 2);
+      });
       expect(index).to.be(1);
-      index = ls.lastIndexIf((function(val) {
+      index = ls.lastIndexIf(3, function(val) {
         return val === 'a';
-      }), 3);
+      });
       expect(index).to.be(3);
-      index = ls.lastIndexIf((function(val) {
+      index = ls.lastIndexIf(0, function(val) {
         return val === 'a';
-      }), 0);
+      });
       return expect(index).to.be(0);
     });
     it('should search the entire list if the index is >= to the list length', function() {
       var index;
-      index = ls.lastIndexIf((function(val) {
+      index = ls.lastIndexIf(4, function(val) {
         return val === 'a';
-      }), 4);
+      });
       expect(index).to.be(3);
-      index = ls.lastIndexIf((function(val) {
+      index = ls.lastIndexIf(99, function(val) {
         return val === 'a';
-      }), 99);
+      });
       return expect(index).to.be(3);
     });
     it('should use an offset from the end of the list if the index is negative', function() {
       var index;
-      index = ls.lastIndexIf((function(val) {
+      index = ls.lastIndexIf(-1, function(val) {
         return val === 'a';
-      }), -1);
+      });
       expect(index).to.be(3);
-      index = ls.lastIndexIf((function(val) {
+      index = ls.lastIndexIf(-2, function(val) {
         return val === 'a';
-      }), -2);
+      });
       return expect(index).to.be(1);
     });
     it('should return -1 if the calculated index is less than zero', function() {
       var index;
-      index = ls.lastIndexIf((function(val) {
+      index = ls.lastIndexIf(-99, function(val) {
         return val === 'a';
-      }), -99);
-      expect(index).to.be(-1);
-      index = ls.lastIndexIf((function(val) {
-        return val === 'b';
-      }), -99);
+      });
       return expect(index).to.be(-1);
     });
     it('should accept a context object for the callback as an optional third parameter', function() {
@@ -330,11 +326,11 @@ describe('List Indexing Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return index = ls.lastIndexIf((function(val) {
+      return index = ls.lastIndexIf(null, obj, function(val) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return false;
-      }), 0, obj);
+      });
     });
     it('should return -1 if the item is not found', function() {
       var index;
@@ -371,46 +367,46 @@ describe('List Indexing Methods', function() {
     });
     it('should accept a start index as an optional second parameter', function() {
       var indexes;
-      indexes = ls.indicesIf((function(v) {
+      indexes = ls.indicesIf(0, function(v) {
         return v === 'a';
-      }), 0);
+      });
       expect(indexes.length).to.be(3);
-      indexes = ls.indicesIf((function(v) {
+      indexes = ls.indicesIf(1, function(v) {
         return v === 'a';
-      }), 1);
+      });
       expect(indexes.length).to.be(2);
-      indexes = ls.indicesIf((function(v) {
+      indexes = ls.indicesIf(2, function(v) {
         return v === 'a';
-      }), 2);
+      });
       return expect(indexes.length).to.be(1);
     });
     it('should return an empty array if the start index is >= to the list length', function() {
       var indexes;
-      indexes = ls.indicesIf((function(v) {
+      indexes = ls.indicesIf(5, function(v) {
         return v === 'a';
-      }), 5);
+      });
       expect(indexes.length).to.be(0);
-      indexes = ls.indicesIf((function(v) {
+      indexes = ls.indicesIf(99, function(v) {
         return v === 'a';
-      }), 99);
+      });
       return expect(indexes.length).to.be(0);
     });
     it('should use an offset from the end of the list if the index is negative', function() {
       var indexes;
-      indexes = ls.indicesIf((function(v) {
+      indexes = ls.indicesIf(-3, function(v) {
         return v === 'a';
-      }), -3);
+      });
       expect(indexes.length).to.be(1);
-      indexes = ls.indicesIf((function(v) {
+      indexes = ls.indicesIf(-4, function(v) {
         return v === 'a';
-      }), -4);
+      });
       return expect(indexes.length).to.be(2);
     });
     it('should search the entire list if the calculated index is less than zero', function() {
       var indexes;
-      indexes = ls.indicesIf((function(v) {
+      indexes = ls.indicesIf(-7, function(v) {
         return v === 'a';
-      }), -7);
+      });
       return expect(indexes.length).to.be(3);
     });
     it('should return an empty array if no occurences of the item is found', function() {
@@ -427,11 +423,11 @@ describe('List Indexing Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return ls.indicesIf((function(v) {
+      return ls.indicesIf(null, obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), 0, obj);
+      });
     });
     return it('should pass 3 parameters to the callback test: current value, index, the list', function() {
       ls = List(['foo']);
