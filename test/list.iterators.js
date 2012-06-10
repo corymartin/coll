@@ -38,27 +38,27 @@ describe('List Iteration Methods', function() {
       });
       it('does not throw an error on an empty list if an initial value is passed', function() {
         return expect(function() {
-          return ls0items.reduce((function(a, b) {
+          return ls0items.reduce('a', function(a, b) {
             return a + b;
-          }), 'a');
+          });
         }).not.to.throwError();
       });
       it('takes an initial value as a parameter', function() {
         var result;
-        result = ls3items.reduce((function(a, b) {
+        result = ls3items.reduce('z', function(a, b) {
           return a + b;
-        }), 'z');
+        });
         expect(result).to.be('zabc');
-        result = ls1items.reduce((function(a, b) {
+        result = ls1items.reduce('z', function(a, b) {
           return a + b;
-        }), 'z');
+        });
         return expect(result).to.be('za');
       });
       it('returns the initial value parameter if that is passed and the list is empty', function() {
         var result;
-        result = ls0items.reduce((function(a, b) {
+        result = ls0items.reduce('z', function(a, b) {
           return a + b;
-        }), 'z');
+        });
         return expect(result).to.be('z');
       });
       return it('should pass 4 parameters to the callback: accumulator, current value, index, the list', function() {
@@ -96,27 +96,27 @@ describe('List Iteration Methods', function() {
       });
       it('does not throw an error on an empty list if an initial value is passed', function() {
         return expect(function() {
-          return ls0items.reduceRight((function(a, b) {
+          return ls0items.reduceRight('a', function(a, b) {
             return a + b;
-          }), 'a');
+          });
         }).not.to.throwError();
       });
       it('takes an initial value as a parameter', function() {
         var result;
-        result = ls3items.reduceRight((function(a, b) {
+        result = ls3items.reduceRight('z', function(a, b) {
           return a + b;
-        }), 'z');
+        });
         expect(result).to.be('zcba');
-        result = ls1items.reduceRight((function(a, b) {
+        result = ls1items.reduceRight('z', function(a, b) {
           return a + b;
-        }), 'z');
+        });
         return expect(result).to.be('za');
       });
       it('returns the initial value parameter if that is passed and the list is empty', function() {
         var result;
-        result = ls0items.reduceRight((function(a, b) {
+        result = ls0items.reduceRight('z', function(a, b) {
           return a + b;
-        }), 'z');
+        });
         return expect(result).to.be('z');
       });
       return it('should pass 4 parameters to the callback: accumulator, current value, index, the list', function() {
@@ -157,10 +157,10 @@ describe('List Iteration Methods', function() {
       });
     });
     it('takes an optional context argument as a second parameter', function() {
-      return ls.forEach((function() {
-        return expect(this.foo).to.be('bar');
-      }), {
+      return ls.forEach({
         foo: 'bar'
+      }, function() {
+        return expect(this.foo).to.be('bar');
       });
     });
     return it('should return the instance for chaining', function() {
@@ -195,11 +195,11 @@ describe('List Iteration Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return ls.every((function(v) {
+      return ls.every(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), obj);
+      });
     });
     it('should pass 3 parameters to the callback test: current value, index, the list', function() {
       ls = List(['foo']);
@@ -246,11 +246,11 @@ describe('List Iteration Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return ls.some((function(v) {
+      return ls.some(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), obj);
+      });
     });
     it('should pass 3 parameters to the callback test: current value, index, the list', function() {
       ls = List(['foo']);
@@ -447,11 +447,11 @@ describe('List Iteration Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return ls.partition((function(v) {
+      return ls.partition(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), obj);
+      });
     });
     return it('should pass 3 parameters to the callback test:\ncurrent value, index, the list', function() {
       var ls;

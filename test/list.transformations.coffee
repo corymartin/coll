@@ -26,11 +26,10 @@ describe 'List Transformation Methods', ->
 
     it 'should accept a context object for the callback as an optional second parameter', ->
       obj = foo: 'bar'
-      l1.filter ((v) ->
+      l1.filter obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
       ls = List ['foo']
@@ -61,11 +60,10 @@ describe 'List Transformation Methods', ->
     it '''should accept a context object for the callback as an
       optional second parameter''', ->
       obj = foo: 'bar'
-      l1.reject ((v) ->
+      l1.reject obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), obj
 
     it '''should pass 3 parameters to the callback test:
       current value, index, the list''', ->
@@ -97,15 +95,16 @@ describe 'List Transformation Methods', ->
       expect(l1[2]).to.be 3
       expect(l1[3]).to.be 4
 
-    it 'should accept a context object for the callback as an optional second parameter', ->
+    it '''should accept a context object for the callback as an
+      optional second parameter''', ->
       obj = foo: 'bar'
-      l1.map ((v) ->
+      l1.map obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         v
-      ), obj
 
-    it 'should pass 3 parameters to the callback test: current value, index, the list', ->
+    it '''should pass 3 parameters to the callback test:
+      current value, index, the list''', ->
       ls = List ['foo']
       ls.map (val, index, list) ->
         expect(val).to.be 'foo'

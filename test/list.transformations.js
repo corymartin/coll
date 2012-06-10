@@ -34,11 +34,11 @@ describe('List Transformation Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return l1.filter((function(v) {
+      return l1.filter(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), obj);
+      });
     });
     return it('should pass 3 parameters to the callback test: current value, index, the list', function() {
       var ls;
@@ -78,11 +78,11 @@ describe('List Transformation Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return l1.reject((function(v) {
+      return l1.reject(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), obj);
+      });
     });
     return it('should pass 3 parameters to the callback test:\ncurrent value, index, the list', function() {
       var ls;
@@ -120,18 +120,18 @@ describe('List Transformation Methods', function() {
       expect(l1[2]).to.be(3);
       return expect(l1[3]).to.be(4);
     });
-    it('should accept a context object for the callback as an optional second parameter', function() {
+    it('should accept a context object for the callback as an\noptional second parameter', function() {
       var obj;
       obj = {
         foo: 'bar'
       };
-      return l1.map((function(v) {
+      return l1.map(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return v;
-      }), obj);
+      });
     });
-    return it('should pass 3 parameters to the callback test: current value, index, the list', function() {
+    return it('should pass 3 parameters to the callback test:\ncurrent value, index, the list', function() {
       var ls;
       ls = List(['foo']);
       return ls.map(function(val, index, list) {

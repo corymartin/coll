@@ -27,16 +27,16 @@ describe 'List Iteration Methods', ->
         expect(-> ls0items.reduce (a, b) -> a + b).to.throwError /Reduce of empty List with no initial value/
 
       it 'does not throw an error on an empty list if an initial value is passed', ->
-        expect(-> ls0items.reduce ((a, b) -> a + b), 'a').not.to.throwError()
+        expect(-> ls0items.reduce 'a', (a, b) -> a + b).not.to.throwError()
 
       it 'takes an initial value as a parameter', ->
-        result = ls3items.reduce( ((a, b) -> a + b), 'z')
+        result = ls3items.reduce 'z', (a, b) -> a + b
         expect(result).to.be 'zabc'
-        result = ls1items.reduce( ((a, b) -> a + b), 'z')
+        result = ls1items.reduce 'z', (a, b) -> a + b
         expect(result).to.be 'za'
 
       it 'returns the initial value parameter if that is passed and the list is empty', ->
-        result = ls0items.reduce ((a, b) -> a + b), 'z'
+        result = ls0items.reduce 'z', (a, b) -> a + b
         expect(result).to.be 'z'
 
       it 'should pass 4 parameters to the callback: accumulator, current value, index, the list', ->
@@ -61,16 +61,16 @@ describe 'List Iteration Methods', ->
         expect(-> ls0items.reduceRight (a, b) -> a + b).to.throwError /Reduce of empty List with no initial value/
 
       it 'does not throw an error on an empty list if an initial value is passed', ->
-        expect(-> ls0items.reduceRight ((a, b) -> a + b), 'a').not.to.throwError()
+        expect(-> ls0items.reduceRight 'a', (a, b) -> a + b).not.to.throwError()
 
       it 'takes an initial value as a parameter', ->
-        result = ls3items.reduceRight ((a, b) -> a + b), 'z'
+        result = ls3items.reduceRight 'z', (a, b) -> a + b
         expect(result).to.be 'zcba'
-        result = ls1items.reduceRight ((a, b) -> a + b), 'z'
+        result = ls1items.reduceRight 'z', (a, b) -> a + b
         expect(result).to.be 'za'
 
       it 'returns the initial value parameter if that is passed and the list is empty', ->
-        result = ls0items.reduceRight ((a, b) -> a + b), 'z'
+        result = ls0items.reduceRight 'z', (a, b) -> a + b
         expect(result).to.be 'z'
 
       it 'should pass 4 parameters to the callback: accumulator, current value, index, the list', ->
@@ -82,7 +82,6 @@ describe 'List Iteration Methods', ->
           expect(list).to.be ls
 
 
-  #XXX
   describe '#forEach', ->
     ls = null
 
@@ -104,7 +103,7 @@ describe 'List Iteration Methods', ->
         i++
 
     it 'takes an optional context argument as a second parameter', ->
-      ls.forEach (-> expect(this.foo).to.be 'bar'), foo: 'bar'
+      ls.forEach foo: 'bar', -> expect(this.foo).to.be 'bar'
 
     it 'should return the instance for chaining', ->
       retval = ls.forEach ->
@@ -128,11 +127,10 @@ describe 'List Iteration Methods', ->
 
     it 'should accept a context object for the callback as an optional second parameter', ->
       obj = foo: 'bar'
-      ls.every ((v) ->
+      ls.every obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
       ls = List ['foo']
@@ -167,11 +165,10 @@ describe 'List Iteration Methods', ->
 
     it 'should accept a context object for the callback as an optional second parameter', ->
       obj = foo: 'bar'
-      ls.some ((v) ->
+      ls.some obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
       ls = List ['foo']
@@ -325,11 +322,10 @@ describe 'List Iteration Methods', ->
       an optional second parameter''', ->
       ls = List 'a'
       obj = foo: 'bar'
-      ls.partition ((v) ->
+      ls.partition obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), obj
 
     it '''should pass 3 parameters to the callback test:
       current value, index, the list''', ->
