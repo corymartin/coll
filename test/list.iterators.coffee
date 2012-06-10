@@ -1,18 +1,18 @@
 
 expect = require 'expect.js'
 
-{TypedList, List} = require '../lib/coll'
+{List} = require '../lib/coll'
 
 
-describe 'TypedList / List Iteration Methods', ->
+describe 'List Iteration Methods', ->
 
   describe 'reduction functions', ->
     ls0items = ls1items = ls3items = null
 
     beforeEach ->
-      ls0items = TypedList 'String'
-      ls1items = TypedList 'String', ['a']
-      ls3items = TypedList 'String', ['a', 'b', 'c']
+      ls0items = List()
+      ls1items = List ['a']
+      ls3items = List ['a', 'b', 'c']
 
     describe '#reduce', ->
       it 'accumulates each value in the list (L to R) applying a function to them, resulting in a single value', ->
@@ -40,7 +40,7 @@ describe 'TypedList / List Iteration Methods', ->
         expect(result).to.be 'z'
 
       it 'should pass 4 parameters to the callback: accumulator, current value, index, the list', ->
-        ls = TypedList 'String', ['foo']
+        ls = List ['foo']
         ls.reduce (acc, val, index, list) ->
           expect(acc).to.be 'foo'
           expect(val).to.be 'foo'
@@ -74,7 +74,7 @@ describe 'TypedList / List Iteration Methods', ->
         expect(result).to.be 'z'
 
       it 'should pass 4 parameters to the callback: accumulator, current value, index, the list', ->
-        ls = TypedList 'String', ['foo']
+        ls = List ['foo']
         ls.reduceRight (acc, val, index, list) ->
           expect(acc).to.be 'foo'
           expect(val).to.be 'foo'
@@ -87,7 +87,7 @@ describe 'TypedList / List Iteration Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'String', ['a', 'b', 'c', 'd']
+      ls = List ['a', 'b', 'c', 'd']
 
     it 'should iterate once for each item in list', ->
       cnt = 0
@@ -115,7 +115,7 @@ describe 'TypedList / List Iteration Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'Number', [2, 4, 6, 8]
+      ls = List [2, 4, 6, 8]
 
     it 'should return true if every item in the list passes the iterator test', ->
       result = ls.every (val) -> val % 2 == 0
@@ -135,7 +135,7 @@ describe 'TypedList / List Iteration Methods', ->
       ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
-      ls = TypedList 'String', ['foo']
+      ls = List ['foo']
       ls.every (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0
@@ -155,7 +155,7 @@ describe 'TypedList / List Iteration Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'Number', [2, 4, 6, 8]
+      ls = List [2, 4, 6, 8]
 
     it 'should return true if at least one item in the list passes the iterator test', ->
       result = ls.some (val) -> val % 2 == 0
@@ -174,7 +174,7 @@ describe 'TypedList / List Iteration Methods', ->
       ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
-      ls = TypedList 'String', ['foo']
+      ls = List ['foo']
       ls.some (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0
@@ -194,7 +194,7 @@ describe 'TypedList / List Iteration Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'String', 'aababa'
+      ls = List 'aababa'
 
     it 'should return the first item to pass the iterator test', ->
       result = ls.find (val) -> val == 'b'
@@ -213,7 +213,7 @@ describe 'TypedList / List Iteration Methods', ->
       ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
-      ls = TypedList 'String', ['foo']
+      ls = List ['foo']
       ls.find (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0
@@ -235,7 +235,7 @@ describe 'TypedList / List Iteration Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'String', 'aababa'
+      ls = List 'aababa'
 
     it 'should return the first item from the end of the list to pass the iterator test', ->
       result = ls.findLast (val) -> val == 'b'
@@ -254,7 +254,7 @@ describe 'TypedList / List Iteration Methods', ->
       ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
-      ls = TypedList 'String', ['foo']
+      ls = List ['foo']
       ls.findLast (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0
@@ -276,11 +276,11 @@ describe 'TypedList / List Iteration Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'String', 'aababa'
+      ls = List 'aababa'
 
     it 'should return a new list of all items to pass the iterator test', ->
       result = ls.findAll (val) -> val == 'b'
-      expect(result).to.be.a TypedList
+      expect(result).to.be.a List
       expect(result.length).to.be 2
       expect(result.every (v) -> v == 'b').to.be true
 
@@ -297,7 +297,7 @@ describe 'TypedList / List Iteration Methods', ->
       ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
-      ls = TypedList 'String', ['foo']
+      ls = List ['foo']
       ls.findAll (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0
@@ -308,14 +308,14 @@ describe 'TypedList / List Iteration Methods', ->
   describe '#partition', ->
     it '''should return an array of two lists, the first composed of items
       passing the iterator test, the second those that failed''', ->
-      ls = TypedList 'Number', [1,2,3,4]
+      ls = List [1,2,3,4]
       p = ls.partition (val) -> val % 2 == 0
       expect(p).to.be.an Array
       expect(p.length).to.be 2
       pass = p[0]
       fail = p[1]
-      expect(pass).to.be.a TypedList
-      expect(fail).to.be.a TypedList
+      expect(pass).to.be.a List
+      expect(fail).to.be.a List
       expect(pass[0]).to.be 2
       expect(pass[1]).to.be 4
       expect(fail[0]).to.be 1
@@ -323,7 +323,7 @@ describe 'TypedList / List Iteration Methods', ->
 
     it '''should accept a context object for the callback as
       an optional second parameter''', ->
-      ls = TypedList 'String', 'a'
+      ls = List 'a'
       obj = foo: 'bar'
       ls.partition ((v) ->
         expect(this).to.be obj
@@ -333,7 +333,7 @@ describe 'TypedList / List Iteration Methods', ->
 
     it '''should pass 3 parameters to the callback test:
       current value, index, the list''', ->
-      ls = TypedList 'String', ['foo']
+      ls = List ['foo']
       ls.partition (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0

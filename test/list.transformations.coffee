@@ -1,16 +1,16 @@
 
 expect = require 'expect.js'
 
-{TypedList, List} = require '../lib/coll'
+{List} = require '../lib/coll'
 
 
-describe 'TypedList / List Transformation Methods', ->
+describe 'List Transformation Methods', ->
 
   describe '#filter', ->
     l1 = null
 
     beforeEach ->
-      l1 = TypedList 'Number', [1,2,3,4]
+      l1 = List [1,2,3,4]
 
     it 'should return a new list containing only the elements that pass the iterator test', ->
       evens = l1.filter (v) -> v % 2 == 0
@@ -33,7 +33,7 @@ describe 'TypedList / List Transformation Methods', ->
       ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
-      ls = TypedList 'String', ['foo']
+      ls = List ['foo']
       ls.filter (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0
@@ -44,7 +44,7 @@ describe 'TypedList / List Transformation Methods', ->
     l1 = null
 
     beforeEach ->
-      l1 = TypedList 'Number', [1,2,3,4]
+      l1 = List [1,2,3,4]
 
     it 'should return a new list containing only the elements that fail the iterator test', ->
       evens = l1.reject (v) -> v % 2 == 0
@@ -69,7 +69,7 @@ describe 'TypedList / List Transformation Methods', ->
 
     it '''should pass 3 parameters to the callback test:
       current value, index, the list''', ->
-      ls = TypedList 'String', ['foo']
+      ls = List ['foo']
       ls.reject (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0
@@ -80,7 +80,7 @@ describe 'TypedList / List Transformation Methods', ->
     l1 = null
 
     beforeEach ->
-      l1 = TypedList 'Number', [1,2,3,4]
+      l1 = List [1,2,3,4]
 
     it '''should return a new list composed of the results returned
       by the iterator''', ->
@@ -97,19 +97,6 @@ describe 'TypedList / List Transformation Methods', ->
       expect(l1[2]).to.be 3
       expect(l1[3]).to.be 4
 
-    it 'should return a list with the same type as the instance list', ->
-      x = l1.map (v) -> v * 10
-      expect(x.type).to.be 'Number'
-
-    it '''should return a list of a new type if the optional type
-      parameter is used (TypedList only)''', ->
-      x = l1.map ((v) -> "_#{v}_"), null, 'String'
-      expect(x.type).to.be 'String'
-
-      l = List [1,2,3,4]
-      x = l.map ((v) -> v), null, 'String'
-      expect(x.type).to.be 'Any'
-
     it 'should accept a context object for the callback as an optional second parameter', ->
       obj = foo: 'bar'
       l1.map ((v) ->
@@ -119,7 +106,7 @@ describe 'TypedList / List Transformation Methods', ->
       ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
-      ls = TypedList 'String', ['foo']
+      ls = List ['foo']
       ls.map (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0
@@ -131,13 +118,13 @@ describe 'TypedList / List Transformation Methods', ->
     l1 = l2 = null
 
     beforeEach ->
-      l1 = TypedList 'Number', [1,2,3]
+      l1 = List [1,2,3]
       l2 = List ['a', new Date, [1,2], true]
 
     it '''should return a new list with the passed item inserted between
       every item in the original list''', ->
       x = l1.intersperse 0
-      expect(x).to.be.a TypedList
+      expect(x).to.be.a List
       expect(x.length).to.be 5
       expect(x[0]).to.be 1
       expect(x[1]).to.be 0

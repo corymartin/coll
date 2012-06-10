@@ -1,22 +1,22 @@
 
 expect = require 'expect.js'
 
-{TypedList, List} = require '../lib/coll'
+{List} = require '../lib/coll'
 
 
-describe 'TypedList / List Sub-List Methods', ->
+describe 'List Sub-List Methods', ->
 
   describe '#take', ->
     l1 = l2 =null
 
     beforeEach ->
-      l1 = TypedList 'String', 'hello world'
+      l1 = List 'hello world'
       l2 = List [1,2,3,4,5]
 
     it 'should return a new list of the first `howMany` items', ->
       x = l1.take 6
       expect(x.join '').to.be 'hello '
-      expect(x).to.be.a TypedList
+      expect(x).to.be.a List
 
       x = l2.take 2
       expect(x.length).to.be 2
@@ -56,14 +56,14 @@ describe 'TypedList / List Sub-List Methods', ->
     l1 = l2 =null
 
     beforeEach ->
-      l1 = TypedList 'String', 'hello world'
+      l1 = List 'hello world'
       l2 = List [1,2,3,4,5]
 
     it '''should return a new list of contiguous items from the beginning
       of the list until the iterator function returns false''', ->
       x = l1.takeWhile (val) -> val != ' '
       expect(x.join '').to.be 'hello'
-      expect(x).to.be.a TypedList
+      expect(x).to.be.a List
 
       x = l2.takeWhile (val) -> val < 4
       expect(x.length).to.be 3
@@ -104,14 +104,14 @@ describe 'TypedList / List Sub-List Methods', ->
     l1 = l2 =null
 
     beforeEach ->
-      l1 = TypedList 'String', 'hello world'
+      l1 = List 'hello world'
       l2 = List [1,2,3,4,5]
 
     it '''should return a new list, dropping the first `howMany` items
       from the instance list''', ->
       x = l1.drop 5
       expect(x.join '').to.be ' world'
-      expect(x).to.be.a TypedList
+      expect(x).to.be.a List
 
       x = l2.drop 3
       expect(x.length).to.be 2
@@ -152,14 +152,14 @@ describe 'TypedList / List Sub-List Methods', ->
     l1 = l2 =null
 
     beforeEach ->
-      l1 = TypedList 'String', 'hello world'
+      l1 = List 'hello world'
       l2 = List [1,2,3,4,5]
 
     it '''should return a new list, dropping the contiguous items from the
       beginning of the list that pass the iterator test''', ->
       x = l1.dropWhile (val) -> val != ' '
       expect(x.join '').to.be ' world'
-      expect(x).to.be.a TypedList
+      expect(x).to.be.a List
 
       x = l2.dropWhile (val) -> val < 4
       expect(x.length).to.be 2
@@ -200,7 +200,7 @@ describe 'TypedList / List Sub-List Methods', ->
 
     beforeEach ->
       l1 = List [1,2,1,3,2,6]
-      l2 = TypedList 'String', ['#fff', '#3366ee', 'magenta', '#ccc', 'red']
+      l2 = List ['#fff', '#3366ee', 'magenta', '#ccc', 'red']
 
     it '''should return a hash of lists; each list is composed of matching
       items within the instance list and keys are representative
@@ -231,8 +231,8 @@ describe 'TypedList / List Sub-List Methods', ->
           'named'
 
       expect(x).to.only.have.keys 'hex', 'named'
-      expect(x['hex']).to.be.a TypedList
-      expect(x['named']).to.be.a TypedList
+      expect(x['hex']).to.be.a List
+      expect(x['named']).to.be.a List
       expect(x['hex'].length).to.be 3
       expect(x['named'].length).to.be 2
       expect(x['hex']).to.contain '#fff'

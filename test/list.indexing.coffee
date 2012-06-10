@@ -1,16 +1,16 @@
 
 expect = require 'expect.js'
 
-{TypedList, List} = require '../lib/coll'
+{List} = require '../lib/coll'
 
 
-describe 'TypedList / List Indexing Methods', ->
+describe 'List Indexing Methods', ->
 
   describe '#indexOf', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'String', ['a', 'a', 'b', 'a']
+      ls = List ['a', 'a', 'b', 'a']
 
     it 'should return the index of the first item matching the passed item', ->
       index = ls.indexOf 'a'
@@ -51,7 +51,7 @@ describe 'TypedList / List Indexing Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'String', ['a', 'a', 'b', 'a']
+      ls = List ['a', 'a', 'b', 'a']
 
     it 'should return the index of the last item in the list matching the passed item', ->
       index = ls.lastIndexOf 'a'
@@ -94,7 +94,7 @@ describe 'TypedList / List Indexing Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'String', 'aabab'
+      ls = List 'aabab'
 
     it 'should return an array of all indexes matching the passed item', ->
       indexes = ls.indicesOf 'a'
@@ -138,7 +138,7 @@ describe 'TypedList / List Indexing Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'Number', [1, 5, 9, 14, 17]
+      ls = List [1, 5, 9, 14, 17]
 
     it 'should return the index of the first item passing the callback test', ->
       index = ls.indexIf (val) -> val % 2 == 0
@@ -193,7 +193,7 @@ describe 'TypedList / List Indexing Methods', ->
       expect(index).to.be -1
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
-      ls = TypedList 'String', ['foo']
+      ls = List ['foo']
       ls.indexIf (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0
@@ -204,7 +204,7 @@ describe 'TypedList / List Indexing Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'String', ['a', 'a', 'b', 'a']
+      ls = List ['a', 'a', 'b', 'a']
 
     it 'should return the index of the last item passing the callback test', ->
       index = ls.lastIndexIf (val) -> val == 'a'
@@ -259,7 +259,7 @@ describe 'TypedList / List Indexing Methods', ->
       expect(index).to.be -1
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
-      ls = TypedList 'String', ['foo']
+      ls = List ['foo']
       ls.lastIndexIf (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0
@@ -270,7 +270,7 @@ describe 'TypedList / List Indexing Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'String', 'aabab'
+      ls = List 'aabab'
 
     it 'should return an array of all indexes matching the passed item', ->
       indexes = ls.indicesIf (v) -> v == 'a'
@@ -310,7 +310,7 @@ describe 'TypedList / List Indexing Methods', ->
       expect(indexes.length).to.be 0
 
     it 'should accept a context object for the callback as an optional third parameter', ->
-      ls = TypedList 'String', 'a'
+      ls = List 'a'
       obj = foo: 'bar'
       ls.indicesIf ((v) ->
         expect(this).to.be obj
@@ -319,7 +319,7 @@ describe 'TypedList / List Indexing Methods', ->
       ), 0, obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
-      ls = TypedList 'String', ['foo']
+      ls = List ['foo']
       ls.indicesIf (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0

@@ -1,7 +1,7 @@
 
 expect = require 'expect.js'
 
-{TypedList, List} = require '../lib/coll'
+{List} = require '../lib/coll'
 
 
 describe 'List Constructor', ->
@@ -20,27 +20,30 @@ describe 'List Constructor', ->
     expect(ls3).to.be.a List
     expect(ls4).to.be.a List
 
-  it 'should inherit from `TypedList`', ->
-    expect(ls1 instanceof TypedList).to.be true
-    expect(ls2 instanceof TypedList).to.be true
-    expect(ls3 instanceof TypedList).to.be true
-    expect(ls4 instanceof TypedList).to.be true
-
   it 'should set the inital length of the list', ->
     expect(ls1.length).to.be 0
     expect(ls2.length).to.be 2
     expect(ls3.length).to.be 0
     expect(ls4.length).to.be 2
 
-  it 'should have a type parameter of "Any"', ->
-    expect(ls1.type).to.be 'Any'
-    expect(ls2.type).to.be 'Any'
-    expect(ls3.type).to.be 'Any'
-    expect(ls4.type).to.be 'Any'
-
   it 'should populate itself with some initial values via the init param', ->
     expect(ls2[0]).to.be 'a'
     expect(ls2[1]).to.be 2
     expect(ls4[0]).to.be 1
     expect(ls4[1]).to.be 'z'
+
+  it 'should accept an "iterable" for the init parameter', ->
+    ls = List [1,2]
+    expect(ls.length).to.be 2
+
+    ls = List 'as'
+    expect(ls.length).to.be 2
+
+    ls = List List 'as'
+    expect(ls.length).to.be 2
+
+    foo = ->
+      ls = List arguments
+      expect(ls.length).to.be 2
+    foo 'a', 'b'
 

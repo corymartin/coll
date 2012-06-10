@@ -1,16 +1,16 @@
 
 expect = require 'expect.js'
 
-{TypedList, List} = require '../lib/coll'
+{List} = require '../lib/coll'
 
 
-describe 'TypedList / List Accessor Methods', ->
+describe 'List Accessor Methods', ->
 
   describe '#slice', ->
     l1 = null
 
     beforeEach ->
-      l1 = TypedList 'String', ['a', 'b', 'c', 'd']
+      l1 = List ['a', 'b', 'c', 'd']
 
     it '''should return a new copy of the list if
       no parameters are passed''', ->
@@ -53,28 +53,28 @@ describe 'TypedList / List Accessor Methods', ->
       lsNew2 = l1.slice 2
       lsNew3 = l1.slice 2, 3
 
-      expect(l1 instanceof TypedList).to.be true
+      expect(l1 instanceof List).to.be true
       expect(l1.length).to.be 4
       expect(l1[0]).to.be 'a'
       expect(l1[1]).to.be 'b'
       expect(l1[2]).to.be 'c'
       expect(l1[3]).to.be 'd'
 
-    it 'should return a TypedList instance', ->
+    it 'should return a List instance', ->
       lsNew = l1.slice()
-      expect(lsNew instanceof TypedList).to.be true
+      expect(lsNew instanceof List).to.be true
       lsNew2 = l1.slice 2
-      expect(lsNew2 instanceof TypedList).to.be true
+      expect(lsNew2 instanceof List).to.be true
       lsNew3 = l1.slice 2, 1
-      expect(lsNew3 instanceof TypedList).to.be true
+      expect(lsNew3 instanceof List).to.be true
 
 
   describe '#concat', ->
     l1 = l2 = null
 
     beforeEach ->
-      l1 = TypedList 'Number', [1, 2]
-      l2 = l1.concat TypedList('Number', [3]), TypedList('Number', [4,5])
+      l1 = List [1, 2]
+      l2 = l1.concat List([3]), List([4,5])
 
     it 'should merge a list with one or more other iterables', ->
       expect(l2.length).to.be 5
@@ -87,7 +87,7 @@ describe 'TypedList / List Accessor Methods', ->
       x = l1.concat [3,4]
       expect(x.length).to.be 4
 
-      ls = TypedList 'String', 'ab'
+      ls = List 'ab'
       x = ls.concat 'cd'
       expect(x.length).to.be 4
       expect(x[0]).to.be 'a'
@@ -97,26 +97,26 @@ describe 'TypedList / List Accessor Methods', ->
 
     it 'should return a new list of the merged values', ->
       expect(l1).not.to.be l2
-      expect(l2 instanceof TypedList).to.be true
+      expect(l2 instanceof List).to.be true
 
     it 'should work on a list of lists', ->
-      lsa = TypedList(TypedList, [TypedList('String', ['a', 'b']), TypedList('Number', [3, 4])])
-      lsb = TypedList(TypedList, [TypedList('Date', [new Date])])
+      lsa = List([List(['a', 'b']), List([3, 4])])
+      lsb = List([List([new Date])])
 
       lsc = lsa.concat(lsb)
       expect(lsc.length).to.be 3
       for l in lsc
-        expect(l instanceof TypedList).to.be true
+        expect(l instanceof List).to.be true
       expect(lsc[0].length).to.be 2
-      expect(lsc[0].type).to.be 'String'
+      expect(lsc[0]).to.be.a List
       expect(lsc[1].length).to.be 2
-      expect(lsc[1].type).to.be 'Number'
+      expect(lsc[1]).to.be.a List
       expect(lsc[2].length).to.be 1
-      expect(lsc[2].type).to.be 'Date'
+      expect(lsc[2]).to.be.a List
 
     it 'should not modify the instance list', ->
-      x = l1.concat(TypedList 'Number', [3,4])
-      expect(l1).to.be.a TypedList
+      x = l1.concat(List [3,4])
+      expect(l1).to.be.a List
       expect(l1.length).to.be 2
 
 
@@ -124,7 +124,7 @@ describe 'TypedList / List Accessor Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'String', 'aabaaba'
+      ls = List 'aabaaba'
 
     it 'should return the number of occurences of the passed item', ->
       x = ls.count 'b'
@@ -143,7 +143,7 @@ describe 'TypedList / List Accessor Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'Number', [2,4,5,8,10,11,14]
+      ls = List [2,4,5,8,10,11,14]
 
     it 'should return the number of occurences that the iterator succeeds', ->
       x = ls.countIf (val) -> val % 2 != 0
@@ -153,7 +153,7 @@ describe 'TypedList / List Accessor Methods', ->
 
     it 'should accept a context object for the callback as an
       optional second parameter', ->
-      ls = TypedList 'String', 'a'
+      ls = List 'a'
       obj = foo: 'bar'
       ls.countIf ((v) ->
         expect(this).to.be obj
@@ -163,7 +163,7 @@ describe 'TypedList / List Accessor Methods', ->
 
     it 'should pass 3 parameters to the callback test:
       current value, index, the list', ->
-      ls = TypedList 'String', ['foo']
+      ls = List ['foo']
       ls.countIf (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0
@@ -174,7 +174,7 @@ describe 'TypedList / List Accessor Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'String', 'aaba'
+      ls = List 'aaba'
 
     it 'should return true if the passed item is in the list', ->
       result = ls.contains 'b'
@@ -187,7 +187,7 @@ describe 'TypedList / List Accessor Methods', ->
 
   describe '#clone', ->
     it 'should return a new list with identical contents', ->
-      ls = TypedList 'String', 'asdf'
+      ls = List 'asdf'
       copy = ls.clone()
       expect(copy.length).to.be ls.length
       expect(copy).not.to.be ls
@@ -198,7 +198,7 @@ describe 'TypedList / List Accessor Methods', ->
     ls = null
 
     beforeEach ->
-      ls = TypedList 'String', 'asd'
+      ls = List 'asd'
 
     it 'should return an array of the list\'s contents', ->
       arr = ls.toArray()
@@ -209,21 +209,21 @@ describe 'TypedList / List Accessor Methods', ->
 
     it 'should not modify the instance list', ->
       ls.toArray()
-      expect(ls).to.be.a TypedList
+      expect(ls).to.be.a List
       expect(ls.length).to.be 3
 
 
   describe '#get', ->
     it 'should get the item from the list at the specifed index', ->
-      ls = TypedList 'String', 'asd'
+      ls = List 'asd'
       expect(ls.get 1).to.be 's'
 
     it 'should return undefined if the list is empty', ->
-      ls = TypedList 'String'
+      ls = List()
       expect(ls.get 0).to.be undefined
 
     it 'should return undefined if the index is out of range', ->
-      ls = TypedList 'String', 'asd'
+      ls = List 'asd'
       expect(ls.get 99).to.be undefined
       expect(ls.get -99).to.be undefined
 
@@ -232,7 +232,7 @@ describe 'TypedList / List Accessor Methods', ->
     l1 = l2 = null
 
     beforeEach ->
-      l1 = TypedList 'String', 'abcd'
+      l1 = List 'abcd'
       l2 = List()
 
     it 'should return the first item from the list', ->
@@ -248,7 +248,7 @@ describe 'TypedList / List Accessor Methods', ->
     l1 = l2 = null
 
     beforeEach ->
-      l1 = TypedList 'String', 'abcd'
+      l1 = List 'abcd'
       l2 = List()
 
     it 'should return the last item from the list', ->
@@ -268,13 +268,13 @@ describe 'TypedList / List Accessor Methods', ->
       o1 = a: 'a', b: 'b'
       o2 = a: 1, b: 2
 
-      l1 = TypedList 'String', 'abacbcdd'
-      l2 = TypedList 'Number', [1,2,4,1,3,4,3]
-      l3 = TypedList 'Object', [o1, o2, o1, o2, o2]
+      l1 = List 'abacbcdd'
+      l2 = List [1,2,4,1,3,4,3]
+      l3 = List [o1, o2, o1, o2, o2]
 
     it 'should return a new list of non-duplicate items', ->
       x = l1.unique()
-      expect(x).to.be.a TypedList
+      expect(x).to.be.a List
       expect(x.length).to.be 4
       expect(x).to.contain 'a'
       expect(x).to.contain 'b'
@@ -295,7 +295,7 @@ describe 'TypedList / List Accessor Methods', ->
 
     it 'should not modify the instance list', ->
       l3.unique()
-      expect(l3).to.be.a TypedList
+      expect(l3).to.be.a List
       expect(l3.length).to.be 5
 
 
@@ -307,7 +307,7 @@ describe 'TypedList / List Accessor Methods', ->
     d4 = new Date 2011, 2, 1, 18, 11, 11
 
     beforeEach ->
-      l1 = TypedList 'Number', [44,33,4,12,67,33]
+      l1 = List [44,33,4,12,67,33]
       l2 = List [d1, d2, d3, d4]
       l3 = List ['zzzz', 'zzz', 'zzzzzz', 'zzzzz']
 
@@ -341,7 +341,7 @@ describe 'TypedList / List Accessor Methods', ->
     d4 = new Date 2011, 2, 1, 18, 11, 11
 
     beforeEach ->
-      l1 = TypedList 'Number', [44,33,4,12,67,33]
+      l1 = List [44,33,4,12,67,33]
       l2 = List [d1, d2, d3, d4]
       l3 = List ['zzzz', 'zzz', 'zzzzzz', 'zzzzz']
 
@@ -371,12 +371,12 @@ describe 'TypedList / List Accessor Methods', ->
     l1 = l2 = null
 
     beforeEach ->
-      l1 = TypedList 'String', 'abcabcd'
+      l1 = List 'abcabcd'
       l2 = List 'zxczxaab'
 
     it 'should return a new list containing items found in both lists', ->
       x = l1.intersect l2
-      expect(x).to.be.a TypedList
+      expect(x).to.be.a List
       expect(x).not.to.be l1
       expect(x).not.to.be l2
       expect(x.length).to.be 3
@@ -386,8 +386,8 @@ describe 'TypedList / List Accessor Methods', ->
 
     it 'should not modify either the instance list or the passed list', ->
       x = l1.intersect l2
-      expect(l1).to.be.a TypedList
-      expect(l2).to.be.a TypedList
+      expect(l1).to.be.a List
+      expect(l2).to.be.a List
       expect(l1.length).to.be 7
       expect(l2.length).to.be 8
 
