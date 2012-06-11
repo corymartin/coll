@@ -343,14 +343,18 @@ describe('List Mutator Methods', function() {
       x = ls.removeAt(1);
       return expect(x).to.eql('b');
     });
-    it('should return an array of removed items if there is more than one', function() {
+    it('should return a list of removed items if there is more than one', function() {
       var x;
       x = ls.removeAt(1, 2);
-      return expect(x).to.eql(['b', 'a']);
+      expect(x).to.be.a(List);
+      expect(x.length).to.be(2);
+      expect(x[0]).to.be('b');
+      return expect(x[1]).to.be('a');
     });
     it('should use an offset from the end of the list if index is negative', function() {
       var x;
       x = ls.removeAt(-2);
+      expect(x).to.be('b');
       expect(ls.length).to.be(4);
       expect(ls[0]).to.be('a');
       expect(ls[1]).to.be('b');
@@ -460,24 +464,24 @@ describe('List Mutator Methods', function() {
     it('should pass 3 values to the iterator function:\ncurrent value, index, the list', function() {
       var i;
       i = 0;
-      return ls.removeIf((function(v) {
+      return ls.removeIf(function(v) {
         expect(arguments.length).to.be(3);
         expect(arguments[0]).to.be(ls[i]);
         expect(arguments[1]).to.be(i);
         expect(arguments[2]).to.be(ls);
         return i++;
-      }));
+      });
     });
     return it('should accept a context object for the callback as an optional second parameter', function() {
       var obj;
       obj = {
         foo: 'bar'
       };
-      return ls.removeIf((function(v) {
+      return ls.removeIf(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), obj);
+      });
     });
   });
   describe('#removeAll', function() {
@@ -494,19 +498,23 @@ describe('List Mutator Methods', function() {
       expect(ls[0]).to.be('b');
       return expect(ls[1]).to.be('b');
     });
-    it('should return the items removed from the list', function() {
+    it('should return a list of the items removed from the list', function() {
       var x;
       x = ls.removeAll(function(val) {
         return val === 'b';
       });
-      return expect(x).to.eql(['b', 'b']);
+      expect(x).to.be.a(List);
+      expect(x.length).to.be(2);
+      expect(x[0]).to.be('b');
+      return expect(x[1]).to.be('b');
     });
-    it('should return `[]` if no items are removed', function() {
+    it('should return an empty List if no items are removed', function() {
       var x;
       x = ls.removeAll(function(val) {
         return val === 'z';
       });
-      return expect(x).to.eql([]);
+      expect(x).to.be.a(List);
+      return expect(x.length).to.be(0);
     });
     it('should return `[]` if the list is empty', function() {
       var x;
@@ -514,19 +522,19 @@ describe('List Mutator Methods', function() {
       x = ls.removeAll(function(val) {
         return val === 'a';
       });
-      return expect(x).to.eql([]);
+      expect(x).to.be.a(List);
+      return expect(x.length).to.be(0);
     });
     it('should accept a context object for the callback as an optional second parameter', function() {
       var obj;
-      ls = List();
       obj = {
         foo: 'bar'
       };
-      return ls.removeAll((function(v) {
+      return ls.removeAll(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), obj);
+      });
     });
     return it('should pass 3 parameters to the callback test: current value, index, the list', function() {
       ls = List(['foo']);
@@ -623,9 +631,9 @@ describe('List Mutator Methods', function() {
       return l2 = List('abcbd');
     });
     it('should replace the first item to pass the iterator test with `newitem`', function() {
-      l1.replaceIf((function(v) {
+      l1.replaceIf('z', function(v) {
         return v === 'b';
-      }), 'z');
+      });
       expect(l1.length).to.be(5);
       expect(l1[0]).to.be('a');
       expect(l1[1]).to.be('z');
@@ -635,36 +643,36 @@ describe('List Mutator Methods', function() {
     });
     it('should return a boolean indicating if a matching item was found and\nreplaced with `newitem`', function() {
       var x;
-      x = l1.replaceIf((function(v) {
+      x = l1.replaceIf('z', function(v) {
         return v === 'd';
-      }), 'z');
+      });
       expect(x).to.be(true);
-      x = l2.replaceIf((function(v) {
+      x = l2.replaceIf('z', function(v) {
         return v === 'x';
-      }), 'z');
+      });
       return expect(x).to.be(false);
     });
     it('should pass 3 values to the iterator function:\ncurrent value, index, the list', function() {
       var i;
       i = 0;
-      return l1.replaceIf((function(v) {
+      return l1.replaceIf('z', function(v) {
         expect(arguments.length).to.be(3);
         expect(arguments[0]).to.be(l1[i]);
         expect(arguments[1]).to.be(i);
         expect(arguments[2]).to.be(l1);
         return i++;
-      }), 'z');
+      });
     });
     return it('should accept a context object for the callback as an optional\nsecond parameter', function() {
       var obj;
       obj = {
         foo: 'bar'
       };
-      return l2.replaceIf((function(v) {
+      return l2.replaceIf('z', obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), 'z', obj);
+      });
     });
   });
   describe('#replaceAll', function() {
@@ -675,9 +683,9 @@ describe('List Mutator Methods', function() {
       return l2 = List('abcbd');
     });
     it('should replace all items from the list passing the iterator test\nwith `newitem`', function() {
-      l1.replaceAll((function(v) {
+      l1.replaceAll('z', function(v) {
         return v === 'b';
-      }), 'z');
+      });
       expect(l1.length).to.be(5);
       expect(l1[0]).to.be('a');
       expect(l1[1]).to.be('z');
@@ -687,36 +695,36 @@ describe('List Mutator Methods', function() {
     });
     it('should return a boolean indicating if any items were found and\nreplaced with `newitem`', function() {
       var x;
-      x = l1.replaceAll((function(v) {
+      x = l1.replaceAll('z', function(v) {
         return v === 'b';
-      }), 'z');
+      });
       expect(x).to.be(true);
-      x = l2.replaceAll((function(v) {
+      x = l2.replaceAll('z', function(v) {
         return v === 'x';
-      }), 'z');
+      });
       return expect(x).to.be(false);
     });
     it('should pass 3 values to the iterator function:\ncurrent value, index, the list', function() {
       var i;
       i = 0;
-      return l1.replaceAll((function(v) {
+      return l1.replaceAll('z', function(v) {
         expect(arguments.length).to.be(3);
         expect(arguments[0]).to.be(l1[i]);
         expect(arguments[1]).to.be(i);
         expect(arguments[2]).to.be(l1);
         return i++;
-      }), 'z');
+      });
     });
     return it('should accept a context object for the callback as an optional\nsecond parameter', function() {
       var obj;
       obj = {
         foo: 'bar'
       };
-      return l2.replaceAll((function(v) {
+      return l2.replaceAll('z', obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), 'z', obj);
+      });
     });
   });
   describe('#removeFirst', function() {

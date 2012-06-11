@@ -323,12 +323,16 @@ describe 'List Mutator Methods', ->
       x = ls.removeAt 1
       expect(x).to.eql 'b'
 
-    it 'should return an array of removed items if there is more than one', ->
+    it 'should return a list of removed items if there is more than one', ->
       x = ls.removeAt 1, 2
-      expect(x).to.eql ['b','a']
+      expect(x).to.be.a List
+      expect(x.length).to.be 2
+      expect(x[0]).to.be 'b'
+      expect(x[1]).to.be 'a'
 
     it 'should use an offset from the end of the list if index is negative', ->
       x = ls.removeAt -2
+      expect(x).to.be 'b'
       expect(ls.length).to.be 4
       expect(ls[0]).to.be 'a'
       expect(ls[1]).to.be 'b'
@@ -416,21 +420,19 @@ describe 'List Mutator Methods', ->
     it '''should pass 3 values to the iterator function:
       current value, index, the list''', ->
       i = 0
-      ls.removeIf ((v) ->
+      ls.removeIf (v) ->
         expect(arguments.length).to.be 3
         expect(arguments[0]).to.be ls[i]
         expect(arguments[1]).to.be i
         expect(arguments[2]).to.be ls
         i++
-      )
 
     it 'should accept a context object for the callback as an optional second parameter', ->
       obj = foo: 'bar'
-      ls.removeIf ((v) ->
+      ls.removeIf obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), obj
 
 
   describe '#removeAll', ->
@@ -445,27 +447,30 @@ describe 'List Mutator Methods', ->
       expect(ls[0]).to.be 'b'
       expect(ls[1]).to.be 'b'
 
-    it 'should return the items removed from the list', ->
+    it 'should return a list of the items removed from the list', ->
       x = ls.removeAll (val) -> val == 'b'
-      expect(x).to.eql ['b','b']
+      expect(x).to.be.a List
+      expect(x.length).to.be 2
+      expect(x[0]).to.be 'b'
+      expect(x[1]).to.be 'b'
 
-    it 'should return `[]` if no items are removed', ->
+    it 'should return an empty List if no items are removed', ->
       x = ls.removeAll (val) -> val == 'z'
-      expect(x).to.eql []
+      expect(x).to.be.a List
+      expect(x.length).to.be 0
 
     it 'should return `[]` if the list is empty', ->
       ls = List()
       x = ls.removeAll (val) -> val == 'a'
-      expect(x).to.eql []
+      expect(x).to.be.a List
+      expect(x.length).to.be 0
 
     it 'should accept a context object for the callback as an optional second parameter', ->
-      ls = List()
       obj = foo: 'bar'
-      ls.removeAll ((v) ->
+      ls.removeAll obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
       ls = List ['foo']
@@ -551,7 +556,7 @@ describe 'List Mutator Methods', ->
       l2 = List 'abcbd'
 
     it 'should replace the first item to pass the iterator test with `newitem`', ->
-      l1.replaceIf ((v) -> v == 'b'), 'z'
+      l1.replaceIf 'z', (v) -> v == 'b'
       expect(l1.length).to.be 5
       expect(l1[0]).to.be 'a'
       expect(l1[1]).to.be 'z'
@@ -561,31 +566,29 @@ describe 'List Mutator Methods', ->
 
     it '''should return a boolean indicating if a matching item was found and
       replaced with `newitem`''', ->
-      x = l1.replaceIf ((v) -> v == 'd'), 'z'
+      x = l1.replaceIf 'z', (v) -> v == 'd'
       expect(x).to.be true
 
-      x = l2.replaceIf ((v) -> v == 'x'), 'z'
+      x = l2.replaceIf 'z', (v) -> v == 'x'
       expect(x).to.be false
 
     it '''should pass 3 values to the iterator function:
       current value, index, the list''', ->
       i = 0
-      l1.replaceIf ((v) ->
+      l1.replaceIf 'z', (v) ->
         expect(arguments.length).to.be 3
         expect(arguments[0]).to.be l1[i]
         expect(arguments[1]).to.be i
         expect(arguments[2]).to.be l1
         i++
-      ), 'z'
 
     it '''should accept a context object for the callback as an optional
       second parameter''', ->
       obj = foo: 'bar'
-      l2.replaceIf ((v) ->
+      l2.replaceIf 'z', obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), 'z', obj
 
 
   describe '#replaceAll', ->
@@ -597,7 +600,7 @@ describe 'List Mutator Methods', ->
 
     it '''should replace all items from the list passing the iterator test
       with `newitem`''', ->
-      l1.replaceAll ((v) -> v == 'b'), 'z'
+      l1.replaceAll 'z', (v) -> v == 'b'
       expect(l1.length).to.be 5
       expect(l1[0]).to.be 'a'
       expect(l1[1]).to.be 'z'
@@ -607,31 +610,29 @@ describe 'List Mutator Methods', ->
 
     it '''should return a boolean indicating if any items were found and
       replaced with `newitem`''', ->
-      x = l1.replaceAll ((v) -> v == 'b'), 'z'
+      x = l1.replaceAll 'z', (v) -> v == 'b'
       expect(x).to.be true
 
-      x = l2.replaceAll ((v) -> v == 'x'), 'z'
+      x = l2.replaceAll 'z', (v) -> v == 'x'
       expect(x).to.be false
 
     it '''should pass 3 values to the iterator function:
       current value, index, the list''', ->
       i = 0
-      l1.replaceAll ((v) ->
+      l1.replaceAll 'z', (v) ->
         expect(arguments.length).to.be 3
         expect(arguments[0]).to.be l1[i]
         expect(arguments[1]).to.be i
         expect(arguments[2]).to.be l1
         i++
-      ), 'z'
 
     it '''should accept a context object for the callback as an optional
       second parameter''', ->
       obj = foo: 'bar'
-      l2.replaceAll ((v) ->
+      l2.replaceAll 'z', obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), 'z', obj
 
 
   describe '#removeFirst', ->

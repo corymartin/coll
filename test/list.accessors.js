@@ -168,11 +168,11 @@ describe('List Accessor Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return ls.countIf((function(v) {
+      return ls.countIf(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), obj);
+      });
     });
     return it('should pass 3 parameters to the callback test:\
       current value, index, the list', function() {
@@ -350,24 +350,12 @@ describe('List Accessor Methods', function() {
       x = l2.max();
       return expect(x).to.be(d3);
     });
-    it('should use the value returned by the optional iterator function to\ndetermine the max value', function() {
+    return it('should use the value returned by the optional iterator function to\ndetermine the max value', function() {
       var x;
       x = l3.max(function(a, b) {
         return a.length - b.length;
       });
       return expect(x).to.be('zzzzzz');
-    });
-    return it('should accept a context object for the callback as an\
-      optional second parameter', function() {
-      var obj;
-      obj = {
-        foo: 'bar'
-      };
-      return l3.max((function(v) {
-        expect(this).to.be(obj);
-        expect(this.foo).to.be('bar');
-        return v.length;
-      }), obj);
     });
   });
   describe('#min', function() {
@@ -389,24 +377,12 @@ describe('List Accessor Methods', function() {
       x = l2.min();
       return expect(x).to.be(d2);
     });
-    it('should use the value returned by the optional iterator function to\ndetermine the min value', function() {
+    return it('should use the value returned by the optional iterator function to\ndetermine the min value', function() {
       var x;
       x = l3.min(function(a, b) {
         return a.length - b.length;
       });
       return expect(x).to.be('zzz');
-    });
-    return it('should accept a context object for the callback as an\
-      optional second parameter', function() {
-      var obj;
-      obj = {
-        foo: 'bar'
-      };
-      return l3.min((function(v) {
-        expect(this).to.be(obj);
-        expect(this.foo).to.be('bar');
-        return v.length;
-      }), obj);
     });
   });
   return describe('#intersect', function() {
@@ -427,13 +403,33 @@ describe('List Accessor Methods', function() {
       expect(x).to.contain('b');
       return expect(x).to.contain('c');
     });
-    return it('should not modify either the instance list or the passed list', function() {
+    it('should not modify either the instance list or the passed list', function() {
       var x;
       x = l1.intersect(l2);
       expect(l1).to.be.a(List);
       expect(l2).to.be.a(List);
       expect(l1.length).to.be(7);
       return expect(l2.length).to.be(8);
+    });
+    return it('should accept any iterable as a list parameter', function() {
+      var x;
+      x = l1.intersect('xybyxdxy');
+      expect(x).to.be.a(List);
+      expect(x.length).to.be(2);
+      expect(x).to.contain('b');
+      expect(x).to.contain('d');
+      x = l2.intersect(['a', 'c', 'a', 'y']);
+      expect(x).to.be.a(List);
+      expect(x.length).to.be(2);
+      expect(x).to.contain('c');
+      expect(x).to.contain('a');
+      return (function() {
+        x = l1.intersect(arguments);
+        expect(x).to.be.a(List);
+        expect(x.length).to.be(2);
+        expect(x).to.contain('c');
+        return expect(x).to.contain('a');
+      })('aaa', 23, 'c', 'dd', 'a', /foo/, true);
     });
   });
 });

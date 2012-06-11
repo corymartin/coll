@@ -104,11 +104,11 @@ describe('List Sub-List Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return l1.takeWhile((function(v) {
+      return l1.takeWhile(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return false;
-      }), obj);
+      });
     });
     return it('should not mutate the instance list', function() {
       var x;
@@ -215,11 +215,11 @@ describe('List Sub-List Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return l1.dropWhile((function(v) {
+      return l1.dropWhile(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return false;
-      }), obj);
+      });
     });
     return it('should not mutate the instance list', function() {
       var x;

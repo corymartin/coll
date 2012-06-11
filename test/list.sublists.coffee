@@ -89,11 +89,10 @@ describe 'List Sub-List Methods', ->
 
     it 'should accept a context object for the callback as an optional second parameter', ->
       obj = foo: 'bar'
-      l1.takeWhile ((v) ->
+      l1.takeWhile obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         false
-      ), obj
 
     it 'should not mutate the instance list', ->
       x = l1.takeWhile (val) -> val != ' '
@@ -184,11 +183,10 @@ describe 'List Sub-List Methods', ->
 
     it 'should accept a context object for the callback as an optional second parameter', ->
       obj = foo: 'bar'
-      l1.dropWhile ((v) ->
+      l1.dropWhile obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         false
-      ), obj
 
     it 'should not mutate the instance list', ->
       x = l1.dropWhile (val) -> val != ' '

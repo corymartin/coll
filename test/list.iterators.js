@@ -297,11 +297,11 @@ describe('List Iteration Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return ls.find((function(v) {
+      return ls.find(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), obj);
+      });
     });
     it('should pass 3 parameters to the callback test: current value, index, the list', function() {
       ls = List(['foo']);
@@ -350,11 +350,11 @@ describe('List Iteration Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return ls.findLast((function(v) {
+      return ls.findLast(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), obj);
+      });
     });
     it('should pass 3 parameters to the callback test: current value, index, the list', function() {
       ls = List(['foo']);
@@ -407,11 +407,11 @@ describe('List Iteration Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return ls.findAll((function(v) {
+      return ls.findAll(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
-      }), obj);
+      });
     });
     return it('should pass 3 parameters to the callback test: current value, index, the list', function() {
       ls = List(['foo']);

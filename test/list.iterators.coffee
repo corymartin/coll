@@ -203,11 +203,10 @@ describe 'List Iteration Methods', ->
 
     it 'should accept a context object for the callback as an optional second parameter', ->
       obj = foo: 'bar'
-      ls.find ((v) ->
+      ls.find obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
       ls = List ['foo']
@@ -244,11 +243,10 @@ describe 'List Iteration Methods', ->
 
     it 'should accept a context object for the callback as an optional second parameter', ->
       obj = foo: 'bar'
-      ls.findLast ((v) ->
+      ls.findLast obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
       ls = List ['foo']
@@ -287,11 +285,10 @@ describe 'List Iteration Methods', ->
 
     it 'should accept a context object for the callback as an optional second parameter', ->
       obj = foo: 'bar'
-      ls.findAll ((v) ->
+      ls.findAll obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), obj
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
       ls = List ['foo']

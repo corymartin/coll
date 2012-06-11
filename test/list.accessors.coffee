@@ -155,11 +155,10 @@ describe 'List Accessor Methods', ->
       optional second parameter', ->
       ls = List 'a'
       obj = foo: 'bar'
-      ls.countIf ((v) ->
+      ls.countIf obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
-      ), obj
 
     it 'should pass 3 parameters to the callback test:
       current value, index, the list', ->
@@ -321,15 +320,6 @@ describe 'List Accessor Methods', ->
       x = l3.max (a, b) -> a.length - b.length
       expect(x).to.be 'zzzzzz'
 
-    it 'should accept a context object for the callback as an
-      optional second parameter', ->
-      obj = foo: 'bar'
-      l3.max ((v) ->
-        expect(this).to.be obj
-        expect(this.foo).to.be 'bar'
-        v.length
-      ), obj
-
 
   describe '#min', ->
     l1 = l2 = l3 = null
@@ -355,15 +345,6 @@ describe 'List Accessor Methods', ->
       x = l3.min (a, b) -> a.length - b.length
       expect(x).to.be 'zzz'
 
-    it 'should accept a context object for the callback as an
-      optional second parameter', ->
-      obj = foo: 'bar'
-      l3.min ((v) ->
-        expect(this).to.be obj
-        expect(this.foo).to.be 'bar'
-        v.length
-      ), obj
-
 
   describe '#intersect', ->
     l1 = l2 = null
@@ -388,4 +369,26 @@ describe 'List Accessor Methods', ->
       expect(l2).to.be.a List
       expect(l1.length).to.be 7
       expect(l2.length).to.be 8
+
+    it 'should accept any iterable as a list parameter', ->
+      x = l1.intersect 'xybyxdxy'
+      expect(x).to.be.a List
+      expect(x.length).to.be 2
+      expect(x).to.contain 'b'
+      expect(x).to.contain 'd'
+
+      x = l2.intersect ['a','c','a','y']
+      expect(x).to.be.a List
+      expect(x.length).to.be 2
+      expect(x).to.contain 'c'
+      expect(x).to.contain 'a'
+
+      (->
+        x = l1.intersect arguments
+        expect(x).to.be.a List
+        expect(x.length).to.be 2
+        expect(x).to.contain 'c'
+        expect(x).to.contain 'a'
+      )('aaa', 23, 'c', 'dd', 'a', /foo/, true)
+
 
