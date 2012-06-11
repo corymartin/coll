@@ -539,13 +539,13 @@ describe 'List Mutator Methods', ->
       expect(l1[3]).to.be 'b'
       expect(l1[4]).to.be 'd'
 
-    it '''should return a boolean indicating if `olditem` was found and
-      replaced with `newitem`''', ->
+    it 'should return the replaced item', ->
       x = l1.replace 'd', 'z'
-      expect(x).to.be true
+      expect(x).to.be 'd'
 
+    it 'should return `undefined` if the value is not replaced', ->
       x = l2.replace 'x', 'z'
-      expect(x).to.be false
+      expect(x).to.be undefined
 
 
   describe '#replaceIf', ->
@@ -564,13 +564,13 @@ describe 'List Mutator Methods', ->
       expect(l1[3]).to.be 'b'
       expect(l1[4]).to.be 'd'
 
-    it '''should return a boolean indicating if a matching item was found and
-      replaced with `newitem`''', ->
+    it 'should return the replaced item', ->
       x = l1.replaceIf 'z', (v) -> v == 'd'
-      expect(x).to.be true
+      expect(x).to.be 'd'
 
+    it 'should return `undefined` if the value is not replaced', ->
       x = l2.replaceIf 'z', (v) -> v == 'x'
-      expect(x).to.be false
+      expect(x).to.be undefined
 
     it '''should pass 3 values to the iterator function:
       current value, index, the list''', ->
@@ -608,13 +608,16 @@ describe 'List Mutator Methods', ->
       expect(l1[3]).to.be 'z'
       expect(l1[4]).to.be 'd'
 
-    it '''should return a boolean indicating if any items were found and
-      replaced with `newitem`''', ->
+    it 'should return a list of the replaced items', ->
       x = l1.replaceAll 'z', (v) -> v == 'b'
-      expect(x).to.be true
+      expect(x).to.be.a List
+      expect(x.length).to.be 2
+      expect(x[0]).to.be 'b'
+      expect(x[1]).to.be 'b'
 
       x = l2.replaceAll 'z', (v) -> v == 'x'
-      expect(x).to.be false
+      expect(x).to.be.a List
+      expect(x.length).to.be 0
 
     it '''should pass 3 values to the iterator function:
       current value, index, the list''', ->

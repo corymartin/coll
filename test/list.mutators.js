@@ -615,12 +615,15 @@ describe('List Mutator Methods', function() {
       expect(l1[3]).to.be('b');
       return expect(l1[4]).to.be('d');
     });
-    return it('should return a boolean indicating if `olditem` was found and\nreplaced with `newitem`', function() {
+    it('should return the replaced item', function() {
       var x;
       x = l1.replace('d', 'z');
-      expect(x).to.be(true);
+      return expect(x).to.be('d');
+    });
+    return it('should return `undefined` if the value is not replaced', function() {
+      var x;
       x = l2.replace('x', 'z');
-      return expect(x).to.be(false);
+      return expect(x).to.be(void 0);
     });
   });
   describe('#replaceIf', function() {
@@ -641,16 +644,19 @@ describe('List Mutator Methods', function() {
       expect(l1[3]).to.be('b');
       return expect(l1[4]).to.be('d');
     });
-    it('should return a boolean indicating if a matching item was found and\nreplaced with `newitem`', function() {
+    it('should return the replaced item', function() {
       var x;
       x = l1.replaceIf('z', function(v) {
         return v === 'd';
       });
-      expect(x).to.be(true);
+      return expect(x).to.be('d');
+    });
+    it('should return `undefined` if the value is not replaced', function() {
+      var x;
       x = l2.replaceIf('z', function(v) {
         return v === 'x';
       });
-      return expect(x).to.be(false);
+      return expect(x).to.be(void 0);
     });
     it('should pass 3 values to the iterator function:\ncurrent value, index, the list', function() {
       var i;
@@ -693,16 +699,20 @@ describe('List Mutator Methods', function() {
       expect(l1[3]).to.be('z');
       return expect(l1[4]).to.be('d');
     });
-    it('should return a boolean indicating if any items were found and\nreplaced with `newitem`', function() {
+    it('should return a list of the replaced items', function() {
       var x;
       x = l1.replaceAll('z', function(v) {
         return v === 'b';
       });
-      expect(x).to.be(true);
+      expect(x).to.be.a(List);
+      expect(x.length).to.be(2);
+      expect(x[0]).to.be('b');
+      expect(x[1]).to.be('b');
       x = l2.replaceAll('z', function(v) {
         return v === 'x';
       });
-      return expect(x).to.be(false);
+      expect(x).to.be.a(List);
+      return expect(x.length).to.be(0);
     });
     it('should pass 3 values to the iterator function:\ncurrent value, index, the list', function() {
       var i;
