@@ -142,7 +142,7 @@ describe('List Transformation Methods', function() {
       });
     });
   });
-  return describe('#intersperse', function() {
+  describe('#intersperse', function() {
     var l1, l2;
     l1 = l2 = null;
     beforeEach(function() {
@@ -176,6 +176,109 @@ describe('List Transformation Methods', function() {
       l2.intersperse('-');
       expect(l1.length).to.be(3);
       return expect(l2.length).to.be(4);
+    });
+  });
+  return describe('#sort', function() {
+    it('should sort numbers numerically', function() {
+      var ls, x;
+      ls = List([33, 4, 77, 5, 2, 8]);
+      x = ls.sort();
+      expect(x).to.be.a(List);
+      expect(x[0]).to.be(2);
+      expect(x[1]).to.be(4);
+      expect(x[2]).to.be(5);
+      expect(x[3]).to.be(8);
+      expect(x[4]).to.be(33);
+      expect(x[5]).to.be(77);
+      ls = List([1, 2, 3, 2, 4, 5, 2, 6, 7, 8, 9]);
+      x = ls.sort();
+      expect(x).to.be.a(List);
+      expect(x[0]).to.be(1);
+      expect(x[1]).to.be(2);
+      expect(x[2]).to.be(2);
+      expect(x[3]).to.be(2);
+      expect(x[4]).to.be(3);
+      expect(x[5]).to.be(4);
+      expect(x[6]).to.be(5);
+      expect(x[7]).to.be(6);
+      expect(x[8]).to.be(7);
+      expect(x[9]).to.be(8);
+      expect(x[10]).to.be(9);
+      ls = List([2.0001, 33.0001, 4.0001, 77.0001, 8.0001]);
+      x = ls.sort();
+      expect(x).to.be.a(List);
+      expect(x[0]).to.be(2.0001);
+      expect(x[1]).to.be(4.0001);
+      expect(x[2]).to.be(8.0001);
+      expect(x[3]).to.be(33.0001);
+      expect(x[4]).to.be(77.0001);
+      ls = List([new Number(5), new Number(2), new Number(7), new Number(3)]);
+      x = ls.sort();
+      expect(x).to.be.a(List);
+      expect(x[0].toString()).to.be('2');
+      expect(x[1].toString()).to.be('3');
+      expect(x[2].toString()).to.be('5');
+      return expect(x[3].toString()).to.be('7');
+    });
+    it('should sort Dates chronologically', function() {
+      var a, b, c, d, ls, x;
+      a = new Date('4/5/2012');
+      b = new Date('12/9/2011');
+      c = new Date('4/4/2012');
+      d = new Date('1/26/2012');
+      ls = List([a, b, c, d]);
+      x = ls.sort();
+      expect(x).to.be.a(List);
+      expect(x[0]).to.be(b);
+      expect(x[1]).to.be(d);
+      expect(x[2]).to.be(c);
+      expect(x[3]).to.be(a);
+      ls = List([a, b, c, d]);
+      x = ls.sort();
+      expect(x).to.be.a(List);
+      expect(x[0]).to.be(b);
+      expect(x[1]).to.be(d);
+      expect(x[2]).to.be(c);
+      return expect(x[3]).to.be(a);
+    });
+    it('should use Array#sort lexicographic order for other types', function() {
+      var a, b, c, d, ls, x;
+      a = /mmm/;
+      b = /zzz/;
+      c = /aaa/;
+      d = /vvv/;
+      ls = List([a, b, c, d]);
+      x = ls.sort();
+      expect(x).to.be.a(List);
+      expect(x[0]).to.be(c);
+      expect(x[1]).to.be(a);
+      expect(x[2]).to.be(d);
+      expect(x[3]).to.be(b);
+      ls = List([true, false]);
+      x = ls.sort();
+      expect(x).to.be.a(List);
+      expect(x[0]).to.be(false);
+      return expect(x[1]).to.be(true);
+    });
+    return it('should not modify the instance list', function() {
+      var ls1;
+      ls1 = List([2, 33, 4, 77, 8]);
+      expect(ls1.sort()).not.to.be(ls1);
+      expect(ls1.length).to.be(5);
+      expect(ls1[0]).to.be(2);
+      expect(ls1[1]).to.be(33);
+      expect(ls1[2]).to.be(4);
+      expect(ls1[3]).to.be(77);
+      expect(ls1[4]).to.be(8);
+      expect(ls1.sort(function(a, b) {
+        return a < b;
+      })).not.to.be(ls1);
+      expect(ls1.length).to.be(5);
+      expect(ls1[0]).to.be(2);
+      expect(ls1[1]).to.be(33);
+      expect(ls1[2]).to.be(4);
+      expect(ls1[3]).to.be(77);
+      return expect(ls1[4]).to.be(8);
     });
   });
 });
