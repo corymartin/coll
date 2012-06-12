@@ -193,6 +193,19 @@ describe 'List Accessor Methods', ->
       expect(copy).to.eql ls
 
 
+  describe '#clean', ->
+    it '''should return a copy of the list with any occurences of `undefined`,
+      `null`, and `NaN` removed''', ->
+      ls = List ['a', null, 0, false, undefined, +'foo', 'bar']
+      x = ls.clean()
+      expect(x).to.be.a List
+      expect(x.length).to.be 4
+      expect(x[0]).to.be 'a'
+      expect(x[1]).to.be 0
+      expect(x[2]).to.be false
+      expect(x[3]).to.be 'bar'
+
+
   describe '#toArray', ->
     ls = null
 

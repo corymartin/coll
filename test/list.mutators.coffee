@@ -436,26 +436,44 @@ describe 'List Mutator Methods', ->
 
 
   describe '#removeAll', ->
-    ls = null
+    l1 = l2 = null
 
     beforeEach ->
-      ls = List 'ababa'
+      l1 = List 'ababa'
+      l2 = List ['a', NaN, null, 0, false, 'fish', undefined, 5, NaN, 'bar']
 
     it 'should remove every item from the list that passes the iterator test', ->
-      ls.removeAll (val) -> val == 'a'
-      expect(ls.length).to.be 2
-      expect(ls[0]).to.be 'b'
-      expect(ls[1]).to.be 'b'
+      l1.removeAll (val) -> val == 'a'
+      expect(l1.length).to.be 2
+      expect(l1[0]).to.be 'b'
+      expect(l1[1]).to.be 'b'
+
+      l2.removeAll (val) -> !val
+      expect(l2.length).to.be 4
+      expect(l2[0]).to.be 'a'
+      expect(l2[1]).to.be 'fish'
+      expect(l2[2]).to.be 5
+      expect(l2[3]).to.be 'bar'
 
     it 'should return a list of the items removed from the list', ->
-      x = ls.removeAll (val) -> val == 'b'
+      x = l1.removeAll (val) -> val == 'b'
       expect(x).to.be.a List
       expect(x.length).to.be 2
       expect(x[0]).to.be 'b'
       expect(x[1]).to.be 'b'
 
+      x = l2.removeAll (val) -> !val
+      expect(x).to.be.a List
+      expect(x.length).to.be 6
+      expect(x[0]).not.to.be x[0] #NaN
+      expect(x[1]).to.be null
+      expect(x[2]).to.be 0
+      expect(x[3]).to.be false
+      expect(x[4]).to.be undefined
+      expect(x[5]).not.to.be x[5] #NaN
+
     it 'should return an empty List if no items are removed', ->
-      x = ls.removeAll (val) -> val == 'z'
+      x = l1.removeAll (val) -> val == 'z'
       expect(x).to.be.a List
       expect(x.length).to.be 0
 
@@ -467,7 +485,7 @@ describe 'List Mutator Methods', ->
 
     it 'should accept a context object for the callback as an optional second parameter', ->
       obj = foo: 'bar'
-      ls.removeAll obj, (v) ->
+      l1.removeAll obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
@@ -595,25 +613,27 @@ describe 'List Mutator Methods', ->
     l1 = l2 = null
 
     beforeEach ->
-      l1 = List 'abcbd'
-      l2 = List 'abcbd'
+      l1 = List 'abcbbd'
+      l2 = List 'abcbbd'
 
     it '''should replace all items from the list passing the iterator test
       with `newitem`''', ->
       l1.replaceAll 'z', (v) -> v == 'b'
-      expect(l1.length).to.be 5
+      expect(l1.length).to.be 6
       expect(l1[0]).to.be 'a'
       expect(l1[1]).to.be 'z'
       expect(l1[2]).to.be 'c'
       expect(l1[3]).to.be 'z'
-      expect(l1[4]).to.be 'd'
+      expect(l1[4]).to.be 'z'
+      expect(l1[5]).to.be 'd'
 
     it 'should return a list of the replaced items', ->
       x = l1.replaceAll 'z', (v) -> v == 'b'
       expect(x).to.be.a List
-      expect(x.length).to.be 2
+      expect(x.length).to.be 3
       expect(x[0]).to.be 'b'
       expect(x[1]).to.be 'b'
+      expect(x[2]).to.be 'b'
 
       x = l2.replaceAll 'z', (v) -> v == 'x'
       expect(x).to.be.a List
@@ -625,9 +645,10 @@ describe 'List Mutator Methods', ->
       l1.replaceAll 'z', (v) ->
         expect(arguments.length).to.be 3
         expect(arguments[0]).to.be l1[i]
-        expect(arguments[1]).to.be i
+        expect(arguments[1]).to.be i #should repeat on matches
         expect(arguments[2]).to.be l1
         i++
+        false
 
     it '''should accept a context object for the callback as an optional
       second parameter''', ->

@@ -91,46 +91,55 @@ describe 'List Indexing Methods', ->
 
 
   describe '#indicesOf', ->
-    ls = null
+    l1 = l2 = null
 
     beforeEach ->
-      ls = List 'aabab'
+      l1 = List 'aabab'
+      l2 = List ['a', 5, 5, 0, 5, false, 'fish', 5, 5, 'bar']
 
-    it 'should return an array of all indexes matching the passed item', ->
-      indexes = ls.indicesOf 'a'
-      expect(indexes).to.be.an Array
+    it 'should return a list of all indexes matching the passed item', ->
+      indexes = l1.indicesOf 'a'
+      expect(indexes).to.be.a List
       expect(indexes.length).to.be 3
       expect(indexes[0]).to.be 0
       expect(indexes[1]).to.be 1
       expect(indexes[2]).to.be 3
 
+      indexes = l2.indicesOf 5
+      expect(indexes.length).to.be 5
+      expect(indexes[0]).to.be 1
+      expect(indexes[1]).to.be 2
+      expect(indexes[2]).to.be 4
+      expect(indexes[3]).to.be 7
+      expect(indexes[4]).to.be 8
+
     it 'should accept a start index as an optional second parameter', ->
-      indexes = ls.indicesOf 'a', 0
+      indexes = l1.indicesOf 'a', 0
       expect(indexes.length).to.be 3
-      indexes = ls.indicesOf 'a', 1
+      indexes = l1.indicesOf 'a', 1
       expect(indexes.length).to.be 2
-      indexes = ls.indicesOf 'a', 2
+      indexes = l1.indicesOf 'a', 2
       expect(indexes.length).to.be 1
 
-    it 'should return an empty array if the start index is >= to the list length', ->
-      indexes = ls.indicesOf 'a', 5
+    it 'should return an empty list if the start index is >= to the list length', ->
+      indexes = l1.indicesOf 'a', 5
       expect(indexes.length).to.be 0
-      indexes = ls.indicesOf 'a', 99
+      indexes = l1.indicesOf 'a', 99
       expect(indexes.length).to.be 0
 
     it 'should use an offset from the end of the list if the index is negative', ->
-      indexes = ls.indicesOf 'a', -3
+      indexes = l1.indicesOf 'a', -3
       expect(indexes.length).to.be 1
-      indexes = ls.indicesOf 'a', -4
+      indexes = l1.indicesOf 'a', -4
       expect(indexes.length).to.be 2
 
     it 'should search the entire list if the calculated index is less than zero', ->
-      indexes = ls.indicesOf 'a', -7
+      indexes = l1.indicesOf 'a', -7
       expect(indexes.length).to.be 3
 
-    it 'should return an empty array if no occurences of the item is found', ->
-      indexes = ls.indicesOf 'z'
-      expect(indexes).to.be.an Array
+    it 'should return an empty list if no occurences of the item is found', ->
+      indexes = l1.indicesOf 'z'
+      expect(indexes).to.be.a List
       expect(indexes.length).to.be 0
 
 
@@ -255,60 +264,69 @@ describe 'List Indexing Methods', ->
 
 
   describe '#indicesIf', ->
-    ls = null
+    l1 = l2 = null
 
     beforeEach ->
-      ls = List 'aabab'
+      l1 = List 'aabab'
+      l2 = List ['a', NaN, null, 0, 5, 'fish', undefined, NaN, 'bar']
 
-    it 'should return an array of all indexes matching the passed item', ->
-      indexes = ls.indicesIf (v) -> v == 'a'
-      expect(indexes).to.be.an Array
+    it 'should return a list of all indexes matching the passed item', ->
+      indexes = l1.indicesIf (v) -> v == 'a'
+      expect(indexes).to.be.a List
       expect(indexes.length).to.be 3
       expect(indexes[0]).to.be 0
       expect(indexes[1]).to.be 1
       expect(indexes[2]).to.be 3
 
+      indexes = l2.indicesIf (v) -> !v
+      expect(indexes.length).to.be 5
+      expect(indexes[0]).to.be 1
+      expect(indexes[1]).to.be 2
+      expect(indexes[2]).to.be 3
+      expect(indexes[3]).to.be 6
+      expect(indexes[4]).to.be 7
+
     it 'should accept a start index as an optional second parameter', ->
-      indexes = ls.indicesIf 0, (v) -> v == 'a'
+      indexes = l1.indicesIf 0, (v) -> v == 'a'
       expect(indexes.length).to.be 3
-      indexes = ls.indicesIf 1, (v) -> v == 'a'
+      indexes = l1.indicesIf 1, (v) -> v == 'a'
       expect(indexes.length).to.be 2
-      indexes = ls.indicesIf 2, (v) -> v == 'a'
+      indexes = l1.indicesIf 2, (v) -> v == 'a'
       expect(indexes.length).to.be 1
 
-    it 'should return an empty array if the start index is >= to the list length', ->
-      indexes = ls.indicesIf 5, (v) -> v == 'a'
+    it 'should return an empty list if the start index is >= to the list length', ->
+      indexes = l1.indicesIf 5, (v) -> v == 'a'
       expect(indexes.length).to.be 0
-      indexes = ls.indicesIf 99, (v) -> v == 'a'
+      indexes = l1.indicesIf 99, (v) -> v == 'a'
       expect(indexes.length).to.be 0
 
     it 'should use an offset from the end of the list if the index is negative', ->
-      indexes = ls.indicesIf -3, (v) -> v == 'a'
+      indexes = l1.indicesIf -3, (v) -> v == 'a'
       expect(indexes.length).to.be 1
-      indexes = ls.indicesIf -4, (v) -> v == 'a'
+      indexes = l1.indicesIf -4, (v) -> v == 'a'
       expect(indexes.length).to.be 2
 
     it 'should search the entire list if the calculated index is less than zero', ->
-      indexes = ls.indicesIf -7, (v) -> v == 'a'
+      indexes = l1.indicesIf -7, (v) -> v == 'a'
       expect(indexes.length).to.be 3
 
-    it 'should return an empty array if no occurences of the item is found', ->
-      indexes = ls.indicesIf (v) -> v == 'z'
-      expect(indexes).to.be.an Array
+    it 'should return an empty list if no occurences of the item is found', ->
+      indexes = l1.indicesIf (v) -> v == 'z'
+      expect(indexes).to.be.a List
       expect(indexes.length).to.be 0
 
     it 'should accept a context object for the callback as an optional third parameter', ->
-      ls = List 'a'
+      l1 = List 'a'
       obj = foo: 'bar'
-      ls.indicesIf null, obj, (v) ->
+      l1.indicesIf null, obj, (v) ->
         expect(this).to.be obj
         expect(this.foo).to.be 'bar'
         true
 
     it 'should pass 3 parameters to the callback test: current value, index, the list', ->
-      ls = List ['foo']
-      ls.indicesIf (val, index, list) ->
+      l1 = List ['foo']
+      l1.indicesIf (val, index, list) ->
         expect(val).to.be 'foo'
         expect(index).to.be 0
-        expect(list).to.be ls
+        expect(list).to.be l1
 

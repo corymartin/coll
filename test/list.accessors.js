@@ -211,6 +211,19 @@ describe('List Accessor Methods', function() {
       return expect(copy).to.eql(ls);
     });
   });
+  describe('#clean', function() {
+    return it('should return a copy of the list with any occurences of `undefined`,\n`null`, and `NaN` removed', function() {
+      var ls, x;
+      ls = List(['a', null, 0, false, void 0, +'foo', 'bar']);
+      x = ls.clean();
+      expect(x).to.be.a(List);
+      expect(x.length).to.be(4);
+      expect(x[0]).to.be('a');
+      expect(x[1]).to.be(0);
+      expect(x[2]).to.be(false);
+      return expect(x[3]).to.be('bar');
+    });
+  });
   describe('#toArray', function() {
     var ls;
     ls = null;

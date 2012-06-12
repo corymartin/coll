@@ -485,39 +485,59 @@ describe('List Mutator Methods', function() {
     });
   });
   describe('#removeAll', function() {
-    var ls;
-    ls = null;
+    var l1, l2;
+    l1 = l2 = null;
     beforeEach(function() {
-      return ls = List('ababa');
+      l1 = List('ababa');
+      return l2 = List(['a', NaN, null, 0, false, 'fish', void 0, 5, NaN, 'bar']);
     });
     it('should remove every item from the list that passes the iterator test', function() {
-      ls.removeAll(function(val) {
+      l1.removeAll(function(val) {
         return val === 'a';
       });
-      expect(ls.length).to.be(2);
-      expect(ls[0]).to.be('b');
-      return expect(ls[1]).to.be('b');
+      expect(l1.length).to.be(2);
+      expect(l1[0]).to.be('b');
+      expect(l1[1]).to.be('b');
+      l2.removeAll(function(val) {
+        return !val;
+      });
+      expect(l2.length).to.be(4);
+      expect(l2[0]).to.be('a');
+      expect(l2[1]).to.be('fish');
+      expect(l2[2]).to.be(5);
+      return expect(l2[3]).to.be('bar');
     });
     it('should return a list of the items removed from the list', function() {
       var x;
-      x = ls.removeAll(function(val) {
+      x = l1.removeAll(function(val) {
         return val === 'b';
       });
       expect(x).to.be.a(List);
       expect(x.length).to.be(2);
       expect(x[0]).to.be('b');
-      return expect(x[1]).to.be('b');
+      expect(x[1]).to.be('b');
+      x = l2.removeAll(function(val) {
+        return !val;
+      });
+      expect(x).to.be.a(List);
+      expect(x.length).to.be(6);
+      expect(x[0]).not.to.be(x[0]);
+      expect(x[1]).to.be(null);
+      expect(x[2]).to.be(0);
+      expect(x[3]).to.be(false);
+      expect(x[4]).to.be(void 0);
+      return expect(x[5]).not.to.be(x[5]);
     });
     it('should return an empty List if no items are removed', function() {
       var x;
-      x = ls.removeAll(function(val) {
+      x = l1.removeAll(function(val) {
         return val === 'z';
       });
       expect(x).to.be.a(List);
       return expect(x.length).to.be(0);
     });
     it('should return `[]` if the list is empty', function() {
-      var x;
+      var ls, x;
       ls = List();
       x = ls.removeAll(function(val) {
         return val === 'a';
@@ -530,13 +550,14 @@ describe('List Mutator Methods', function() {
       obj = {
         foo: 'bar'
       };
-      return ls.removeAll(obj, function(v) {
+      return l1.removeAll(obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
       });
     });
     return it('should pass 3 parameters to the callback test: current value, index, the list', function() {
+      var ls;
       ls = List(['foo']);
       return ls.removeAll(function(val, index, list) {
         expect(val).to.be('foo');
@@ -685,19 +706,20 @@ describe('List Mutator Methods', function() {
     var l1, l2;
     l1 = l2 = null;
     beforeEach(function() {
-      l1 = List('abcbd');
-      return l2 = List('abcbd');
+      l1 = List('abcbbd');
+      return l2 = List('abcbbd');
     });
     it('should replace all items from the list passing the iterator test\nwith `newitem`', function() {
       l1.replaceAll('z', function(v) {
         return v === 'b';
       });
-      expect(l1.length).to.be(5);
+      expect(l1.length).to.be(6);
       expect(l1[0]).to.be('a');
       expect(l1[1]).to.be('z');
       expect(l1[2]).to.be('c');
       expect(l1[3]).to.be('z');
-      return expect(l1[4]).to.be('d');
+      expect(l1[4]).to.be('z');
+      return expect(l1[5]).to.be('d');
     });
     it('should return a list of the replaced items', function() {
       var x;
@@ -705,9 +727,10 @@ describe('List Mutator Methods', function() {
         return v === 'b';
       });
       expect(x).to.be.a(List);
-      expect(x.length).to.be(2);
+      expect(x.length).to.be(3);
       expect(x[0]).to.be('b');
       expect(x[1]).to.be('b');
+      expect(x[2]).to.be('b');
       x = l2.replaceAll('z', function(v) {
         return v === 'x';
       });
@@ -722,7 +745,8 @@ describe('List Mutator Methods', function() {
         expect(arguments[0]).to.be(l1[i]);
         expect(arguments[1]).to.be(i);
         expect(arguments[2]).to.be(l1);
-        return i++;
+        i++;
+        return false;
       });
     });
     return it('should accept a context object for the callback as an optional\nsecond parameter', function() {

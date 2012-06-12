@@ -103,52 +103,60 @@ describe('List Indexing Methods', function() {
     });
   });
   describe('#indicesOf', function() {
-    var ls;
-    ls = null;
+    var l1, l2;
+    l1 = l2 = null;
     beforeEach(function() {
-      return ls = List('aabab');
+      l1 = List('aabab');
+      return l2 = List(['a', 5, 5, 0, 5, false, 'fish', 5, 5, 'bar']);
     });
-    it('should return an array of all indexes matching the passed item', function() {
+    it('should return a list of all indexes matching the passed item', function() {
       var indexes;
-      indexes = ls.indicesOf('a');
-      expect(indexes).to.be.an(Array);
+      indexes = l1.indicesOf('a');
+      expect(indexes).to.be.a(List);
       expect(indexes.length).to.be(3);
       expect(indexes[0]).to.be(0);
       expect(indexes[1]).to.be(1);
-      return expect(indexes[2]).to.be(3);
+      expect(indexes[2]).to.be(3);
+      indexes = l2.indicesOf(5);
+      expect(indexes.length).to.be(5);
+      expect(indexes[0]).to.be(1);
+      expect(indexes[1]).to.be(2);
+      expect(indexes[2]).to.be(4);
+      expect(indexes[3]).to.be(7);
+      return expect(indexes[4]).to.be(8);
     });
     it('should accept a start index as an optional second parameter', function() {
       var indexes;
-      indexes = ls.indicesOf('a', 0);
+      indexes = l1.indicesOf('a', 0);
       expect(indexes.length).to.be(3);
-      indexes = ls.indicesOf('a', 1);
+      indexes = l1.indicesOf('a', 1);
       expect(indexes.length).to.be(2);
-      indexes = ls.indicesOf('a', 2);
+      indexes = l1.indicesOf('a', 2);
       return expect(indexes.length).to.be(1);
     });
-    it('should return an empty array if the start index is >= to the list length', function() {
+    it('should return an empty list if the start index is >= to the list length', function() {
       var indexes;
-      indexes = ls.indicesOf('a', 5);
+      indexes = l1.indicesOf('a', 5);
       expect(indexes.length).to.be(0);
-      indexes = ls.indicesOf('a', 99);
+      indexes = l1.indicesOf('a', 99);
       return expect(indexes.length).to.be(0);
     });
     it('should use an offset from the end of the list if the index is negative', function() {
       var indexes;
-      indexes = ls.indicesOf('a', -3);
+      indexes = l1.indicesOf('a', -3);
       expect(indexes.length).to.be(1);
-      indexes = ls.indicesOf('a', -4);
+      indexes = l1.indicesOf('a', -4);
       return expect(indexes.length).to.be(2);
     });
     it('should search the entire list if the calculated index is less than zero', function() {
       var indexes;
-      indexes = ls.indicesOf('a', -7);
+      indexes = l1.indicesOf('a', -7);
       return expect(indexes.length).to.be(3);
     });
-    return it('should return an empty array if no occurences of the item is found', function() {
+    return it('should return an empty list if no occurences of the item is found', function() {
       var indexes;
-      indexes = ls.indicesOf('z');
-      expect(indexes).to.be.an(Array);
+      indexes = l1.indicesOf('z');
+      expect(indexes).to.be.a(List);
       return expect(indexes.length).to.be(0);
     });
   });
@@ -349,92 +357,102 @@ describe('List Indexing Methods', function() {
     });
   });
   return describe('#indicesIf', function() {
-    var ls;
-    ls = null;
+    var l1, l2;
+    l1 = l2 = null;
     beforeEach(function() {
-      return ls = List('aabab');
+      l1 = List('aabab');
+      return l2 = List(['a', NaN, null, 0, 5, 'fish', void 0, NaN, 'bar']);
     });
-    it('should return an array of all indexes matching the passed item', function() {
+    it('should return a list of all indexes matching the passed item', function() {
       var indexes;
-      indexes = ls.indicesIf(function(v) {
+      indexes = l1.indicesIf(function(v) {
         return v === 'a';
       });
-      expect(indexes).to.be.an(Array);
+      expect(indexes).to.be.a(List);
       expect(indexes.length).to.be(3);
       expect(indexes[0]).to.be(0);
       expect(indexes[1]).to.be(1);
-      return expect(indexes[2]).to.be(3);
+      expect(indexes[2]).to.be(3);
+      indexes = l2.indicesIf(function(v) {
+        return !v;
+      });
+      expect(indexes.length).to.be(5);
+      expect(indexes[0]).to.be(1);
+      expect(indexes[1]).to.be(2);
+      expect(indexes[2]).to.be(3);
+      expect(indexes[3]).to.be(6);
+      return expect(indexes[4]).to.be(7);
     });
     it('should accept a start index as an optional second parameter', function() {
       var indexes;
-      indexes = ls.indicesIf(0, function(v) {
+      indexes = l1.indicesIf(0, function(v) {
         return v === 'a';
       });
       expect(indexes.length).to.be(3);
-      indexes = ls.indicesIf(1, function(v) {
+      indexes = l1.indicesIf(1, function(v) {
         return v === 'a';
       });
       expect(indexes.length).to.be(2);
-      indexes = ls.indicesIf(2, function(v) {
+      indexes = l1.indicesIf(2, function(v) {
         return v === 'a';
       });
       return expect(indexes.length).to.be(1);
     });
-    it('should return an empty array if the start index is >= to the list length', function() {
+    it('should return an empty list if the start index is >= to the list length', function() {
       var indexes;
-      indexes = ls.indicesIf(5, function(v) {
+      indexes = l1.indicesIf(5, function(v) {
         return v === 'a';
       });
       expect(indexes.length).to.be(0);
-      indexes = ls.indicesIf(99, function(v) {
+      indexes = l1.indicesIf(99, function(v) {
         return v === 'a';
       });
       return expect(indexes.length).to.be(0);
     });
     it('should use an offset from the end of the list if the index is negative', function() {
       var indexes;
-      indexes = ls.indicesIf(-3, function(v) {
+      indexes = l1.indicesIf(-3, function(v) {
         return v === 'a';
       });
       expect(indexes.length).to.be(1);
-      indexes = ls.indicesIf(-4, function(v) {
+      indexes = l1.indicesIf(-4, function(v) {
         return v === 'a';
       });
       return expect(indexes.length).to.be(2);
     });
     it('should search the entire list if the calculated index is less than zero', function() {
       var indexes;
-      indexes = ls.indicesIf(-7, function(v) {
+      indexes = l1.indicesIf(-7, function(v) {
         return v === 'a';
       });
       return expect(indexes.length).to.be(3);
     });
-    it('should return an empty array if no occurences of the item is found', function() {
+    it('should return an empty list if no occurences of the item is found', function() {
       var indexes;
-      indexes = ls.indicesIf(function(v) {
+      indexes = l1.indicesIf(function(v) {
         return v === 'z';
       });
-      expect(indexes).to.be.an(Array);
+      expect(indexes).to.be.a(List);
       return expect(indexes.length).to.be(0);
     });
     it('should accept a context object for the callback as an optional third parameter', function() {
       var obj;
-      ls = List('a');
+      l1 = List('a');
       obj = {
         foo: 'bar'
       };
-      return ls.indicesIf(null, obj, function(v) {
+      return l1.indicesIf(null, obj, function(v) {
         expect(this).to.be(obj);
         expect(this.foo).to.be('bar');
         return true;
       });
     });
     return it('should pass 3 parameters to the callback test: current value, index, the list', function() {
-      ls = List(['foo']);
-      return ls.indicesIf(function(val, index, list) {
+      l1 = List(['foo']);
+      return l1.indicesIf(function(val, index, list) {
         expect(val).to.be('foo');
         expect(index).to.be(0);
-        return expect(list).to.be(ls);
+        return expect(list).to.be(l1);
       });
     });
   });
