@@ -16,15 +16,6 @@ describe 'Dictionary', ->
         expect(d2).to.be.a TypedDictionary
         expect(d1).not.to.be d2
 
-      it 'should require a key and value type', ->
-        expect(-> TypedDictionary()).to.throwError (e) ->
-          expect(e).to.be.a TypeError
-          expect(e.message).to.be 'Parameter `keyType` is required'
-        expect(-> TypedDictionary 'String').to.throwError (e) ->
-          expect(e).to.be.a TypeError
-          expect(e.message).to.be 'Parameter `valType` is required'
-        expect(-> TypedDictionary 'String', 'RegExp').to.not.throwError()
-
 
     describe 'Dictionary', ->
       it 'should accept an optional object to initialize the Dictionary', ->
@@ -36,25 +27,10 @@ describe 'Dictionary', ->
   describe 'instance properties', ->
 
     describe 'TypedDictionary', ->
-      d1 = d2 = null
+      d1 = null
 
       beforeEach ->
-        d1 = TypedDictionary 'RegExp', Date
-        d2 = TypedDictionary Array, 'Number'
-
-      it 'should have a `keyType` property', ->
-        expect(d1.keyType).to.be 'RegExp'
-        expect(d2.keyType).to.be Array
-
-      it 'should have a `valType` property', ->
-        expect(d1.valType).to.be Date
-        expect(d2.valType).to.be 'Number'
-
-      it 'should not allow type properties to be overwritten', ->
-        d1.keyType = String
-        d1.valType = 'Function'
-        expect(d1.keyType).to.be 'RegExp'
-        expect(d1.valType).to.be Date
+        d1 = TypedDictionary()
 
       it 'should have a `keys` property', ->
         key1 = /foo/

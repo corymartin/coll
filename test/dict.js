@@ -8,30 +8,13 @@ _ref = require('../lib/coll'), TypedDictionary = _ref.TypedDictionary, Dictionar
 describe('Dictionary', function() {
   describe('constructor', function() {
     describe('TypedDictionary', function() {
-      it('should create a new instance with or without the `new` keyword', function() {
+      return it('should create a new instance with or without the `new` keyword', function() {
         var d1, d2;
         d1 = new TypedDictionary('String', 'Number');
         d2 = TypedDictionary('String', 'Number');
         expect(d1).to.be.a(TypedDictionary);
         expect(d2).to.be.a(TypedDictionary);
         return expect(d1).not.to.be(d2);
-      });
-      return it('should require a key and value type', function() {
-        expect(function() {
-          return TypedDictionary();
-        }).to.throwError(function(e) {
-          expect(e).to.be.a(TypeError);
-          return expect(e.message).to.be('Parameter `keyType` is required');
-        });
-        expect(function() {
-          return TypedDictionary('String');
-        }).to.throwError(function(e) {
-          expect(e).to.be.a(TypeError);
-          return expect(e.message).to.be('Parameter `valType` is required');
-        });
-        return expect(function() {
-          return TypedDictionary('String', 'RegExp');
-        }).to.not.throwError();
       });
     });
     return describe('Dictionary', function() {
@@ -48,25 +31,10 @@ describe('Dictionary', function() {
   });
   return describe('instance properties', function() {
     describe('TypedDictionary', function() {
-      var d1, d2;
-      d1 = d2 = null;
+      var d1;
+      d1 = null;
       beforeEach(function() {
-        d1 = TypedDictionary('RegExp', Date);
-        return d2 = TypedDictionary(Array, 'Number');
-      });
-      it('should have a `keyType` property', function() {
-        expect(d1.keyType).to.be('RegExp');
-        return expect(d2.keyType).to.be(Array);
-      });
-      it('should have a `valType` property', function() {
-        expect(d1.valType).to.be(Date);
-        return expect(d2.valType).to.be('Number');
-      });
-      it('should not allow type properties to be overwritten', function() {
-        d1.keyType = String;
-        d1.valType = 'Function';
-        expect(d1.keyType).to.be('RegExp');
-        return expect(d1.valType).to.be(Date);
+        return d1 = TypedDictionary();
       });
       it('should have a `keys` property', function() {
         var key1, key2;

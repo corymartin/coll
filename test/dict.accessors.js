@@ -9,7 +9,7 @@ describe('Dictionary Accessor Methods', function() {
   var d1, d2;
   d1 = d2 = null;
   beforeEach(function() {
-    d1 = TypedDictionary('String', 'Number');
+    d1 = TypedDictionary();
     d1.set('foo', 10);
     d1.set('bar', 33);
     return d2 = Dictionary({
@@ -44,22 +44,6 @@ describe('Dictionary Accessor Methods', function() {
     });
   });
   return describe('TypedDictionary#set', function() {
-    it('should type check the key', function() {
-      return expect(function() {
-        return d1.set(/foo/, 55);
-      }).to.throwError(function(e) {
-        expect(e.message).to.be('Expected String');
-        return expect(e).to.be.a(TypeError);
-      });
-    });
-    it('should type check the value', function() {
-      return expect(function() {
-        return d1.set('yyy', /vvv/);
-      }).to.throwError(function(e) {
-        expect(e.message).to.be('Expected Number');
-        return expect(e).to.be.a(TypeError);
-      });
-    });
     return it('should be able to use objects as keys', function() {
       var Foo, d, f1, f2, f3;
       Foo = (function() {

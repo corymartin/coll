@@ -9,7 +9,7 @@ describe 'Dictionary Accessor Methods', ->
   d1 = d2 = null
 
   beforeEach ->
-    d1 = TypedDictionary 'String', 'Number'
+    d1 = TypedDictionary()
     d1.set 'foo', 10
     d1.set 'bar', 33
 
@@ -43,16 +43,6 @@ describe 'Dictionary Accessor Methods', ->
       expect(d2.get('name')).to.be 'Barney'
 
   describe 'TypedDictionary#set', ->
-    it 'should type check the key', ->
-      expect(-> d1.set /foo/, 55).to.throwError (e) ->
-        expect(e.message).to.be 'Expected String'
-        expect(e).to.be.a TypeError
-
-    it 'should type check the value', ->
-      expect(-> d1.set 'yyy', /vvv/).to.throwError (e) ->
-        expect(e.message).to.be 'Expected Number'
-        expect(e).to.be.a TypeError
-
     it 'should be able to use objects as keys', ->
       class Foo
       f1 = new Foo
