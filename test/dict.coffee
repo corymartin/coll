@@ -25,6 +25,24 @@ describe 'Dictionary', ->
     beforeEach ->
       d = Dictionary {name:'Fred', age:4000, wife:'Wilma'}
 
+    it 'should have a `keys` property', ->
+      expect(d.keys.length).to.be 3
+      expect(d.keys).to.contain 'name'
+      expect(d.keys).to.contain 'age'
+      expect(d.keys).to.contain 'wife'
+
+    it 'should have a `values` property', ->
+      expect(d.values.length).to.be 3
+      expect(d.values).to.contain 'Fred'
+      expect(d.values).to.contain 4000
+      expect(d.values).to.contain 'Wilma'
+
+    it 'should not allow the `keys` property to be modifed', ->
+      d.keys = []
+      expect(d.keys.length).to.be 3
+      d.keys.splice(0)
+      expect(d.keys.length).to.be 3
+
     it 'should have a length property', ->
       expect(d.length).to.be 3
 

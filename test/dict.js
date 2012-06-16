@@ -35,6 +35,24 @@ describe('Dictionary', function() {
         wife: 'Wilma'
       });
     });
+    it('should have a `keys` property', function() {
+      expect(d.keys.length).to.be(3);
+      expect(d.keys).to.contain('name');
+      expect(d.keys).to.contain('age');
+      return expect(d.keys).to.contain('wife');
+    });
+    it('should have a `values` property', function() {
+      expect(d.values.length).to.be(3);
+      expect(d.values).to.contain('Fred');
+      expect(d.values).to.contain(4000);
+      return expect(d.values).to.contain('Wilma');
+    });
+    it('should not allow the `keys` property to be modifed', function() {
+      d.keys = [];
+      expect(d.keys.length).to.be(3);
+      d.keys.splice(0);
+      return expect(d.keys.length).to.be(3);
+    });
     return it('should have a length property', function() {
       return expect(d.length).to.be(3);
     });

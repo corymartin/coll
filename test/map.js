@@ -17,35 +17,34 @@ describe('Map', function() {
     });
   });
   return describe('instance properties', function() {
-    return describe('Map', function() {
-      var m;
-      m = null;
-      beforeEach(function() {
-        return m = Map();
-      });
-      it('should have a `keys` property', function() {
-        var key1, key2;
-        key1 = /foo/;
-        key2 = /bar/;
-        m.set(key1, new Date);
-        m.set(key2, new Date);
-        expect(m.keys.length).to.be(2);
-        expect(m.keys).to.contain(key1);
-        return expect(m.keys).to.contain(key2);
-      });
-      it('should not allow the `keys` property to be modifed', function() {
-        m.set(/foo/, new Date);
-        m.set(/bar/, new Date);
-        m.keys = [];
-        expect(m.keys.length).to.be(2);
-        m.keys.splice(0);
-        return expect(m.keys.length).to.be(2);
-      });
-      return it('should have a length property', function() {
-        m.set(/foo/, new Date);
-        m.set(/bar/, new Date);
-        return expect(m.length).to.be(2);
-      });
+    var key1, key2, m;
+    m = null;
+    key1 = key2 = null;
+    beforeEach(function() {
+      m = Map();
+      key1 = /foo/;
+      key2 = /bar/;
+      m.set(key1, new Date);
+      return m.set(key2, new Date);
+    });
+    it('should have a `keys` property', function() {
+      expect(m.keys.length).to.be(2);
+      expect(m.keys).to.contain(key1);
+      return expect(m.keys).to.contain(key2);
+    });
+    it('should have a `values` property', function() {
+      expect(m.values.length).to.be(2);
+      expect(m.values[0]).to.be.a(Date);
+      return expect(m.values[1]).to.be.a(Date);
+    });
+    it('should not allow the `keys` property to be modifed', function() {
+      m.keys = [];
+      expect(m.keys.length).to.be(2);
+      m.keys.splice(0);
+      return expect(m.keys.length).to.be(2);
+    });
+    return it('should have a length property', function() {
+      return expect(m.length).to.be(2);
     });
   });
 });
