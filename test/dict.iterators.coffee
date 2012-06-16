@@ -1,10 +1,10 @@
 
 expect = require 'expect.js'
 
-{Map, Dictionary} = require '../lib/coll'
+{Map, Dict} = require '../lib/coll'
 
 
-describe 'Dictionary / Map Iteration Methods', ->
+describe 'Dict / Map Iteration Methods', ->
   map = dict = null
 
   beforeEach ->
@@ -12,7 +12,7 @@ describe 'Dictionary / Map Iteration Methods', ->
     map.set 'foo', 10
     map.set 'bar', 33
 
-    dict = Dictionary {name:'Fred', age:4000}
+    dict = Dict {name:'Fred', age:4000}
 
   describe '#forEach', ->
     it 'should iterate over each item in the collection', ->
@@ -94,7 +94,7 @@ describe 'Dictionary / Map Iteration Methods', ->
 
       dict.add {stuff:1000, how:/do/}
       x = dict.filter (val, key) -> typeof val == 'number'
-      expect(x).to.be.a Dictionary
+      expect(x).to.be.a Dict
       expect(x.length).to.be 2
       expect(x.some (v, k) -> v == 1000 && k == 'stuff').to.be true
       expect(x.some (v, k) -> v == 4000 && k == 'age').to.be true
@@ -124,21 +124,21 @@ describe 'Dictionary / Map Iteration Methods', ->
       expect(x).not.to.be map
 
       x = dict.map (val, key) -> ["=#{key}=", 321]
-      expect(x).to.be.a Dictionary
+      expect(x).to.be.a Dict
       expect(x.length).to.be 2
       expect(x.every (v, k) -> (/^=.+=$/).test k).to.be true
       expect(x.every (v, k) -> v == 321).to.be true
       expect(x).not.to.be dict
 
       ###
-      Dictionary's iterator can also return an {k:v} object
+      Dict's iterator can also return an {k:v} object
       ###
 
       x = dict.map (val, key) ->
         o = {}
         o["=#{key}="] = 321
         o
-      expect(x).to.be.a Dictionary
+      expect(x).to.be.a Dict
       expect(x.length).to.be 2
       expect(x.every (v, k) -> (/^=.+=$/).test k).to.be true
       expect(x.every (v, k) -> v == 321).to.be true

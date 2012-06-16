@@ -1,10 +1,10 @@
 
 expect = require 'expect.js'
 
-{Map, Dictionary} = require '../lib/coll'
+{Map, Dict} = require '../lib/coll'
 
 
-describe 'Dictionary / Map Accessor Methods', ->
+describe 'Dict / Map Accessor Methods', ->
   map = dict = null
 
   beforeEach ->
@@ -12,7 +12,7 @@ describe 'Dictionary / Map Accessor Methods', ->
     map.set 'foo', 10
     map.set 'bar', 33
 
-    dict = Dictionary {name:'Fred', age:4000}
+    dict = Dict {name:'Fred', age:4000}
 
   describe '#get', ->
     it 'should get the value for the given key', ->

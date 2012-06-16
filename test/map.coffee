@@ -1,7 +1,7 @@
 
 expect = require 'expect.js'
 
-{Map, Dictionary} = require '../lib/coll'
+{Map, Dict} = require '../lib/coll'
 
 
 describe 'Map', ->

@@ -1,10 +1,10 @@
 
 expect = require 'expect.js'
 
-{Map, Dictionary} = require '../lib/coll'
+{Map, Dict} = require '../lib/coll'
 
 
-describe 'Dictionary / Map Mutators', ->
+describe 'Dict / Map Mutators', ->
   map = dict = null
   key1 = /foo/
   key2 = /bar/
@@ -14,7 +14,7 @@ describe 'Dictionary / Map Mutators', ->
     map.set key1, 111
     map.set key2, 222
 
-    dict = Dictionary {a:1, b:2, c:3}
+    dict = Dict {a:1, b:2, c:3}
 
   describe '#remove', ->
     it 'should remove the key/val for the passed key', ->
