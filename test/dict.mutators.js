@@ -20,7 +20,7 @@ describe('Dictionary / Map Mutators', function() {
       c: 3
     });
   });
-  return describe('#remove', function() {
+  describe('#remove', function() {
     it('should remove the key/val for the passed key', function() {
       map.remove(key1);
       expect(map.get(key1)).to.be(void 0);
@@ -40,6 +40,39 @@ describe('Dictionary / Map Mutators', function() {
       expect(x).to.be(false);
       x = dict.remove('q');
       return expect(x).to.be(false);
+    });
+  });
+  return describe('#add', function() {
+    it('should append one or more object literals to the dictionary', function() {
+      dict.add({
+        d: 4
+      });
+      dict.add({
+        e: 5
+      }, {
+        f: 6,
+        g: 7
+      });
+      expect(dict.length).to.be(7);
+      expect(dict.keys).to.contain('d');
+      expect(dict.keys).to.contain('e');
+      expect(dict.keys).to.contain('f');
+      expect(dict.keys).to.contain('g');
+      expect(dict.values).to.contain(4);
+      expect(dict.values).to.contain(5);
+      expect(dict.values).to.contain(6);
+      expect(dict.values).to.contain(7);
+      expect(dict.get('d')).to.be(4);
+      expect(dict.get('e')).to.be(5);
+      expect(dict.get('f')).to.be(6);
+      return expect(dict.get('g')).to.be(7);
+    });
+    return it('should return `this` for chaining', function() {
+      var x;
+      x = dict.add({
+        foo: 'boo'
+      });
+      return expect(x).to.be(dict);
     });
   });
 });

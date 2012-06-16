@@ -121,7 +121,7 @@ describe('Dictionary / Map Iteration Methods', function() {
       })).to.be(true);
       expect(x).not.to.be(map);
       expect(map.length).to.be(3);
-      dict.extend({
+      dict.add({
         stuff: 1000,
         how: /do/
       });
@@ -204,7 +204,7 @@ describe('Dictionary / Map Iteration Methods', function() {
     describe '#reduce', ->
       it 'should reduce the items in the list to a single value', ->
         map.set 'zzz', 40
-        dict.extend {town: 'bedrock'}
+        dict.add {town: 'bedrock'}
   
         console.log map.toLiteral()
         x = map.reduce 0, (a, b) -> a + b[1]

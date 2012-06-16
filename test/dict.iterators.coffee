@@ -92,7 +92,7 @@ describe 'Dictionary / Map Iteration Methods', ->
       expect(x).not.to.be map
       expect(map.length).to.be 3
 
-      dict.extend {stuff:1000, how:/do/}
+      dict.add {stuff:1000, how:/do/}
       x = dict.filter (val, key) -> typeof val == 'number'
       expect(x).to.be.a Dictionary
       expect(x.length).to.be 2
@@ -149,7 +149,7 @@ describe 'Dictionary / Map Iteration Methods', ->
   describe '#reduce', ->
     it 'should reduce the items in the list to a single value', ->
       map.set 'zzz', 40
-      dict.extend {town: 'bedrock'}
+      dict.add {town: 'bedrock'}
 
       console.log map.toLiteral()
       x = map.reduce 0, (a, b) -> a + b[1]

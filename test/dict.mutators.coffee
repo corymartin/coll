@@ -39,3 +39,27 @@ describe 'Dictionary / Map Mutators', ->
       expect(x).to.be false
 
 
+  describe '#add', ->
+    it 'should append one or more object literals to the dictionary', ->
+      dict.add {d:4}
+      dict.add {e:5}, {f:6, g:7}
+      expect(dict.length).to.be 7
+      expect(dict.keys).to.contain 'd'
+      expect(dict.keys).to.contain 'e'
+      expect(dict.keys).to.contain 'f'
+      expect(dict.keys).to.contain 'g'
+      expect(dict.values).to.contain 4
+      expect(dict.values).to.contain 5
+      expect(dict.values).to.contain 6
+      expect(dict.values).to.contain 7
+      expect(dict.get('d')).to.be 4
+      expect(dict.get('e')).to.be 5
+      expect(dict.get('f')).to.be 6
+      expect(dict.get('g')).to.be 7
+
+    it 'should return `this` for chaining', ->
+      x = dict.add {foo:'boo'}
+      expect(x).to.be dict
+
+
+
