@@ -224,11 +224,12 @@ describe 'List Mutator Methods', ->
       expect(ls[3]).to.be 'a'
 
     it 'should remove a range of items if the `howMany` parameter is passed', ->
-      ls.removeAt 2, 2
+      ls = List 'abcdef'
+      ls.removeAt 2, 3
       expect(ls.length).to.be 3
       expect(ls[0]).to.be 'a'
       expect(ls[1]).to.be 'b'
-      expect(ls[2]).to.be 'a'
+      expect(ls[2]).to.be 'f'
 
     it 'should return the item removed from the list', ->
       x = ls.removeAt 1
@@ -410,164 +411,164 @@ describe 'List Mutator Methods', ->
         true
 
 
-  describe '#replaceAt', ->
-    l1 = l2 = null
+  # describe '#replaceAt', ->
+  #   l1 = l2 = null
 
-    beforeEach ->
-      l1 = List 'abcd'
-      l2 = List 'abcd'
+  #   beforeEach ->
+  #     l1 = List 'abcd'
+  #     l2 = List 'abcd'
 
-    it 'should replace the item at the given index', ->
-      l1.replaceAt(2, 'z')
-      expect(l1.length).to.be 4
-      expect(l1[0]).to.be 'a'
-      expect(l1[1]).to.be 'b'
-      expect(l1[2]).to.be 'z'
-      expect(l1[3]).to.be 'd'
+  #   it 'should replace the item at the given index', ->
+  #     l1.replaceAt(2, 'z')
+  #     expect(l1.length).to.be 4
+  #     expect(l1[0]).to.be 'a'
+  #     expect(l1[1]).to.be 'b'
+  #     expect(l1[2]).to.be 'z'
+  #     expect(l1[3]).to.be 'd'
 
-      l2.replaceAt(3, 'z')
-      expect(l2.length).to.be 4
-      expect(l2[0]).to.be 'a'
-      expect(l2[1]).to.be 'b'
-      expect(l2[2]).to.be 'c'
-      expect(l2[3]).to.be 'z'
+  #     l2.replaceAt(3, 'z')
+  #     expect(l2.length).to.be 4
+  #     expect(l2[0]).to.be 'a'
+  #     expect(l2[1]).to.be 'b'
+  #     expect(l2[2]).to.be 'c'
+  #     expect(l2[3]).to.be 'z'
 
-    it 'should return the replaced item', ->
-      x = l1.replaceAt(2, 'z')
-      expect(x).to.be 'c'
-      x = l2.replaceAt(2, 'z')
-      expect(x).to.be 'c'
+  #   it 'should return the replaced item', ->
+  #     x = l1.replaceAt(2, 'z')
+  #     expect(x).to.be 'c'
+  #     x = l2.replaceAt(2, 'z')
+  #     expect(x).to.be 'c'
 
-    it 'should use an offset from the end of the list if index is negative', ->
-      x = l1.replaceAt -2, 'z'
-      expect(l1[2]).to.be 'z'
+  #   it 'should use an offset from the end of the list if index is negative', ->
+  #     x = l1.replaceAt -2, 'z'
+  #     expect(l1[2]).to.be 'z'
 
-    it 'should throw a `RangeError` if the index is not in the list', ->
-      expect(-> l1.replaceAt 9, 'z').to.throwError (e) ->
-        expect(e).to.be.a RangeError
-      expect(-> l2.replaceAt -9, 'z').to.throwError (e) ->
-        expect(e).to.be.a RangeError
-      ls = List()
-      expect(-> ls.replaceAt 0, 'z').to.throwError (e) ->
-        expect(e).to.be.a RangeError
-
-
-  describe '#replace', ->
-    l1 = l2 = null
-
-    beforeEach ->
-      l1 = List 'abcbd'
-      l2 = List 'abcbd'
-
-    it 'should replace the first occurence of `olditem` with `newitem`', ->
-      l1.replace 'b', 'z'
-      expect(l1.length).to.be 5
-      expect(l1[0]).to.be 'a'
-      expect(l1[1]).to.be 'z'
-      expect(l1[2]).to.be 'c'
-      expect(l1[3]).to.be 'b'
-      expect(l1[4]).to.be 'd'
-
-    it 'should return the replaced item', ->
-      x = l1.replace 'd', 'z'
-      expect(x).to.be 'd'
-
-    it 'should return `undefined` if the value is not replaced', ->
-      x = l2.replace 'x', 'z'
-      expect(x).to.be undefined
+  #   it 'should throw a `RangeError` if the index is not in the list', ->
+  #     expect(-> l1.replaceAt 9, 'z').to.throwError (e) ->
+  #       expect(e).to.be.a RangeError
+  #     expect(-> l2.replaceAt -9, 'z').to.throwError (e) ->
+  #       expect(e).to.be.a RangeError
+  #     ls = List()
+  #     expect(-> ls.replaceAt 0, 'z').to.throwError (e) ->
+  #       expect(e).to.be.a RangeError
 
 
-  describe '#replaceIf', ->
-    l1 = l2 = null
+  # describe '#replace', ->
+  #   l1 = l2 = null
 
-    beforeEach ->
-      l1 = List 'abcbd'
-      l2 = List 'abcbd'
+  #   beforeEach ->
+  #     l1 = List 'abcbd'
+  #     l2 = List 'abcbd'
 
-    it 'should replace the first item to pass the iterator test with `newitem`', ->
-      l1.replaceIf 'z', (v) -> v == 'b'
-      expect(l1.length).to.be 5
-      expect(l1[0]).to.be 'a'
-      expect(l1[1]).to.be 'z'
-      expect(l1[2]).to.be 'c'
-      expect(l1[3]).to.be 'b'
-      expect(l1[4]).to.be 'd'
+  #   it 'should replace the first occurence of `olditem` with `newitem`', ->
+  #     l1.replace 'b', 'z'
+  #     expect(l1.length).to.be 5
+  #     expect(l1[0]).to.be 'a'
+  #     expect(l1[1]).to.be 'z'
+  #     expect(l1[2]).to.be 'c'
+  #     expect(l1[3]).to.be 'b'
+  #     expect(l1[4]).to.be 'd'
 
-    it 'should return the replaced item', ->
-      x = l1.replaceIf 'z', (v) -> v == 'd'
-      expect(x).to.be 'd'
+  #   it 'should return the replaced item', ->
+  #     x = l1.replace 'd', 'z'
+  #     expect(x).to.be 'd'
 
-    it 'should return `undefined` if the value is not replaced', ->
-      x = l2.replaceIf 'z', (v) -> v == 'x'
-      expect(x).to.be undefined
-
-    it '''should pass 3 values to the iterator function:
-      current value, index, the list''', ->
-      i = 0
-      l1.replaceIf 'z', (v) ->
-        expect(arguments.length).to.be 3
-        expect(arguments[0]).to.be l1[i]
-        expect(arguments[1]).to.be i
-        expect(arguments[2]).to.be l1
-        i++
-
-    it '''should accept a context object for the callback as an optional
-      second parameter''', ->
-      obj = foo: 'bar'
-      l2.replaceIf 'z', obj, (v) ->
-        expect(this).to.be obj
-        expect(this.foo).to.be 'bar'
-        true
+  #   it 'should return `undefined` if the value is not replaced', ->
+  #     x = l2.replace 'x', 'z'
+  #     expect(x).to.be undefined
 
 
-  describe '#replaceAll', ->
-    l1 = l2 = null
+  # describe '#replaceIf', ->
+  #   l1 = l2 = null
 
-    beforeEach ->
-      l1 = List 'abcbbd'
-      l2 = List 'abcbbd'
+  #   beforeEach ->
+  #     l1 = List 'abcbd'
+  #     l2 = List 'abcbd'
 
-    it '''should replace all items from the list passing the iterator test
-      with `newitem`''', ->
-      l1.replaceAll 'z', (v) -> v == 'b'
-      expect(l1.length).to.be 6
-      expect(l1[0]).to.be 'a'
-      expect(l1[1]).to.be 'z'
-      expect(l1[2]).to.be 'c'
-      expect(l1[3]).to.be 'z'
-      expect(l1[4]).to.be 'z'
-      expect(l1[5]).to.be 'd'
+  #   it 'should replace the first item to pass the iterator test with `newitem`', ->
+  #     l1.replaceIf 'z', (v) -> v == 'b'
+  #     expect(l1.length).to.be 5
+  #     expect(l1[0]).to.be 'a'
+  #     expect(l1[1]).to.be 'z'
+  #     expect(l1[2]).to.be 'c'
+  #     expect(l1[3]).to.be 'b'
+  #     expect(l1[4]).to.be 'd'
 
-    it 'should return a list of the replaced items', ->
-      x = l1.replaceAll 'z', (v) -> v == 'b'
-      expect(x).to.be.a List
-      expect(x.length).to.be 3
-      expect(x[0]).to.be 'b'
-      expect(x[1]).to.be 'b'
-      expect(x[2]).to.be 'b'
+  #   it 'should return the replaced item', ->
+  #     x = l1.replaceIf 'z', (v) -> v == 'd'
+  #     expect(x).to.be 'd'
 
-      x = l2.replaceAll 'z', (v) -> v == 'x'
-      expect(x).to.be.a List
-      expect(x.length).to.be 0
+  #   it 'should return `undefined` if the value is not replaced', ->
+  #     x = l2.replaceIf 'z', (v) -> v == 'x'
+  #     expect(x).to.be undefined
 
-    it '''should pass 3 values to the iterator function:
-      current value, index, the list''', ->
-      i = 0
-      l1.replaceAll 'z', (v) ->
-        expect(arguments.length).to.be 3
-        expect(arguments[0]).to.be l1[i]
-        expect(arguments[1]).to.be i #should repeat on matches
-        expect(arguments[2]).to.be l1
-        i++
-        false
+  #   it '''should pass 3 values to the iterator function:
+  #     current value, index, the list''', ->
+  #     i = 0
+  #     l1.replaceIf 'z', (v) ->
+  #       expect(arguments.length).to.be 3
+  #       expect(arguments[0]).to.be l1[i]
+  #       expect(arguments[1]).to.be i
+  #       expect(arguments[2]).to.be l1
+  #       i++
 
-    it '''should accept a context object for the callback as an optional
-      second parameter''', ->
-      obj = foo: 'bar'
-      l2.replaceAll 'z', obj, (v) ->
-        expect(this).to.be obj
-        expect(this.foo).to.be 'bar'
-        true
+  #   it '''should accept a context object for the callback as an optional
+  #     second parameter''', ->
+  #     obj = foo: 'bar'
+  #     l2.replaceIf 'z', obj, (v) ->
+  #       expect(this).to.be obj
+  #       expect(this.foo).to.be 'bar'
+  #       true
+
+
+  # describe '#replaceAll', ->
+  #   l1 = l2 = null
+
+  #   beforeEach ->
+  #     l1 = List 'abcbbd'
+  #     l2 = List 'abcbbd'
+
+  #   it '''should replace all items from the list passing the iterator test
+  #     with `newitem`''', ->
+  #     l1.replaceAll 'z', (v) -> v == 'b'
+  #     expect(l1.length).to.be 6
+  #     expect(l1[0]).to.be 'a'
+  #     expect(l1[1]).to.be 'z'
+  #     expect(l1[2]).to.be 'c'
+  #     expect(l1[3]).to.be 'z'
+  #     expect(l1[4]).to.be 'z'
+  #     expect(l1[5]).to.be 'd'
+
+  #   it 'should return a list of the replaced items', ->
+  #     x = l1.replaceAll 'z', (v) -> v == 'b'
+  #     expect(x).to.be.a List
+  #     expect(x.length).to.be 3
+  #     expect(x[0]).to.be 'b'
+  #     expect(x[1]).to.be 'b'
+  #     expect(x[2]).to.be 'b'
+
+  #     x = l2.replaceAll 'z', (v) -> v == 'x'
+  #     expect(x).to.be.a List
+  #     expect(x.length).to.be 0
+
+  #   it '''should pass 3 values to the iterator function:
+  #     current value, index, the list''', ->
+  #     i = 0
+  #     l1.replaceAll 'z', (v) ->
+  #       expect(arguments.length).to.be 3
+  #       expect(arguments[0]).to.be l1[i]
+  #       expect(arguments[1]).to.be i #should repeat on matches
+  #       expect(arguments[2]).to.be l1
+  #       i++
+  #       false
+
+  #   it '''should accept a context object for the callback as an optional
+  #     second parameter''', ->
+  #     obj = foo: 'bar'
+  #     l2.replaceAll 'z', obj, (v) ->
+  #       expect(this).to.be obj
+  #       expect(this.foo).to.be 'bar'
+  #       true
 
 
   describe '#removeFirst', ->

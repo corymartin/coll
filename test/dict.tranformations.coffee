@@ -54,16 +54,16 @@ describe 'Dict / Map Transformation Methods', ->
         expect(this).to.be obj
 
 
-  describe '#copy', ->
+  describe '#clone', ->
     it 'should return a new copy of the key/val object', ->
-      copy = map.copy()
+      copy = map.clone()
       expect(copy).to.be.a Map
       expect(copy).not.to.be map
       expect(copy.length).to.be map.length
       expect(copy.get 'foo').to.be 10
       expect(copy.get 'bar').to.be 33
 
-      copy = dict.copy()
+      copy = dict.clone()
       expect(copy).to.be.a Dict
       expect(copy).not.to.be dict
       expect(copy.length).to.be dict.length

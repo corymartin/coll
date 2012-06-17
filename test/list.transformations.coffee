@@ -237,23 +237,3 @@ describe 'List Transformation Methods', ->
       expect(x[0]).to.be false
       expect(x[1]).to.be true
 
-    it 'should not modify the instance list', ->
-      ls1 = List [2, 33, 4, 77, 8]
-
-      expect(ls1.sort()).not.to.be ls1
-      expect(ls1.length).to.be 5
-      expect(ls1[0]).to.be 2
-      expect(ls1[1]).to.be 33
-      expect(ls1[2]).to.be 4
-      expect(ls1[3]).to.be 77
-      expect(ls1[4]).to.be 8
-
-      expect(ls1.sort (a, b) -> a < b).not.to.be ls1
-      expect(ls1.length).to.be 5
-      expect(ls1[0]).to.be 2
-      expect(ls1[1]).to.be 33
-      expect(ls1[2]).to.be 4
-      expect(ls1[3]).to.be 77
-      expect(ls1[4]).to.be 8
-
-

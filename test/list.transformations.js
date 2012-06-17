@@ -241,7 +241,7 @@ describe('List Transformation Methods', function() {
       expect(x[2]).to.be(c);
       return expect(x[3]).to.be(a);
     });
-    it('should use Array#sort lexicographic order for other types', function() {
+    return it('should use Array#sort lexicographic order for other types', function() {
       var a, b, c, d, ls, x;
       a = /mmm/;
       b = /zzz/;
@@ -259,26 +259,6 @@ describe('List Transformation Methods', function() {
       expect(x).to.be.a(List);
       expect(x[0]).to.be(false);
       return expect(x[1]).to.be(true);
-    });
-    return it('should not modify the instance list', function() {
-      var ls1;
-      ls1 = List([2, 33, 4, 77, 8]);
-      expect(ls1.sort()).not.to.be(ls1);
-      expect(ls1.length).to.be(5);
-      expect(ls1[0]).to.be(2);
-      expect(ls1[1]).to.be(33);
-      expect(ls1[2]).to.be(4);
-      expect(ls1[3]).to.be(77);
-      expect(ls1[4]).to.be(8);
-      expect(ls1.sort(function(a, b) {
-        return a < b;
-      })).not.to.be(ls1);
-      expect(ls1.length).to.be(5);
-      expect(ls1[0]).to.be(2);
-      expect(ls1[1]).to.be(33);
-      expect(ls1[2]).to.be(4);
-      expect(ls1[3]).to.be(77);
-      return expect(ls1[4]).to.be(8);
     });
   });
 });
