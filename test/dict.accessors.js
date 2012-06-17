@@ -43,7 +43,7 @@ describe('Dict / Map Accessor Methods', function() {
       return expect(dict.get('name')).to.be('Barney');
     });
   });
-  return describe('Map#set', function() {
+  describe('Map#set', function() {
     return it('should be able to use objects as keys', function() {
       var Foo, f1, f2, f3, m;
       Foo = (function() {
@@ -63,6 +63,27 @@ describe('Dict / Map Accessor Methods', function() {
       expect(m.get(f1)).to.be('aaa');
       expect(m.get(f2)).to.be('bbb');
       return expect(m.get(f3)).to.be('ccc');
+    });
+  });
+  return describe('#hasKey', function() {
+    it('should return `true` if the key exists', function() {
+      var objkey;
+      expect(map.hasKey('foo')).to.be(true);
+      objkey = {
+        yo: 'yo'
+      };
+      map.set(objkey, 'asdf');
+      expect(map.hasKey(objkey)).to.be(true);
+      return expect(dict.hasKey('age')).to.be["true"];
+    });
+    return it('should return `false` if the key does not exist', function() {
+      var objkey;
+      expect(map.hasKey('zzz')).to.be(false);
+      objkey = {
+        yo: 'yo'
+      };
+      expect(map.hasKey(objkey)).to.be(false);
+      return expect(dict.hasKey('zoozoo')).to.be["false"];
     });
   });
 });

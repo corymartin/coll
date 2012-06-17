@@ -58,3 +58,20 @@ describe 'Dict / Map Accessor Methods', ->
       expect(m.get(f3)).to.be 'ccc'
 
 
+  describe '#hasKey', ->
+    it 'should return `true` if the key exists', ->
+      expect(map.hasKey 'foo').to.be true
+      objkey = {yo:'yo'}
+      map.set objkey, 'asdf'
+      expect(map.hasKey objkey).to.be true
+
+      expect(dict.hasKey 'age').to.be. true
+
+    it 'should return `false` if the key does not exist', ->
+      expect(map.hasKey 'zzz').to.be false
+      objkey = {yo:'yo'}
+      expect(map.hasKey objkey).to.be false
+
+      expect(dict.hasKey 'zoozoo').to.be. false
+
+

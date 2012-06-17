@@ -25,7 +25,7 @@ describe('Dict', function() {
       return expect(d1).not.to.be(d2);
     });
   });
-  return describe('instance properties', function() {
+  describe('instance properties', function() {
     var d;
     d = null;
     beforeEach(function() {
@@ -37,15 +37,11 @@ describe('Dict', function() {
     });
     it('should have a `keys` property', function() {
       expect(d.keys.length).to.be(3);
-      expect(d.keys).to.contain('name');
-      expect(d.keys).to.contain('age');
-      return expect(d.keys).to.contain('wife');
+      return expect(d.keys).to.eql(['name', 'age', 'wife']);
     });
     it('should have a `values` property', function() {
       expect(d.values.length).to.be(3);
-      expect(d.values).to.contain('Fred');
-      expect(d.values).to.contain(4000);
-      return expect(d.values).to.contain('Wilma');
+      return expect(d.values).to.eql(['Fred', 4000, 'Wilma']);
     });
     it('should not allow the `keys` property to be modifed', function() {
       d.keys = [];
@@ -55,6 +51,35 @@ describe('Dict', function() {
     });
     return it('should have a length property', function() {
       return expect(d.length).to.be(3);
+    });
+  });
+  return describe('#add', function() {
+    it('should add key/value pairs via one or more object literals', function() {
+      var d;
+      d = Dict();
+      d.add({
+        aaa: 111,
+        bbb: 222
+      });
+      d.add({
+        ccc: 333
+      }, {
+        ddd: 444,
+        eee: 555
+      }, {
+        fff: 666
+      });
+      expect(d.length).to.be(6);
+      expect(d.keys).to.eql(['aaa', 'bbb', 'ccc', 'ddd', 'eee', 'fff']);
+      return expect(d.values).to.eql([111, 222, 333, 444, 555, 666]);
+    });
+    return it('should return `this` for chaining', function() {
+      var d, x;
+      d = Dict();
+      x = d.add({
+        foo: 'boo'
+      });
+      return expect(x).to.be(d);
     });
   });
 });
