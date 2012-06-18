@@ -29,19 +29,24 @@ describe('Dict / Map Mutators', function() {
       dict.remove('b');
       return expect(dict.hasKey('b')).to.be(false);
     });
-    it('should `true` if the key/val was successfully removed', function() {
+    it('should the value of the removed key/val pair', function() {
       var x;
       x = map.remove(key1);
-      expect(x).to.be(true);
+      expect(x).to.be(111);
       x = dict.remove('b');
-      return expect(x).to.be(true);
+      return expect(x).to.be(2);
     });
-    return it('should `false` if the key/val was not removed', function() {
-      var x;
-      x = map.remove(/zzz/);
-      expect(x).to.be(false);
-      x = dict.remove('q');
-      return expect(x).to.be(false);
+    return it('should throw a `ReferenceError` if the key does not exist', function() {
+      expect(function() {
+        return map.remove(/zzz/);
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(ReferenceError);
+      });
+      return expect(function() {
+        return dict.remove('q');
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(ReferenceError);
+      });
     });
   });
 });

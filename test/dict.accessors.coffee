@@ -22,6 +22,20 @@ describe 'Dict / Map Accessor Methods', ->
       expect(dict.get('name')).to.be 'Fred'
       expect(dict.get('age')).to.be 4000
 
+    it 'should throw a `ReferenceError` if the key does not exist', ->
+      expect(-> map.get('zzz')).to.throwError (e) ->
+        expect(e).to.be.a ReferenceError
+
+      expect(-> dict.get('zzz')).to.throwError (e) ->
+        expect(e).to.be.a ReferenceError
+
+    it '''should return the optional default value if the key does not
+      exist and the default is passed''', ->
+      expect(map.get('zzz', 999)).to.be 999
+
+      expect(dict.get('zzz', 999)).to.be 999
+
+
   describe '#set', ->
     it 'should add a new key/value pair to the dictionary', ->
       map.set 'zzz', 21

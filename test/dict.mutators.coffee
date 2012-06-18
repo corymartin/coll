@@ -26,18 +26,18 @@ describe 'Dict / Map Mutators', ->
       dict.remove 'b'
       expect(dict.hasKey 'b').to.be false
 
-    it 'should `true` if the key/val was successfully removed', ->
+    it 'should the value of the removed key/val pair', ->
       x = map.remove key1
-      expect(x).to.be true
+      expect(x).to.be 111
 
       x = dict.remove 'b'
-      expect(x).to.be true
+      expect(x).to.be 2
 
-    it 'should `false` if the key/val was not removed', ->
-      x = map.remove /zzz/
-      expect(x).to.be false
+    it 'should throw a `ReferenceError` if the key does not exist', ->
+      expect(-> map.remove /zzz/).to.throwError (e) ->
+        expect(e).to.be.a ReferenceError
 
-      x = dict.remove 'q'
-      expect(x).to.be false
+      expect(-> dict.remove 'q').to.throwError (e) ->
+        expect(e).to.be.a ReferenceError
 
 

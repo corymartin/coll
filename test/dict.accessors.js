@@ -18,11 +18,27 @@ describe('Dict / Map Accessor Methods', function() {
     });
   });
   describe('#get', function() {
-    return it('should get the value for the given key', function() {
+    it('should get the value for the given key', function() {
       expect(map.get('foo')).to.be(10);
       expect(map.get('bar')).to.be(33);
       expect(dict.get('name')).to.be('Fred');
       return expect(dict.get('age')).to.be(4000);
+    });
+    it('should throw a `ReferenceError` if the key does not exist', function() {
+      expect(function() {
+        return map.get('zzz');
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(ReferenceError);
+      });
+      return expect(function() {
+        return dict.get('zzz');
+      }).to.throwError(function(e) {
+        return expect(e).to.be.a(ReferenceError);
+      });
+    });
+    return it('should return the optional default value if the key does not\nexist and the default is passed', function() {
+      expect(map.get('zzz', 999)).to.be(999);
+      return expect(dict.get('zzz', 999)).to.be(999);
     });
   });
   describe('#set', function() {
