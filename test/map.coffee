@@ -1,11 +1,16 @@
 
 expect = require 'expect.js'
 
-{Map, Dict} = require '../lib/coll'
+{Map} = require '../lib/coll'
 
 
 describe 'Map', ->
   describe 'constructor', ->
+    it 'should accept an optional array of tuples to initialize the Map', ->
+      m = Map([['a', 2], ['b', 4]])
+      expect(m.get('a')).to.be 2
+      expect(m.get('b')).to.be 4
+
     it 'should create a new instance with or without the `new` keyword', ->
       m1 = new Map 'String', 'Number'
       m2 = Map 'String', 'Number'
