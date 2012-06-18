@@ -54,6 +54,48 @@ describe 'Dict / Map Transformation Methods', ->
         expect(this).to.be obj
 
 
+  describe '#reject', ->
+    it 'should return a new dictionary of key/vals that fail the iterator test', ->
+      map.set 'zzz', 25
+      x = map.reject (val, key) -> val > 20
+      expect(x).to.be.a Map
+      expect(x.length).to.be 1
+      expect(x.keys).to.eql ['foo']
+      expect(x.values).to.eql [10]
+      expect(x).not.to.be map
+      expect(map.length).to.be 3
+
+      dict.add {stuff:1000, how:/do/}
+      x = dict.reject (val, key) -> typeof val != 'number'
+      expect(x).to.be.a Dict
+      expect(x.length).to.be 2
+      expect(x.keys).to.contain 'stuff'
+      expect(x.keys).to.contain 'age'
+      expect(x.values).to.contain 1000
+      expect(x.values).to.contain 4000
+      expect(x).not.to.be dict
+      expect(dict.length).to.be 4
+
+    it 'should pass 3 params to callback: val, key, dict', ->
+      map.reject (val, key, dict) ->
+        expect(val).to.be if key == 'foo' then 10 else 33
+        expect(key).to.be if val == 10 then 'foo' else 'bar'
+        expect(dict).to.be map
+
+      dict.reject (val, key, dict) ->
+        expect(val).to.be if key == 'name' then 'Fred' else 4000
+        expect(key).to.be if val == 'Fred' then 'name' else 'age'
+        expect(dict).to.be dict
+
+    it 'should accept an optional context argument', ->
+      obj = {foo:'bar'}
+      map.reject obj, (val, key) ->
+        expect(this).to.be obj
+
+      dict.reject obj, (val, key) ->
+        expect(this).to.be obj
+
+
   describe '#clone', ->
     it 'should return a new copy of the key/val object', ->
       copy = map.clone()

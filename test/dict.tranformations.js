@@ -77,6 +77,60 @@ describe('Dict / Map Transformation Methods', function() {
       });
     });
   });
+  describe('#reject', function() {
+    it('should return a new dictionary of key/vals that fail the iterator test', function() {
+      var x;
+      map.set('zzz', 25);
+      x = map.reject(function(val, key) {
+        return val > 20;
+      });
+      expect(x).to.be.a(Map);
+      expect(x.length).to.be(1);
+      expect(x.keys).to.eql(['foo']);
+      expect(x.values).to.eql([10]);
+      expect(x).not.to.be(map);
+      expect(map.length).to.be(3);
+      dict.add({
+        stuff: 1000,
+        how: /do/
+      });
+      x = dict.reject(function(val, key) {
+        return typeof val !== 'number';
+      });
+      expect(x).to.be.a(Dict);
+      expect(x.length).to.be(2);
+      expect(x.keys).to.contain('stuff');
+      expect(x.keys).to.contain('age');
+      expect(x.values).to.contain(1000);
+      expect(x.values).to.contain(4000);
+      expect(x).not.to.be(dict);
+      return expect(dict.length).to.be(4);
+    });
+    it('should pass 3 params to callback: val, key, dict', function() {
+      map.reject(function(val, key, dict) {
+        expect(val).to.be(key === 'foo' ? 10 : 33);
+        expect(key).to.be(val === 10 ? 'foo' : 'bar');
+        return expect(dict).to.be(map);
+      });
+      return dict.reject(function(val, key, dict) {
+        expect(val).to.be(key === 'name' ? 'Fred' : 4000);
+        expect(key).to.be(val === 'Fred' ? 'name' : 'age');
+        return expect(dict).to.be(dict);
+      });
+    });
+    return it('should accept an optional context argument', function() {
+      var obj;
+      obj = {
+        foo: 'bar'
+      };
+      map.reject(obj, function(val, key) {
+        return expect(this).to.be(obj);
+      });
+      return dict.reject(obj, function(val, key) {
+        return expect(this).to.be(obj);
+      });
+    });
+  });
   describe('#clone', function() {
     return it('should return a new copy of the key/val object', function() {
       var copy;
