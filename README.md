@@ -79,6 +79,24 @@ JavaScript Collection Classes.
   - [Dict#clone]
   - [Dict#toLiteral]
   - [Dict#toArray]
+- [Map]
+  - [Map Constructor]
+  - [Map#length]
+  - [Map#keys]
+  - [Map#values]
+  - [Map#hasKey]
+  - [Map#get]
+  - [Map#set]
+  - [Map#remove]
+  - [Map#clear]
+  - [Map#forEach]
+  - [Map#some]
+  - [Map#every]
+  - [Map#filter]
+  - [Map#reject]
+  - [Map#clone]
+  - [Map#toLiteral]
+  - [Map#toArray]
 
 
 
@@ -1377,7 +1395,7 @@ var x = d.filter(function(value, key, dict) {
 
 // With optional context
 var obj = {foo:'bar'};
-d.every(obj, function(value, key, dict) {
+d.filter(obj, function(value, key, dict) {
   // this => {foo:'bar'}
 });
 ```
@@ -1402,7 +1420,7 @@ var x = d.reject(function(value, key, dict) {
 
 // With optional context
 var obj = {foo:'bar'};
-d.every(obj, function(value, key, dict) {
+d.reject(obj, function(value, key, dict) {
   // this => {foo:'bar'}
 });
 ```
@@ -1415,8 +1433,8 @@ Returns a copy of the dict in a new instance.
 ```js
 var d = Dict({a:2, b:4});
 var x = d.clone();
-// x = {a:2, b:4}
-// d = {a:2, b:4}
+// x => {a:2, b:4}
+// d => {a:2, b:4}
 x instanceof Dict; // true
 x === d;           // false
 ```
@@ -1484,4 +1502,419 @@ var x = d.toArray();
 [Dict#clone]:        #dict-clone
 [Dict#toLiteral]:    #dict-toliteral
 [Dict#toArray]:      #dict-toarray
+
+
+
+
+
+<a name='map'></a>
+Map
+===
+A key/value collection, where both keys and values can be any object or type.
+Keys are unique within the collection by strict equality.
+
+
+<a name='map-constructor'></a>
+Map Constructor
+---------------
+`new` is optional
+
+```js
+var m1 = new Map;
+var m2 = Map();
+
+m1 instanceof Map; // true
+m2 instanceof Map; // true
+```
+
+Accepts an array of key/value pairs ('tuples') to initially populate the map.
+
+```js
+var m = Map([['a', 10], [/foo/i, 20]]);
+// m => {
+//  'a'    => 10,
+//  /foo/i => 20
+// }
+```
+
+
+<a name='map-length'></a>
+Map#length
+----------
+The number of items in the map.
+
+```js
+var m = Map([['a', 10], [/foo/i, 20]]);
+// m.length => 2
+```
+
+<a name='map-keys'></a>
+Map#keys
+--------
+An array of the map's keys. Order is arbitrary.
+
+```js
+var m = Map([[{a:1}, 'dog'], [{b:2}, 'cat'], [23.389, 'rock']]);
+// m.keys => [{a:1}, {b:2}, 23.389]
+```
+
+<a name='map-values'></a>
+Map#values
+----------
+An array of the dict's values. Order is arbitrary.
+
+```js
+var m = Map([[{a:1}, 'dog'], [{b:2}, 'cat'], [23.389, 'rock']]);
+// m.values => ['dog', 'cat', 'rock']
+```
+
+<a name='map-haskey'></a>
+Map#haskey( key )
+-----------------
+Returns `true` if `key` exists within the map. Otherwise `false` is returned.
+Keys are determined and are unique by strict equality.
+
+```js
+var m = Map();
+var key1 = {a:1};
+var key2 = /foo/i;
+m.set(key1, 'a');
+m.set(key2, 'b');
+m.set(9999, 'c');
+
+m.hasKey(key1);   // true
+m.hasKey({a:1});  // false
+m.hasKey(key2);   // true
+m.hasKey(/foo/i); // false
+m.hasKey(9999);   // true
+```
+
+<a name='map-get'></a>
+Map#get( key [, \_default] )
+-----------------------------
+Returns the value for `key`.
+If an optional `_default` value is passed, that will be returned in cases
+where the `key` does not exist within the map.
+If `key` does not exist within the map and `_default` is not passed,
+a `ReferenceError` is thrown.
+Keys are determined and are unique by strict equality.
+
+```js
+var m = Map();
+var key1 = /foo/gi;
+m.set(key1, 'stuff');
+m.set(23.89, 'thing');
+
+var x = m.get(key1);
+// x => 'stuff'
+x = m.get(23.89);
+// x => 'thing'
+
+x = m.get(/bar/gi, 'nada');
+// x => 'nada'
+
+m.get(77.11);   // throws ReferenceError
+m.get(/foo/gi); // throws ReferenceError
+```
+
+<a name='map-set'></a>
+Map#set( key, value )
+---------------------
+Set value `value` for key `key`. If the key already exists in the map
+then it's value will be overwritten. If the `key` does not exist, then it
+will be added. Returns the instance.
+
+```js
+var m = Map();
+var x = m.set('volume', .92);
+// m => {
+//  'volume' => .92
+// }
+x === d; // true
+
+d.set('volume', .85);
+// m => {
+//  'volume' => .85
+// }
+```
+
+<a name='map-remove'></a>
+Map#remove( key )
+-----------------
+Removes a key/value pair from the collection by `key` and returns the
+removed value.
+If `key` does not exist within the map a `ReferenceError` is thrown.
+
+```js
+var m = Map();
+var key1 = {name:'Jen'};
+var key2 = {name:'Tim'};
+m.set(key1, 83.234);
+m.set(key2, 72.183);
+m.set('yo', 14.384);
+
+var x = m.remove(key2);
+// x => 72.183
+// m => {
+//  {name:'Jen'} => 83.234,
+//  'yo'         => 14.384
+// }
+
+m.remove('hi');         // throws ReferenceError
+m.remove({name:'Jen'}); // throws ReferenceError
+```
+
+<a name='map-clear'></a>
+Map#clear()
+-----------
+Removes all key/value pairs from the map. Returns the instance.
+
+```js
+var m = Map([[/yo/, 'joe'], [new Date, 123]]);
+var x = m.clear();
+// m => {}
+x === m; // true
+```
+
+<a name='map-foreach'></a>
+Map#forEach( [context,] iterator )
+----------------------------------
+Iterates over the map, calling the `iterator` function for
+each key/value pair. Returns the instance.
+
+```js
+var m = Map();
+m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
+m.set(new Date(2012, 3, 17), 'Taxes!!');
+m.set(new Date(2012, 9, 31), 'Halloween');
+
+var x = m.forEach(function(value, key, map) {
+  console.log('Key: %s, Val: %s', key.toDateString(), value);
+});
+// Output:
+//  Key: Sat May 05 2012, Val: Cinco de Mayo
+//  Key: Tue Apr 17 2012, Val: Taxes!!
+//  Key: Wed Oct 31 2012, Val: Halloween
+x === m; // true
+
+// With optional context
+var obj = {foo:'bar'};
+m.forEach(obj, function(value, key, dict) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='map-some'></a>
+Map#some( [context,] iterator )
+-------------------------------
+Returns `true` if at least one key/value pair in the map passes the
+`iterator` function.
+Otherwise `false` is returned.
+
+```js
+var m = Map();
+m.set(new Date(2011, 9, 31), 'Halloween');
+m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
+m.set(new Date(2012, 3, 17), 'Taxes!!');
+m.set(new Date(2012, 9, 31), 'Halloween');
+
+var x = m.some(function(value, key, dict) {
+  return value !== 'Halloween' && key.getFullYear() === 2012;
+});
+// x => true
+
+// With optional context
+var obj = {foo:'bar'};
+m.some(obj, function(value, key, dict) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='map-every'></a>
+Map#every( [context,] iterator )
+--------------------------------
+Returns `true` if every key/value pair in the map passes the
+`iterator` function.
+Otherwise `false` is returned.
+
+```js
+var m = Map();
+m.set(new Date(2011, 9, 31), 'Halloween');
+m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
+m.set(new Date(2012, 3, 17), 'Taxes!!');
+m.set(new Date(2012, 9, 31), 'Halloween');
+
+var x = m.every(function(value, key, dict) {
+  return key.getFullYear() === 2012;
+});
+// x => false
+
+x = m.every(function(value, key, dict) {
+  return key.getFullYear() > 2010;
+});
+// x => true
+
+// With optional context
+var obj = {foo:'bar'};
+m.every(obj, function(value, key, dict) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='map-filter'></a>
+Map#filter( [context,] iterator )
+---------------------------------
+Returns a new `Map` composed of key/value pairs that pass the
+`iterator` function.
+
+```js
+var m = Map();
+m.set(new Date(2011, 9, 31), 'Halloween');
+m.set(new Date(2012, 0, 1),  'New Years');
+m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
+m.set(new Date(2012, 3, 17), 'Taxes!!');
+m.set(new Date(2012, 9, 31), 'Halloween');
+
+var x = m.filter(function(value, key, dict) {
+  return key.getMonth() >= 3 && value !== 'Taxes!!';
+});
+// x => {
+//  Mon Oct 31 2011 => 'Halloween',
+//  Sat May 05 2012 => 'Cinco de Mayo',
+//  Wed Oct 31 2012 => 'Halloween'
+// }
+
+// With optional context
+var obj = {foo:'bar'};
+m.filter(obj, function(value, key, dict) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='map-reject'></a>
+Map#reject( [context,] iterator )
+----------------------------------
+Returns a new `Map` composed of key/value pairs that fail the
+`iterator` function.
+
+```js
+var m = Map();
+m.set(new Date(2011, 9, 31), 'Halloween');
+m.set(new Date(2012, 0, 1),  'New Years');
+m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
+m.set(new Date(2012, 3, 17), 'Taxes!!');
+m.set(new Date(2012, 9, 31), 'Halloween');
+
+var x = m.reject(function(value, key, dict) {
+  return key.getMonth() > 3;
+});
+// x => {
+//  Sun Jan 01 2012 => 'New Years'
+//  Tue Apr 17 2012 => 'Taxes!!'
+// }
+
+// With optional context
+var obj = {foo:'bar'};
+m.reject(obj, function(value, key, dict) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='map-clone'></a>
+Map#clone()
+-----------
+Returns a copy of the map in a new instance.
+
+```js
+var m = Map([[{a:1}, 11], [{b:2}, 22]]);
+var x = m.clone();
+
+// x => {
+//  {a:1} => 11,
+//  {b:2} => 22
+// }
+// m => {
+//  {a:1} => 11,
+//  {b:2} => 22
+// }
+x instanceof Map; // true
+x === m;          // false
+```
+
+<a name='map-toliteral'></a>
+Map#toLiteral( [serializer] )
+-----------------------------
+Returns the key/value pairs of the map as an object literal.
+If the optional `serializer` function is passed, that will be used to
+determine the key. If your map keys are not strings, numbers, or anything
+else that might not automatically convert to a unique key string, it is
+highly suggested that you provide a `serializer` function.
+
+
+```js
+var m = Map();
+var key1 = {position:'rb', team:'vikings'};
+var key2 = {position:'wr', team:'cardinals'};
+m.set(key1, 'peterson');
+m.set(key2, 'fitz');
+
+var x = m.toLiteral(function(key, val) {
+  return key.team + ':' + key.position;
+});
+// x => {'vikings:rb': 'peterson', 'cardinals:wr': 'fitz'}
+for (var key in x) {
+  console.log('%s : %s', key, x[key]);
+}
+// Output:
+//  vikings:rb : peterson
+//  cardinals:wr : fitz
+
+// Without serializer function
+x = m.toLiteral();
+// x => {'[object Object]': 'fitz'}
+```
+
+<a name='map-toarray'></a>
+Map#toArray()
+-------------
+Returns the map's key/value pairs in an array of 'tuples'.
+
+```js
+var m = Map();
+var key1 = {position:'rb', team:'vikings'};
+var key2 = {position:'wr', team:'cardinals'};
+m.set(key1, 'peterson');
+m.set(key2, 'fitz');
+
+var x = m.toArray();
+// x => [
+//  [{position:'rb', team:'vikings'}, 'peterson'],
+//  [{position:'wr', team:'cardinals'}, 'fitz']
+// ]
+```
+
+
+[Map]:                #map
+[Map Constructor]:    #map-constructor
+
+[Map#length]:         #map-length
+[Map#keys]:           #map-keys
+[Map#values]:         #map-values
+
+[Map#hasKey]:         #map-haskey
+
+[Map#get]:            #map-get
+[Map#set]:            #map-set
+[Map#remove]:         #map-remove
+[Map#clear]:          #map-clear
+
+[Map#forEach]:        #map-foreach
+[Map#some]:           #map-some
+[Map#every]:          #map-every
+[Map#filter]:         #map-filter
+[Map#reject]:         #map-reject
+
+[Map#clone]:          #map-clone
+[Map#toLiteral]:      #map-toliteral
+[Map#toArray]:        #map-toarray
 
