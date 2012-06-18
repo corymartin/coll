@@ -178,7 +178,7 @@ describe('List Transformation Methods', function() {
       return expect(l2.length).to.be(4);
     });
   });
-  return describe('#sort', function() {
+  describe('#sort', function() {
     it('should sort numbers numerically', function() {
       var ls, x;
       ls = List([33, 4, 77, 5, 2, 8]);
@@ -241,7 +241,7 @@ describe('List Transformation Methods', function() {
       expect(x[2]).to.be(c);
       return expect(x[3]).to.be(a);
     });
-    return it('should use Array#sort lexicographic order for other types', function() {
+    it('should use Array#sort lexicographic order for other types', function() {
       var a, b, c, d, ls, x;
       a = /mmm/;
       b = /zzz/;
@@ -259,6 +259,26 @@ describe('List Transformation Methods', function() {
       expect(x).to.be.a(List);
       expect(x[0]).to.be(false);
       return expect(x[1]).to.be(true);
+    });
+    return it('should return a new list', function() {
+      var ls, x;
+      ls = List([4, 2, 9]);
+      x = ls.sort();
+      expect(x).to.be.a(List);
+      return expect(x).not.to.be(ls);
+    });
+  });
+  return describe('#reverse', function() {
+    return it('should return a new list of the instances items in reverse order', function() {
+      var ls, x;
+      ls = List([5, 2, 9, 4]);
+      x = ls.reverse();
+      expect(x).to.be.a(List);
+      expect(x).not.to.be(ls);
+      expect(x[0]).to.be(4);
+      expect(x[1]).to.be(9);
+      expect(x[2]).to.be(2);
+      return expect(x[3]).to.be(5);
     });
   });
 });

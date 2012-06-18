@@ -237,3 +237,21 @@ describe 'List Transformation Methods', ->
       expect(x[0]).to.be false
       expect(x[1]).to.be true
 
+    it 'should return a new list', ->
+      ls = List [4,2,9]
+      x = ls.sort()
+      expect(x).to.be.a List
+      expect(x).not.to.be ls
+
+
+  describe '#reverse', ->
+    it 'should return a new list of the instances items in reverse order', ->
+      ls = List [5,2,9,4]
+      x = ls.reverse()
+      expect(x).to.be.a List
+      expect(x).not.to.be ls
+      expect(x[0]).to.be 4
+      expect(x[1]).to.be 9
+      expect(x[2]).to.be 2
+      expect(x[3]).to.be 5
+
