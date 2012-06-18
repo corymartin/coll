@@ -60,6 +60,25 @@ JavaScript Collection Classes.
   - [List#reject]
   - [List#map]
   - [List#intersperse]
+- [Dict]
+  - [Dict Constructor]
+  - [Dict#length]
+  - [Dict#keys]
+  - [Dict#values]
+  - [Dict#hasKey]
+  - [Dict#get]
+  - [Dict#set]
+  - [Dict#add]
+  - [Dict#remove]
+  - [Dict#clear]
+  - [Dict#forEach]
+  - [Dict#some]
+  - [Dict#every]
+  - [Dict#filter]
+  - [Dict#reject]
+  - [Dict#clone]
+  - [Dict#toLiteral]
+  - [Dict#toArray]
 
 
 
@@ -293,7 +312,7 @@ var x = removeAt(2, 3);
 <a name='list-clear'></a>
 List#clear()
 ------------
-Removes all items from the list.
+Removes all items from the list. Returns the instance.
 
 ```js
 var ls = List([1,2,3]);
@@ -504,7 +523,7 @@ var x = ls.clone();
 // x  => [2, 4]
 // ls => [2, 4]
 x instanceof List; // true
-x === ls; // false
+x === ls;          // false
 ```
 
 <a name='list-toarray'></a>
@@ -819,13 +838,13 @@ for each item. Returns the list instance.
 ```js
 var ls = List(['Taco', 'Burrito', 'Fajita']);
 var x = ls.forEach(function(item, index, list) {
-  console.log(item);
+  console.log('%d : %s', index, item);
 });
 // Console output:
-//  Taco
-//  Burrito
-//  Fajita
-// x === ls => true
+//  0 : Taco
+//  1 : Burrito
+//  2 : Fajita
+x === ls; // true
 
 // With optional context
 var obj = {foo:'bar'};
@@ -933,7 +952,7 @@ x = ls.reduceRight('---', function(a, b, index, list) {
 <a name='list-sort'></a>
 List#sort( [comparer] )
 -----------------------
-Sorts the list and returns itself.
+Returns a new, sorted `List` of the instance's items.
 Numeric items (numbers, dates) are sorted numerically.
 Other types are sorted lixicographically.
 If the `comparer` function is passed, this is used to determine sort order.
@@ -941,23 +960,26 @@ If the `comparer` function is passed, this is used to determine sort order.
 ```js
 var ls = List([33, 4, 77, 5, 2, 8]);
 var x = ls.sort();
-// x => ls => [2, 4, 5, 8, 33, 77]
+// x  => [2, 4, 5, 8, 33, 77]
+// ls => [33, 4, 77, 5, 2, 8]
 
 x = ls.sort(function(a, b) {
   return b - a;
 });
-// x => ls => [77, 33, 8, 5, 4, 2]
+// x  => [77, 33, 8, 5, 4, 2]
+// ls => [33, 4, 77, 5, 2, 8]
 ```
 
 <a name='list-reverse'></a>
 List#reverse()
 --------------
-Reverses the order of the items in the list and returns itself.
+Returns a new `List` of the instance's items with their order reversed.
 
 ```js
 var ls = List('abc');
 var x = ls.reverse();
-// x => ls => ['c', 'b', 'a']
+// x  => ['c', 'b', 'a']
+// ls => ['a', 'b', 'c']
 ```
 
 <a name='list-filter'></a>
@@ -1043,10 +1065,6 @@ var x = ls.intersperse('|');
 ```
 
 
-
-
-
-
 [List]:               #list
 [List Constructor]:   #list-constructor
 
@@ -1115,4 +1133,355 @@ var x = ls.intersperse('|');
 [List#map]:           #list-map
 [List#intersperse]:   #list-intersperse
 
+
+
+<a name='dict'></a>
+Dict
+====
+A simple key/value collection, where keys are `Strings` and values can be any
+type or object. Keys are unique within collection.
+
+
+<a name='dict-constructor'></a>
+Dict Constructor
+----------------
+`new` is optional
+
+```js
+var d1 = new Dict;
+var d2 = Dict();
+
+d1 instanceof Dict; // true
+d2 instanceof Dict; // true
+```
+
+Accepts an object literal to initially populate the dict.
+
+```js
+var d = Dict({a:10, b:20});
+// d => {a:10, b:20}
+```
+
+
+<a name='dict-length'></a>
+Dict#length
+-----------
+The number of items in the dict.
+
+```js
+var d = Dict({a:2, b:4, c:6});
+// d.length => 3
+```
+
+<a name='dict-keys'></a>
+Dict#keys
+---------
+An array of the dict's keys. Order is arbitrary.
+
+```js
+var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+// d.keys => ['name', 'age', 'town']
+```
+
+<a name='dict-values'></a>
+Dict#values
+-----------
+An array of the dict's values. Order is arbitrary.
+
+```js
+var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+// d.values => ['Fred', 5000, 'Bedrock']
+```
+
+<a name='dict-haskey'></a>
+Dict#haskey( key )
+------------------
+Returns `true` if `key` exists within the dict. Otherwise `false` is returned.
+
+```js
+var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+d.hasKey('town');    // true
+d.hasKey('address'); // false
+```
+
+<a name='dict-get'></a>
+Dict#get( key [, \_default] )
+-----------------------------
+Returns the value for `key`.
+If an optional `_default` value is passed, that will be returned in cases
+where the `key` does not exist within the dict.
+If `key` does not exist within the dict and `_default` is not passed,
+a `ReferenceError` is thrown.
+
+```js
+var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+var x = d.get('town');
+// x => 'Bedrock'
+
+x = d.get('occupation', 'excavator');
+// x => 'excavator'
+
+d.get('occupation'); // throws ReferenceError
+```
+
+<a name='dict-set'></a>
+Dict#set( key, value )
+----------------------
+Set value `value` for key `key`. If the key already exists in the dict
+then it's value will be overwritten. If the `key` does not exist, then it
+will be added. Returns the instance.
+
+```js
+var d = Dict();
+var x = d.set('volume', .92);
+// d => {volume: .92}
+x === d; // true
+
+d.set('volume', .85);
+// d => {volume: .85}
+```
+
+<a name='dict-add'></a>
+Dict#add( hash [, hash*N*] )
+----------------------------
+Adds one or more key/value pairs to the dict.
+Returns the instance.
+
+```js
+var d = Dict();
+d.add({a:'alpha', b:'bravo'});
+d.add({c:'charlie'}, {d:'delta', e:'echo'}, {f:'foxtrot'});
+// d => {
+//  a:'alpha', b:'bravo', c:'charlie', d:'delta', e:'echo', f:'foxtrot'
+// }
+```
+
+<a name='dict-remove'></a>
+Dict#remove( key )
+------------------
+Removes a key/value pair from the collection by `key` and returns the
+removed value.
+If `key` does not exist within the dict a `ReferenceError` is thrown.
+
+```js
+var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+var x = d.remove('town');
+// x => 'Bedrock'
+// d => {name:'Fred', age:5000}
+
+d.remove('occupation'); // throws ReferenceError
+```
+
+<a name='dict-clear'></a>
+Dict#clear()
+------------
+Removes all key/value pairs from the dict. Returns the instance.
+
+```js
+var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+var x = d.clear();
+// d => {}
+x === d; // true
+```
+
+<a name='dict-foreach'></a>
+Dict#forEach( [context,] iterator )
+-----------------------------------
+Iterates over the dict, calling the `iterator` function for
+each key/value pair. Returns the instance.
+
+```js
+var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+var x = d.forEach(function(value, key, dict) {
+  console.log('Key: %s, Val: %s', key, value);
+});
+// Output:
+//  Key: name, Val: Fred
+//  Key: age, Val: 5000
+//  Key: town, Val: Bedrock
+x === d; // true
+
+// With optional context
+var obj = {foo:'bar'};
+d.forEach(obj, function(value, key, dict) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='dict-some'></a>
+Dict#some( [context,] iterator )
+--------------------------------
+Returns `true` if at least one key/value pair in the dict passes the
+`iterator` function.
+Otherwise `false` is returned.
+
+```js
+var d = Dict();
+d.set('Creep',            {year:1993, album:'Pablo Honey'});
+d.set('Paranoid Android', {year:1997, album:'OK Computer'});
+d.set('Karma Police',     {year:1997, album:'OK Computer'});
+var x = d.some(function(value, key, dict) {
+  return value.year > 1996;
+});
+// x => true
+
+// With optional context
+var obj = {foo:'bar'};
+d.some(obj, function(value, key, dict) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='dict-every'></a>
+Dict#every( [context,] iterator )
+---------------------------------
+Returns `true` if every key/value pair in the dict passes the
+`iterator` function.
+Otherwise `false` is returned.
+
+```js
+var d = Dict();
+d.set('Creep',            {year:1993, album:'Pablo Honey'});
+d.set('Paranoid Android', {year:1997, album:'OK Computer'});
+d.set('Karma Police',     {year:1997, album:'OK Computer'});
+var x = d.every(function(value, key, dict) {
+  return value.album === 'OK Computer';
+});
+// x => false
+
+// With optional context
+var obj = {foo:'bar'};
+d.every(obj, function(value, key, dict) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='dict-filter'></a>
+Dict#filter( [context,] iterator )
+----------------------------------
+Returns a new `Dict` composed of key/value pairs that pass the
+`iterator` function.
+
+```js
+var d = Dict();
+d.set('Creep',            {year:1993, album:'Pablo Honey'});
+d.set('Paranoid Android', {year:1997, album:'OK Computer'});
+d.set('Karma Police',     {year:1997, album:'OK Computer'});
+var x = d.filter(function(value, key, dict) {
+  return value.album === 'OK Computer';
+});
+// x => {
+//  'Paranoid Android' : {year:1997, album:'OK Computer'},
+//  'Karma Police'     : {year:1997, album:'OK Computer'}
+// }
+
+// With optional context
+var obj = {foo:'bar'};
+d.every(obj, function(value, key, dict) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='dict-reject'></a>
+Dict#reject( [context,] iterator )
+----------------------------------
+Returns a new `Dict` composed of key/value pairs that fail the
+`iterator` function.
+
+```js
+var d = Dict();
+d.set('Creep',            {year:1993, album:'Pablo Honey'});
+d.set('Paranoid Android', {year:1997, album:'OK Computer'});
+d.set('Karma Police',     {year:1997, album:'OK Computer'});
+var x = d.reject(function(value, key, dict) {
+  return value.album === 'OK Computer';
+});
+// x => {
+//  'Creep' : {year:1993, album:'Pablo Honey'},
+// }
+
+// With optional context
+var obj = {foo:'bar'};
+d.every(obj, function(value, key, dict) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='dict-clone'></a>
+Dict#clone()
+------------
+Returns a copy of the dict in a new instance.
+
+```js
+var d = Dict({a:2, b:4});
+var x = d.clone();
+// x = {a:2, b:4}
+// d = {a:2, b:4}
+x instanceof Dict; // true
+x === d;           // false
+```
+
+<a name='dict-toliteral'></a>
+Dict#toLiteral( [serializer] )
+------------------------------
+Returns the key/value pairs of the dict as an object literal.
+If the optional `serializer` function is passed, that will be used to
+determine the key.
+
+
+```js
+var d = Dict({a:10, b:20, c:30});
+var x = d.toLiteral();
+// x => {a:10, b:20, c:30}
+for (var key in x) {
+  console.log('%s : %s', key, x[key]);
+}
+// Output:
+//  a : 10
+//  b : 20
+//  c : 30
+
+// With optional serializer
+x = d.toLiteral(function(key, value) {
+  return key.toUpperCase();
+});
+// x => {A:10, B:20, C:30}
+```
+
+<a name='dict-toarray'></a>
+Dict#toArray()
+--------------
+Returns the dict's key/value pairs in an array of 'tuples'.
+
+```js
+var d = Dict({a:10, b:20, c:30});
+var x = d.toArray();
+// x => [['a', 10], ['b', 20], ['c', 30]]
+```
+
+
+[Dict]:               #dict
+[Dict Constructor]:   #dict-constructor
+
+[Dict#length]:        #dict-length
+[Dict#keys]:          #dict-keys
+[Dict#values]:        #dict-values
+
+[Dict#hasKey]:        #dict-haskey
+
+[Dict#get]:           #dict-get
+[Dict#set]:           #dict-set
+[Dict#add]:           #dict-add
+[Dict#remove]:        #dict-remove
+[Dict#clear]:         #dict-clear
+
+[Dict#forEach]:       #dict-foreach
+[Dict#some]:          #dict-some
+[Dict#every]:         #dict-every
+[Dict#filter]:        #dict-filter
+[Dict#reject]:        #dict-reject
+
+[Dict#clone]:        #dict-clone
+[Dict#toLiteral]:    #dict-toliteral
+[Dict#toArray]:      #dict-toarray
 
