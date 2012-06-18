@@ -120,8 +120,14 @@ describe 'Dict / Map Transformation Methods', ->
   describe '#toArray', ->
     it 'should return an array of the key/val pairs as [key, val]', ->
       arr = map.toArray()
-      expect(arr).to.eql [['foo', 10], ['bar', 33]]
+      expect(arr.some (pair) ->
+        pair[0] == 'foo' && pair[1] == 10).to.be true
+      expect(arr.some (pair) ->
+        pair[0] == 'bar' && pair[1] == 33).to.be true
 
       arr = dict.toArray()
-      expect(arr).to.eql [['name', 'Fred'], ['age', 4000]]
+      expect(arr.some (pair) ->
+        pair[0] == 'name' && pair[1] == 'Fred').to.be true
+      expect(arr.some (pair) ->
+        pair[0] == 'age' && pair[1] == 4000).to.be true
 

@@ -37,11 +37,15 @@ describe('Dict', function() {
     });
     it('should have a `keys` property', function() {
       expect(d.keys.length).to.be(3);
-      return expect(d.keys).to.eql(['name', 'age', 'wife']);
+      expect(d.keys).to.contain('name');
+      expect(d.keys).to.contain('age');
+      return expect(d.keys).to.contain('wife');
     });
     it('should have a `values` property', function() {
       expect(d.values.length).to.be(3);
-      return expect(d.values).to.eql(['Fred', 4000, 'Wilma']);
+      expect(d.values).to.contain('Fred');
+      expect(d.values).to.contain(4000);
+      return expect(d.values).to.contain('Wilma');
     });
     it('should not allow the `keys` property to be modifed', function() {
       d.keys = [];
@@ -70,8 +74,18 @@ describe('Dict', function() {
         fff: 666
       });
       expect(d.length).to.be(6);
-      expect(d.keys).to.eql(['aaa', 'bbb', 'ccc', 'ddd', 'eee', 'fff']);
-      return expect(d.values).to.eql([111, 222, 333, 444, 555, 666]);
+      expect(d.keys).to.contain('aaa');
+      expect(d.keys).to.contain('bbb');
+      expect(d.keys).to.contain('ccc');
+      expect(d.keys).to.contain('ddd');
+      expect(d.keys).to.contain('eee');
+      expect(d.keys).to.contain('fff');
+      expect(d.values).to.contain(111);
+      expect(d.values).to.contain(222);
+      expect(d.values).to.contain(333);
+      expect(d.values).to.contain(444);
+      expect(d.values).to.contain(555);
+      return expect(d.values).to.contain(666);
     });
     return it('should return `this` for chaining', function() {
       var d, x;

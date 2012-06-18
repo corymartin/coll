@@ -160,9 +160,19 @@ describe('Dict / Map Transformation Methods', function() {
     return it('should return an array of the key/val pairs as [key, val]', function() {
       var arr;
       arr = map.toArray();
-      expect(arr).to.eql([['foo', 10], ['bar', 33]]);
+      expect(arr.some(function(pair) {
+        return pair[0] === 'foo' && pair[1] === 10;
+      })).to.be(true);
+      expect(arr.some(function(pair) {
+        return pair[0] === 'bar' && pair[1] === 33;
+      })).to.be(true);
       arr = dict.toArray();
-      return expect(arr).to.eql([['name', 'Fred'], ['age', 4000]]);
+      expect(arr.some(function(pair) {
+        return pair[0] === 'name' && pair[1] === 'Fred';
+      })).to.be(true);
+      return expect(arr.some(function(pair) {
+        return pair[0] === 'age' && pair[1] === 4000;
+      })).to.be(true);
     });
   });
 });

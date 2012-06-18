@@ -27,11 +27,15 @@ describe 'Dict', ->
 
     it 'should have a `keys` property', ->
       expect(d.keys.length).to.be 3
-      expect(d.keys).to.eql ['name','age','wife']
+      expect(d.keys).to.contain 'name'
+      expect(d.keys).to.contain 'age'
+      expect(d.keys).to.contain 'wife'
 
     it 'should have a `values` property', ->
       expect(d.values.length).to.be 3
-      expect(d.values).to.eql ['Fred',4000,'Wilma']
+      expect(d.values).to.contain 'Fred'
+      expect(d.values).to.contain 4000
+      expect(d.values).to.contain 'Wilma'
 
     it 'should not allow the `keys` property to be modifed', ->
       d.keys = []
@@ -42,14 +46,25 @@ describe 'Dict', ->
     it 'should have a length property', ->
       expect(d.length).to.be 3
 
+
   describe '#add', ->
     it 'should add key/value pairs via one or more object literals', ->
       d = Dict()
       d.add {aaa:111, bbb:222}
       d.add {ccc:333}, {ddd:444, eee:555}, {fff:666}
       expect(d.length).to.be 6
-      expect(d.keys).to.eql ['aaa','bbb','ccc','ddd','eee','fff']
-      expect(d.values).to.eql [111,222,333,444,555,666]
+      expect(d.keys).to.contain 'aaa'
+      expect(d.keys).to.contain 'bbb'
+      expect(d.keys).to.contain 'ccc'
+      expect(d.keys).to.contain 'ddd'
+      expect(d.keys).to.contain 'eee'
+      expect(d.keys).to.contain 'fff'
+      expect(d.values).to.contain 111
+      expect(d.values).to.contain 222
+      expect(d.values).to.contain 333
+      expect(d.values).to.contain 444
+      expect(d.values).to.contain 555
+      expect(d.values).to.contain 666
 
     it 'should return `this` for chaining', ->
       d = Dict()
