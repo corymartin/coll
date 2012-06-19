@@ -1157,7 +1157,7 @@ var x = ls.intersperse('|');
 Dict
 ====
 A simple key/value collection, where keys are `Strings` and values can be any
-type or object. Keys are unique within collection.
+type or object. Keys are unique within the collection.
 
 
 <a name='dict-constructor'></a>
@@ -1846,32 +1846,42 @@ Map#toLiteral( [serializer] )
 -----------------------------
 Returns the key/value pairs of the map as an object literal.
 If the optional `serializer` function is passed, that will be used to
-determine the key. If your map keys are not strings, numbers, or anything
-else that might not automatically convert to a unique key string, it is
-highly suggested that you provide a `serializer` function.
+determine the key.
 
+If your map keys are not strings, numbers, or anything that would not
+automatically convert (`toString()`) to a unique key string, it is highly
+suggested that you provide a `serializer` function. Otherwise you will
+risk losing key/value pairs due to key collision and/or keys produces may
+not be that informative.
 
 ```js
 var m = Map();
-var key1 = {position:'rb', team:'vikings'};
-var key2 = {position:'wr', team:'cardinals'};
-m.set(key1, 'peterson');
-m.set(key2, 'fitz');
+var key1 = {position:'rb', team:'Vikings'};
+var key2 = {position:'wr', team:'Cardinals'};
+var key3 = {position:'ss', team:'Steelers'};
+m.set(key1, 'Peterson');
+m.set(key2, 'Fitz');
+m.set(key3, 'Polamalu');
 
 var x = m.toLiteral(function(key, val) {
   return key.team + ':' + key.position;
 });
-// x => {'vikings:rb': 'peterson', 'cardinals:wr': 'fitz'}
+// x => {
+//  'Vikings:rb':   'Peterson',
+//  'Cardinals:wr': 'Fitz',
+//  'Steelers:ss':  'Polamalu'
+// }
 for (var key in x) {
   console.log('%s : %s', key, x[key]);
 }
 // Output:
-//  vikings:rb : peterson
-//  cardinals:wr : fitz
+//  Vikings:rb : Peterson
+//  Cardinals:wr : Fitz
+//  Steelers:ss : Polamalu
 
 // Without serializer function
 x = m.toLiteral();
-// x => {'[object Object]': 'fitz'}
+// x => {'[object Object]': 'Polamalu'}
 ```
 
 <a name='map-toarray'></a>
@@ -1881,15 +1891,18 @@ Returns the map's key/value pairs in an array of 'tuples'.
 
 ```js
 var m = Map();
-var key1 = {position:'rb', team:'vikings'};
-var key2 = {position:'wr', team:'cardinals'};
-m.set(key1, 'peterson');
-m.set(key2, 'fitz');
+var key1 = {position:'rb', team:'Vikings'};
+var key2 = {position:'wr', team:'Cardinals'};
+var key3 = {position:'ss', team:'Steelers'};
+m.set(key1, 'Peterson');
+m.set(key2, 'Fitz');
+m.set(key3, 'Polamalu');
 
 var x = m.toArray();
 // x => [
-//  [{position:'rb', team:'vikings'}, 'peterson'],
-//  [{position:'wr', team:'cardinals'}, 'fitz']
+//  [{position:'rb', team:'Vikings'},   'Peterson'],
+//  [{position:'wr', team:'Cardinals'}, 'Fitz'],
+//  [{position:'ss', team:'Steelers'},  'Polamalu']
 // ]
 ```
 
