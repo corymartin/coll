@@ -113,6 +113,8 @@ List Constructor
 `new` is optional
 
 ```js
+var List = require('coll').List;
+
 var ls1 = new List;
 var ls2 = List();
 
@@ -1166,6 +1168,8 @@ Dict Constructor
 `new` is optional
 
 ```js
+var Dict = require('coll').Dict;
+
 var d1 = new Dict;
 var d2 = Dict();
 
@@ -1520,6 +1524,8 @@ Map Constructor
 `new` is optional
 
 ```js
+var Map = require('coll').Map;
+
 var m1 = new Map;
 var m2 = Map();
 
@@ -1850,7 +1856,7 @@ determine the key.
 
 If your map keys are not strings, numbers, or anything that would not
 automatically convert (`toString()`) to a unique key string, it is highly
-suggested that you provide a `serializer` function. Otherwise you will
+recommended that you provide a `serializer` function. Otherwise you will
 risk losing key/value pairs due to key collision and/or the keys produced
 may not be that descriptive.
 
