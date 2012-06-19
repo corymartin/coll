@@ -1851,8 +1851,8 @@ determine the key.
 If your map keys are not strings, numbers, or anything that would not
 automatically convert (`toString()`) to a unique key string, it is highly
 suggested that you provide a `serializer` function. Otherwise you will
-risk losing key/value pairs due to key collision and/or keys produces may
-not be that informative.
+risk losing key/value pairs due to key collision and/or the keys produced
+may not be that descriptive.
 
 ```js
 var m = Map();
