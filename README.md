@@ -1,7 +1,26 @@
-coll.js
+Coll.js
 =======
 
 JavaScript Collection Classes.
+
+Installation
+============
+Install with NPM:
+
+```
+$ npm install coll
+```
+
+In your JavaScript:
+
+```js
+var List = require('coll').List;
+var Dict = require('coll').Dict;
+var Map  = require('coll').Map;
+```
+
+The Classes
+===========
 
 - [List]
   - [List Constructor]
@@ -113,8 +132,6 @@ List Constructor
 `new` is optional
 
 ```js
-var List = require('coll').List;
-
 var ls1 = new List;
 var ls2 = List();
 
@@ -1168,8 +1185,6 @@ Dict Constructor
 `new` is optional
 
 ```js
-var Dict = require('coll').Dict;
-
 var d1 = new Dict;
 var d2 = Dict();
 
@@ -1524,8 +1539,6 @@ Map Constructor
 `new` is optional
 
 ```js
-var Map = require('coll').Map;
-
 var m1 = new Map;
 var m2 = Map();
 
