@@ -555,7 +555,7 @@ Returns a copy of the list's items in an `Array`.
 List#intersect( iterable )
 --------------------------
 Returns a new `List` of items present in both the instance list and in the
-passes iterable.
+passed iterable.
 
 ```js
 var ls = List(['apple', 'orange', 'pear', 'grape']);
@@ -709,7 +709,7 @@ var x = ls.partition(function(item, index, list) {
 //  [2, 4, 3, 3, 0],
 //  [8, 6, 9, 7]
 // ]
-Array.isArray(x); // true
+Array.isArray(x);     // true
 x[0] instanceof List; // true
 x[1] instanceof List; // true
 
