@@ -220,6 +220,18 @@ describe('List Transformation Methods', function() {
       expect(x[2].toString()).to.be('5');
       return expect(x[3].toString()).to.be('7');
     });
+    it('should take an optional `comparer` function to determine sorting', function() {
+      var asc, desc, ls;
+      ls = List([6, 2, 4, 8]);
+      desc = ls.sort(function(a, b) {
+        return b - a;
+      });
+      expect(desc.toArray()).to.eql([8, 6, 4, 2]);
+      asc = ls.sort(function(a, b) {
+        return a - b;
+      });
+      return expect(asc.toArray()).to.eql([2, 4, 6, 8]);
+    });
     it('should sort Dates chronologically', function() {
       var a, b, c, d, ls, x;
       a = new Date('4/5/2012');

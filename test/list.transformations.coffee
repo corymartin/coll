@@ -195,6 +195,16 @@ describe 'List Transformation Methods', ->
       expect(x[2].toString()).to.be '5'
       expect(x[3].toString()).to.be '7'
 
+    it 'should take an optional `comparer` function to determine sorting', ->
+      ls = List [6, 2, 4, 8]
+
+      desc = ls.sort (a, b) -> b - a
+      expect(desc.toArray()).to.eql [8, 6, 4, 2]
+
+      asc = ls.sort (a, b) -> a - b
+      expect(asc.toArray()).to.eql [2, 4, 6, 8]
+
+
     it 'should sort Dates chronologically', ->
       a = new Date '4/5/2012'
       b = new Date '12/9/2011'
