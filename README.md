@@ -23,6 +23,7 @@ The Classes
 ===========
 
 - [List]
+  - [List.range]
   - [List Constructor]
   - [List#length]
   - [List#get]
@@ -125,6 +126,26 @@ List
 An indexed list of items with functions for manipulating, iterating,
 searching, indexing, transforming, and inspecting.
 
+List Functions
+--------------
+
+<a name='list_range'></a>
+### List.range( start [, end [, step]] )
+Returns a `List` of numbers from `start` up to and including `end`.
+If only `start` is passed, a list of numbers ranging from `0` through
+`start` will be returned. If the optional `step` parameter is passed,
+that will be used as the incrementing value. The default is `1`.
+
+```js
+var ls = List.range(-4, 4);
+// ls => [-4, -3, -2, -1, 0, 1, 2, 3, 4]
+
+ls = List.range(3);
+// ls => [0, 1, 2, 3]
+
+ls = List.range(0, 10, 2);
+// ls => [0, 2, 4, 6, 8, 10]
+```
 
 <a name='list-constructor'></a>
 List Constructor
@@ -159,10 +180,11 @@ var ls3 = List(List([true, 2.99]))
 })('hi', true, /foo/);
 ```
 
+List Instance Properties
+------------------------
 
 <a name='list-length'></a>
-List#length
------------
+### List#length
 Number of items in the list.
 
 ```js
@@ -170,10 +192,11 @@ var ls = List([2,4,6]);
 // ls.length => 3
 ```
 
+List Instance Functions
+-----------------------
 
 <a name='list-get'></a>
-List#get( index )
------------------
+### List#get( index )
 Returns the item at the specifed index.
 
 ```js
@@ -183,8 +206,7 @@ var x = ls.get(2);
 ```
 
 <a name='list-set'></a>
-List#set( index, obj )
-----------------------
+### List#set( index, obj )
 Set the list item at `index` to `obj`.
 
 ```js
@@ -194,8 +216,7 @@ ls.set(1, 99);
 ```
 
 <a name='list-add'></a>
-List#add( item [, item*N*] )
-----------------------------
+### List#add( item [, item*N*] )
 Appends one or more items to the end of the list.
 Returns the list instance.
 
@@ -207,8 +228,7 @@ ls.add('e', 'f');
 ```
 
 <a name='list-addrange'></a>
-List#addRange( iterable )
--------------------------
+### List#addRange( iterable )
 Appends a range of new items to the end of the list.
 Returns the list instance.
 
@@ -220,8 +240,7 @@ ls.addRange('abc');
 ```
 
 <a name='list-insert'></a>
-List#insert( index, item )
---------------------------
+### List#insert( index, item )
 Inserts a new item at the specified index.
 Returns the list instance.
 
@@ -232,8 +251,7 @@ ls.insert(2, 'c');
 ```
 
 <a name='list-insertrange'></a>
-List#insertRange( index, iterable )
------------------------------------
+### List#insertRange( index, iterable )
 Inserts a range of new items starting at the specifed index.
 Returns the list instance.
 
@@ -244,8 +262,7 @@ ls.insertRange(1, [12,14]);
 ```
 
 <a name='list-remove'></a>
-List#remove( item [, index] )
------------------------------
+### List#remove( item [, index] )
 Removes the first occurence of the passed item in the list.
 Returns the removed item, or `undefined` if the item is not in the list.
 If the optional `index` parameter is passed, the first matching item after
@@ -259,8 +276,7 @@ var x = ls.remove(2);
 ```
 
 <a name='list-removefirst'></a>
-List#removeFirst()
-------------------
+### List#removeFirst()
 Removes and returns the first item in the list.
 
 ```js
@@ -271,8 +287,7 @@ var x = ls.removeFirst();
 ```
 
 <a name='list-removelast'></a>
-List#removeLast()
------------------
+### List#removeLast()
 Removes and returns the last item in the list.
 
 ```js
@@ -283,8 +298,7 @@ var x = ls.removeLast();
 ```
 
 <a name='list-removeif'></a>
-List#removeIf( [context,] iterator )
--------------------------------------
+### List#removeIf( [context,] iterator )
 Removes and returns the first item in the list to pass the `iterator` function.
 If no item passes the `iterator` test, `undefined` is returned.
 
@@ -304,8 +318,7 @@ ls.removeIf(obj, function(item, index, list) {
 ```
 
 <a name='list-removeall'></a>
-List#removeAll( [context,] iterator )
---------------------------------------
+### List#removeAll( [context,] iterator )
 Removes every item in the list that passes the `iterator` test.
 Returns a new `List` of the removed items.
 
@@ -326,8 +339,7 @@ ls.removeAll(obj, function(item, index, list) {
 ```
 
 <a name='list-removeat'></a>
-List#removeAt( index [, howmany] )
-----------------------------------
+### List#removeAt( index [, howmany] )
 Removes the item at the given index.
 Returns the removed item.
 If the optional `howmany` parameter is passed, a range of items is removed
@@ -347,8 +359,7 @@ var x = removeAt(2, 3);
 ```
 
 <a name='list-clear'></a>
-List#clear()
-------------
+### List#clear()
 Removes all items from the list. Returns the instance.
 
 ```js
@@ -360,8 +371,7 @@ x === ls; // true
 
 
 <a name='list-slice'></a>
-List#slice( [beginindex [, endindex]] )
----------------------------------------
+### List#slice( [beginindex [, endindex]] )
 Functions the same as `Array#slice` function except this version returns
 an instance of `List`.
 
@@ -373,8 +383,7 @@ var x = ls.slice(2, 4);
 ```
 
 <a name='list-concat'></a>
-List#concat( iterable [, iterable*N*] )
----------------------------------------
+### List#concat( iterable [, iterable*N*] )
 Returns a new `List` composed of the instance list concatenated to one or more
 passed iterables.
 
@@ -386,22 +395,20 @@ var x = ls.concat('abc', List([0,1,2]), [12.99]);
 ```
 
 <a name='list-join'></a>
-List#join( [separator] )
-------------------------
+### List#join( [separator] )
 Borrowed from `Array#join`.
 
 ```js
-var ls = List('abc');
+var ls = List([2, 4, 6]);
 var x = ls.join();
-// x => 'a,b,c'
+// x => '2,4,6'
 
-x = ls.join(' | ');
-// x => 'a | b | c'
+x = ls.join(' - ');
+// x => '2 - 4 - 6'
 ```
 
 <a name='list-count'></a>
-List#count( [item] )
---------------------
+### List#count( [item] )
 Returns the number of occurences of `item` within the list.
 If no argument is passed, the list's length is returned.
 
@@ -412,8 +419,7 @@ var x = ls.count(2);
 ```
 
 <a name='list-countif'></a>
-List#countIf( [context,] iterator )
-------------------------------------
+### List#countIf( [context,] iterator )
 Returns the number of occurences that the `iterator` tests successfully against
 the items in the list.
 
@@ -432,8 +438,7 @@ ls.countIf(obj, function(item, index, list) {
 ```
 
 <a name='list-contains'></a>
-List#contains( item )
----------------------
+### List#contains( item )
 Determines if the passed item is in the list.
 
 ```js
@@ -443,8 +448,7 @@ ls.contains('right'); // false
 ```
 
 <a name='list-find'></a>
-List#find( [context,] iterator )
----------------------------------
+### List#find( [context,] iterator )
 Returns the first item in the list to pass the `iterator` test.
 If no item passes the `iterator` test, `undefined` is returned.
 
@@ -463,8 +467,7 @@ ls.find(obj, function(item, index, list) {
 ```
 
 <a name='list-findLast'></a>
-List#findLast( [context,] iterator )
--------------------------------------
+### List#findLast( [context,] iterator )
 Returns the last item in the list that passes the `iterator` test.
 If no item passes the `iterator` test, `undefined` is returned.
 
@@ -483,8 +486,7 @@ ls.findLast(obj, function(item, index, list) {
 ```
 
 <a name='list-findall'></a>
-List#findAll( [context,] iterator )
-------------------------------------
+### List#findAll( [context,] iterator )
 Returns a new `List` of every item in the instance list that passes the
 `iterator` test.
 
@@ -502,8 +504,7 @@ ls.findAll(obj, function(item, index, list) {
 ```
 
 <a name='list-first'></a>
-List#first()
-------------
+### List#first()
 Returns the first item in the list.
 If the list is empty, `undefined` is returned.
 
@@ -514,8 +515,7 @@ var x = ls.first();
 ```
 
 <a name='list-last'></a>
-List#last()
-------------
+### List#last()
 Returns the last item in the list.
 If the list is empty, `undefined` is returned.
 
@@ -526,8 +526,7 @@ var x = ls.last();
 ```
 
 <a name='list-unique'></a>
-List#unique()
--------------
+### List#unique()
 Returns a new `List` of non-duplicate items found within the instance list.
 Duplicates are determines with strict equality.
 
@@ -538,8 +537,7 @@ var x = ls.unique();
 ```
 
 <a name='list-clean'></a>
-List#clean()
-------------
+### List#clean()
 Returns a copy of the list with all occurences of `undefined`, `null`, and
 `NaN` removed.
 
@@ -550,8 +548,7 @@ var x = ls.clean();
 ```
 
 <a name='list-clone'></a>
-List#clone()
-------------
+### List#clone()
 Returns a copy of the list in a new instance.
 
 ```js
@@ -564,25 +561,29 @@ x === ls;          // false
 ```
 
 <a name='list-toarray'></a>
-List#toArray()
---------------
+### List#toArray()
 Returns a copy of the list's items in an `Array`.
 
+```js
+var ls = List([true, 'fajita', 4.89]);
+var x = ls.toArray();
+// x => [true, 'fajita', 4.89]
+Array.isArray(x); // true;
+```
+
 <a name='list-intersect'></a>
-List#intersect( iterable )
---------------------------
+### List#intersect( iterable )
 Returns a new `List` of items present in both the instance list and in the
 passed iterable.
 
 ```js
 var ls = List(['apple', 'orange', 'pear', 'grape']);
 var x = ls.intersect(['peach', 'pear', 'plum', 'apple', 'mango']);
-// x  => ['apple', 'pear']
+// x => ['apple', 'pear']
 ```
 
 <a name='list-max'></a>
-List#max( [comparer] )
-----------------------
+### List#max( [comparer] )
 Returns the item with the maximum value from the list.
 If the optional `comparer` function is passed, that will be used to determine
 the maximum value. It works like the comparer function in `Array#sort`.
@@ -600,8 +601,7 @@ x = ls2.max(function(a, b) {
 ```
 
 <a name='list-min'></a>
-List#min( [comparer] )
-----------------------
+### List#min( [comparer] )
 Returns the item with the minimum value from the list.
 If the optional `comparer` function is passed, that will be used to determine
 the minimum value. It works like the comparer function in `Array#sort`.
@@ -619,8 +619,7 @@ x = ls2.min(function(a, b) {
 ```
 
 <a name='list-take'></a>
-List#take( howmany )
---------------------
+### List#take( howmany )
 Returns a new `List` of the first `howmany` contiguous items from the
 instance list.
 
@@ -631,8 +630,7 @@ var x = ls.take(3);
 ```
 
 <a name='list-takewhile'></a>
-List#takeWhile( [context,] iterator )
---------------------------------------
+### List#takeWhile( [context,] iterator )
 Returns a new `List` of contiguous items, starting at the beginning of the
 list, so long as the `iterator` function returns true.
 
@@ -651,8 +649,7 @@ ls.takeWhile(obj, function(item, index, list) {
 ```
 
 <a name='list-drop'></a>
-List#drop( howmany )
---------------------
+### List#drop( howmany )
 Returns a new `List` of contiguous items, dropping the first `howmany` items
 from the instance list.
 
@@ -663,8 +660,7 @@ var x = ls.drop(3);
 ```
 
 <a name='list-dropwhile'></a>
-List#dropWhile( [context,] iterator )
---------------------------------------
+### List#dropWhile( [context,] iterator )
 Returns a new `List` of contiguous items, starting at the first item in the
 instance list that fails the passed `iterator` function.
 
@@ -683,8 +679,7 @@ ls.dropWhile(obj, function(item, index, list) {
 ```
 
 <a name='list-group'></a>
-List#group( [[context,] iterator] )
-----------------------------------
+### List#group( [[context,] iterator] )
 Returns a hash of sublists, grouped either by equality to each other or by
 the result of the optional `iterator` function.
 
@@ -711,8 +706,7 @@ var x = ls.group(function(item, index, list) {
 ```
 
 <a name='list-partition'></a>
-List#partition( [context,] iterator )
---------------------------------------
+### List#partition( [context,] iterator )
 Returns an `Array` of two `List`s. The first list is composed of the items
 that pass the `iterator` function. The second list is composed of those items
 that failed it.
@@ -738,8 +732,7 @@ ls.partition(obj, function(item, index, list) {
 ```
 
 <a name='list-indexof'></a>
-List#indexOf( item [, index] )
---------------------
+### List#indexOf( item [, index] )
 Returns the index of the first occurence of `item` in the list.
 If `item` is not found, `-1` will be returned.
 Borrowed from `Array#indexOf`.
@@ -753,8 +746,7 @@ x = ls.indexOf(9.99);
 ```
 
 <a name='list-lastindexof'></a>
-List#lastIndexOf( item [, index] )
-----------------------------------
+### List#lastIndexOf( item [, index] )
 Returns the index of the last occurence of `item` in the list.
 If `item` is not found, `-1` will be returned.
 Borrowed from `Array#lastIndexOf`.
@@ -768,8 +760,7 @@ x = ls.lastIndexOf(9.99);
 ```
 
 <a name='list-indexif'></a>
-List#indexIf( [index, [context,]] iterator )
---------------------------------------------
+### List#indexIf( [index, [context,]] iterator )
 Returns the index of the first item in the list that passes the `iterator`
 function.
 
@@ -797,8 +788,7 @@ ls.indexIf(null, obj, function(item, index, list) {
 ```
 
 <a name='list-lastindexif'></a>
-List#lastIndexIf( [index, [context,]] iterator )
-------------------------------------------------
+### List#lastIndexIf( [index, [context,]] iterator )
 Returns the index of the last item in the list that passes the `iterator`
 function.
 
@@ -826,8 +816,7 @@ ls.lastIndexIf(null, obj, function(item, index, list) {
 ```
 
 <a name='list-indicesof'></a>
-List#indicesOf( item [, index] )
---------------------------------
+### List#indicesOf( item [, index] )
 Returns the indices of every item in the list matching `item`.
 
 ```js
@@ -841,8 +830,7 @@ x = ls.indicesOf('a', 2);
 ```
 
 <a name='list-indicesif'></a>
-List#indicesIf( [index, [context,]] iterator )
-----------------------------------------------
+### List#indicesIf( [index, [context,]] iterator )
 Returns the indices of every item in the list that passes the `iterator
 function.
 
@@ -867,8 +855,7 @@ ls.indicesIf(null, obj, function(item, index, list) {
 ```
 
 <a name='list-foreach'></a>
-List#forEach( [context,] iterator )
-------------------------------------
+### List#forEach( [context,] iterator )
 Iterates over the items in the list, invoking the passed `iterator` function
 for each item. Returns the list instance.
 
@@ -891,8 +878,7 @@ ls.forEach(obj, function(item, index, list) {
 ```
 
 <a name='list-some'></a>
-List#some( [context,] iterator )
----------------------------------
+### List#some( [context,] iterator )
 Returns `true` if at least one item in the list passes the `iterator` function.
 Otherwise `false` is returned.
 
@@ -916,8 +902,7 @@ ls.some(obj, function(item, index, list) {
 ```
 
 <a name='list-every'></a>
-List#every( [context,] iterator )
----------------------------------
+### List#every( [context,] iterator )
 Returns `true` if every item in the list passes the `iterator` test.
 Otherwise `false` is returned.
 
@@ -941,8 +926,7 @@ ls.every(obj, function(item, index, list) {
 ```
 
 <a name='list-reduce'></a>
-List#reduce( [initval,] iterator )
------------------------------------
+### List#reduce( [initval,] iterator )
 Reduces the list into a single accumulated value.
 Left to right.
 
@@ -967,8 +951,7 @@ x = ls.reduce([], function(arr, b, index, list) {
 ```
 
 <a name='list-reduceright'></a>
-List#reduceRight( [initval,] iterator )
------------------------------------
+### List#reduceRight( [initval,] iterator )
 Reduces the list into a single accumulated value.
 Right to left.
 
@@ -987,8 +970,7 @@ x = ls.reduceRight('---', function(a, b, index, list) {
 ```
 
 <a name='list-sort'></a>
-List#sort( [comparer] )
------------------------
+### List#sort( [comparer] )
 Returns a new, sorted `List` of the instance's items.
 Numeric items (numbers, dates) are sorted numerically.
 Other types are sorted lixicographically.
@@ -1008,8 +990,7 @@ x = ls.sort(function(a, b) {
 ```
 
 <a name='list-reverse'></a>
-List#reverse()
---------------
+### List#reverse()
 Returns a new `List` of the instance's items with their order reversed.
 
 ```js
@@ -1020,8 +1001,7 @@ var x = ls.reverse();
 ```
 
 <a name='list-filter'></a>
-List#filter( [context,] iterator )
-----------------------------------
+### List#filter( [context,] iterator )
 Returns a new `List` composed of items that pass the `iterator` function.
 
 ```js
@@ -1043,8 +1023,7 @@ ls.filter(obj, function(item, index, list) {
 ```
 
 <a name='list-reject'></a>
-List#reject( [context,] iterator )
-----------------------------------
+### List#reject( [context,] iterator )
 Returns a new `List` composed of items that fail the `iterator` function.
 
 ```js
@@ -1066,8 +1045,7 @@ ls.reject(obj, function(item, index, list) {
 ```
 
 <a name='list-map'></a>
-List#map( [context,] iterator )
-----------------------------------
+### List#map( [context,] iterator )
 Returns a new `List` of values determined by the `iterator` function.
 
 ```js
@@ -1089,8 +1067,7 @@ ls.map(obj, function(item, index, list) {
 ```
 
 <a name='list-intersperse'></a>
-List#intersperse( obj )
------------------------
+### List#intersperse( obj )
 Returns a new `List` with `obj` inserted between every item in the list.
 
 ```js
@@ -1103,6 +1080,9 @@ var x = ls.intersperse('|');
 
 
 [List]:               #list
+
+[List.range]:         #list_range
+
 [List Constructor]:   #list-constructor
 
 [List#length]:        #list-length
@@ -1199,10 +1179,11 @@ var d = Dict({a:10, b:20});
 // d => {a:10, b:20}
 ```
 
+Dict Instance Properties
+------------------------
 
 <a name='dict-length'></a>
-Dict#length
------------
+### Dict#length
 The number of items in the dict.
 
 ```js
@@ -1211,8 +1192,7 @@ var d = Dict({a:2, b:4, c:6});
 ```
 
 <a name='dict-keys'></a>
-Dict#keys
----------
+### Dict#keys
 An array of the dict's keys. Order is arbitrary.
 
 ```js
@@ -1221,8 +1201,7 @@ var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
 ```
 
 <a name='dict-values'></a>
-Dict#values
------------
+### Dict#values
 An array of the dict's values. Order is arbitrary.
 
 ```js
@@ -1230,9 +1209,11 @@ var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
 // d.values => ['Fred', 5000, 'Bedrock']
 ```
 
+Dict Instance Functions
+-----------------------
+
 <a name='dict-haskey'></a>
-Dict#haskey( key )
-------------------
+### Dict#haskey( key )
 Returns `true` if `key` exists within the dict. Otherwise `false` is returned.
 
 ```js
@@ -1242,8 +1223,7 @@ d.hasKey('address'); // false
 ```
 
 <a name='dict-get'></a>
-Dict#get( key [, \_default] )
------------------------------
+### Dict#get( key [, \_default] )
 Returns the value for `key`.
 If an optional `_default` value is passed, that will be returned in cases
 where the `key` does not exist within the dict.
@@ -1262,8 +1242,7 @@ d.get('occupation'); // throws ReferenceError
 ```
 
 <a name='dict-set'></a>
-Dict#set( key, value )
-----------------------
+### Dict#set( key, value )
 Set value `value` for key `key`. If the key already exists in the dict
 then it's value will be overwritten. If the `key` does not exist, then it
 will be added. Returns the instance.
@@ -1279,8 +1258,7 @@ d.set('volume', .85);
 ```
 
 <a name='dict-add'></a>
-Dict#add( hash [, hash*N*] )
-----------------------------
+### Dict#add( hash [, hash*N*] )
 Adds one or more key/value pairs to the dict.
 Returns the instance.
 
@@ -1294,8 +1272,7 @@ d.add({c:'charlie'}, {d:'delta', e:'echo'}, {f:'foxtrot'});
 ```
 
 <a name='dict-remove'></a>
-Dict#remove( key )
-------------------
+### Dict#remove( key )
 Removes a key/value pair from the collection by `key` and returns the
 removed value.
 If `key` does not exist within the dict a `ReferenceError` is thrown.
@@ -1310,8 +1287,7 @@ d.remove('occupation'); // throws ReferenceError
 ```
 
 <a name='dict-clear'></a>
-Dict#clear()
-------------
+### Dict#clear()
 Removes all key/value pairs from the dict. Returns the instance.
 
 ```js
@@ -1322,8 +1298,7 @@ x === d; // true
 ```
 
 <a name='dict-foreach'></a>
-Dict#forEach( [context,] iterator )
------------------------------------
+### Dict#forEach( [context,] iterator )
 Iterates over the dict, calling the `iterator` function for
 each key/value pair. Returns the instance.
 
@@ -1346,8 +1321,7 @@ d.forEach(obj, function(value, key, dict) {
 ```
 
 <a name='dict-some'></a>
-Dict#some( [context,] iterator )
---------------------------------
+### Dict#some( [context,] iterator )
 Returns `true` if at least one key/value pair in the dict passes the
 `iterator` function.
 Otherwise `false` is returned.
@@ -1370,8 +1344,7 @@ d.some(obj, function(value, key, dict) {
 ```
 
 <a name='dict-every'></a>
-Dict#every( [context,] iterator )
----------------------------------
+### Dict#every( [context,] iterator )
 Returns `true` if every key/value pair in the dict passes the
 `iterator` function.
 Otherwise `false` is returned.
@@ -1394,8 +1367,7 @@ d.every(obj, function(value, key, dict) {
 ```
 
 <a name='dict-filter'></a>
-Dict#filter( [context,] iterator )
-----------------------------------
+### Dict#filter( [context,] iterator )
 Returns a new `Dict` composed of key/value pairs that pass the
 `iterator` function.
 
@@ -1420,8 +1392,7 @@ d.filter(obj, function(value, key, dict) {
 ```
 
 <a name='dict-reject'></a>
-Dict#reject( [context,] iterator )
-----------------------------------
+### Dict#reject( [context,] iterator )
 Returns a new `Dict` composed of key/value pairs that fail the
 `iterator` function.
 
@@ -1445,8 +1416,7 @@ d.reject(obj, function(value, key, dict) {
 ```
 
 <a name='dict-clone'></a>
-Dict#clone()
-------------
+### Dict#clone()
 Returns a copy of the dict in a new instance.
 
 ```js
@@ -1459,8 +1429,7 @@ x === d;           // false
 ```
 
 <a name='dict-toliteral'></a>
-Dict#toLiteral( [serializer] )
-------------------------------
+### Dict#toLiteral( [serializer] )
 Returns the key/value pairs of the dict as an object literal.
 If the optional `serializer` function is passed, that will be used to
 determine the key.
@@ -1486,8 +1455,7 @@ x = d.toLiteral(function(key, value) {
 ```
 
 <a name='dict-toarray'></a>
-Dict#toArray()
---------------
+### Dict#toArray()
 Returns the dict's key/value pairs in an array of 'tuples'.
 
 ```js
@@ -1556,10 +1524,11 @@ var m = Map([['a', 10], [/foo/i, 20]]);
 // }
 ```
 
+Map Instance Properties
+-----------------------
 
 <a name='map-length'></a>
-Map#length
-----------
+### Map#length
 The number of items in the map.
 
 ```js
@@ -1568,8 +1537,7 @@ var m = Map([['a', 10], [/foo/i, 20]]);
 ```
 
 <a name='map-keys'></a>
-Map#keys
---------
+### Map#keys
 An array of the map's keys. Order is arbitrary.
 
 ```js
@@ -1578,8 +1546,7 @@ var m = Map([[{a:1}, 'dog'], [{b:2}, 'cat'], [23.389, 'rock']]);
 ```
 
 <a name='map-values'></a>
-Map#values
-----------
+### Map#values
 An array of the dict's values. Order is arbitrary.
 
 ```js
@@ -1587,9 +1554,11 @@ var m = Map([[{a:1}, 'dog'], [{b:2}, 'cat'], [23.389, 'rock']]);
 // m.values => ['dog', 'cat', 'rock']
 ```
 
+Map Instance Functions
+----------------------
+
 <a name='map-haskey'></a>
-Map#haskey( key )
------------------
+### Map#haskey( key )
 Returns `true` if `key` exists within the map. Otherwise `false` is returned.
 Keys are determined and are unique by strict equality.
 
@@ -1609,8 +1578,7 @@ m.hasKey(9999);   // true
 ```
 
 <a name='map-get'></a>
-Map#get( key [, \_default] )
------------------------------
+### Map#get( key [, \_default] )
 Returns the value for `key`.
 If an optional `_default` value is passed, that will be returned in cases
 where the `key` does not exist within the map.
@@ -1637,8 +1605,7 @@ m.get(/foo/gi); // throws ReferenceError
 ```
 
 <a name='map-set'></a>
-Map#set( key, value )
----------------------
+### Map#set( key, value )
 Set value `value` for key `key`. If the key already exists in the map
 then it's value will be overwritten. If the `key` does not exist, then it
 will be added. Returns the instance.
@@ -1658,8 +1625,7 @@ d.set('volume', .85);
 ```
 
 <a name='map-remove'></a>
-Map#remove( key )
------------------
+### Map#remove( key )
 Removes a key/value pair from the collection by `key` and returns the
 removed value.
 If `key` does not exist within the map a `ReferenceError` is thrown.
@@ -1684,8 +1650,7 @@ m.remove({name:'Jen'}); // throws ReferenceError
 ```
 
 <a name='map-clear'></a>
-Map#clear()
------------
+### Map#clear()
 Removes all key/value pairs from the map. Returns the instance.
 
 ```js
@@ -1696,8 +1661,7 @@ x === m; // true
 ```
 
 <a name='map-foreach'></a>
-Map#forEach( [context,] iterator )
-----------------------------------
+### Map#forEach( [context,] iterator )
 Iterates over the map, calling the `iterator` function for
 each key/value pair. Returns the instance.
 
@@ -1724,8 +1688,7 @@ m.forEach(obj, function(value, key, dict) {
 ```
 
 <a name='map-some'></a>
-Map#some( [context,] iterator )
--------------------------------
+### Map#some( [context,] iterator )
 Returns `true` if at least one key/value pair in the map passes the
 `iterator` function.
 Otherwise `false` is returned.
@@ -1750,8 +1713,7 @@ m.some(obj, function(value, key, dict) {
 ```
 
 <a name='map-every'></a>
-Map#every( [context,] iterator )
---------------------------------
+### Map#every( [context,] iterator )
 Returns `true` if every key/value pair in the map passes the
 `iterator` function.
 Otherwise `false` is returned.
@@ -1781,8 +1743,7 @@ m.every(obj, function(value, key, dict) {
 ```
 
 <a name='map-filter'></a>
-Map#filter( [context,] iterator )
----------------------------------
+### Map#filter( [context,] iterator )
 Returns a new `Map` composed of key/value pairs that pass the
 `iterator` function.
 
@@ -1811,8 +1772,7 @@ m.filter(obj, function(value, key, dict) {
 ```
 
 <a name='map-reject'></a>
-Map#reject( [context,] iterator )
-----------------------------------
+### Map#reject( [context,] iterator )
 Returns a new `Map` composed of key/value pairs that fail the
 `iterator` function.
 
@@ -1840,8 +1800,7 @@ m.reject(obj, function(value, key, dict) {
 ```
 
 <a name='map-clone'></a>
-Map#clone()
------------
+### Map#clone()
 Returns a copy of the map in a new instance.
 
 ```js
@@ -1861,8 +1820,7 @@ x === m;          // false
 ```
 
 <a name='map-toliteral'></a>
-Map#toLiteral( [serializer] )
------------------------------
+### Map#toLiteral( [serializer] )
 Returns the key/value pairs of the map as an object literal.
 If the optional `serializer` function is passed, that will be used to
 determine the key.
@@ -1904,8 +1862,7 @@ x = m.toLiteral();
 ```
 
 <a name='map-toarray'></a>
-Map#toArray()
--------------
+### Map#toArray()
 Returns the map's key/value pairs in an array of 'tuples'.
 
 ```js
