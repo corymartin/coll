@@ -22,8 +22,49 @@ describe('List', function() {
       });
     });
   });
-  return describe('Unmodified methods borrowed from Array prototype', function() {
-    expect(List.prototype.reverse).to.be.a(Function);
+  describe('Unmodified methods borrowed from Array prototype', function() {
     return expect(List.prototype.join).to.be.a(Function);
+  });
+  return describe('Static Functions', function() {
+    return describe('range()', function() {
+      it('should return a range of numbers from `start`\nup to and including `end`', function() {
+        var ls;
+        ls = List.range(4, 8);
+        expect(ls.length).to.be(5);
+        expect(ls[0]).to.be(4);
+        expect(ls[1]).to.be(5);
+        expect(ls[2]).to.be(6);
+        expect(ls[3]).to.be(7);
+        return expect(ls[4]).to.be(8);
+      });
+      it('should return a list form `0` to `start`\nif only `start` is passed', function() {
+        var ls;
+        ls = List.range(4);
+        expect(ls.length).to.be(5);
+        expect(ls[0]).to.be(0);
+        expect(ls[1]).to.be(1);
+        expect(ls[2]).to.be(2);
+        expect(ls[3]).to.be(3);
+        return expect(ls[4]).to.be(4);
+      });
+      it('should increment by `step` if it is passed', function() {
+        var ls;
+        ls = List.range(0, 10, 2);
+        expect(ls.length).to.be(6);
+        expect(ls[0]).to.be(0);
+        expect(ls[1]).to.be(2);
+        expect(ls[2]).to.be(4);
+        expect(ls[3]).to.be(6);
+        expect(ls[4]).to.be(8);
+        return expect(ls[5]).to.be(10);
+      });
+      return it('should throw a `TypeError` if `step` is not greater than zero', function() {
+        return expect(function() {
+          return List.range(0, 5, 0);
+        }).to.throwError(function(e) {
+          return expect(e).to.be.a(TypeError);
+        });
+      });
+    });
   });
 });
