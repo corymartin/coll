@@ -253,7 +253,7 @@ describe('List Transformation Methods', function() {
       expect(x[2]).to.be(c);
       return expect(x[3]).to.be(a);
     });
-    it('should sort and list numeric types first, dates second,\nbooleans third, then everything else fourth\nwhen dealing with lists of mixed types', function() {
+    it('should sort and list numeric types first, dates second,\nbooleans third, strings fourth, then everything else fifth\nwhen dealing with lists of mixed types', function() {
       var date1, date2, ls, obj, regex, therest, x;
       date1 = new Date('2012-2-2');
       date2 = new Date('2000-2-2');
@@ -274,12 +274,13 @@ describe('List Transformation Methods', function() {
       expect(x[8]).to.be(false);
       expect(x[9]).to.be(false);
       expect(x[10]).to.be(true);
-      therest = x.slice(11);
+      expect(x[11]).to.be('4');
+      expect(x[12]).to.be('a');
+      expect(x[13]).to.be('sd');
+      therest = x.slice(14);
+      expect(therest.length).to.be(2);
       expect(therest).to.contain(regex);
-      expect(therest).to.contain(obj);
-      expect(therest).to.contain('a');
-      expect(therest).to.contain('sd');
-      return expect(therest).to.contain('4');
+      return expect(therest).to.contain(obj);
     });
     it('should use Array#sort lexicographic order for other types', function() {
       var a, b, c, d, ls, x;

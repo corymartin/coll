@@ -975,12 +975,13 @@ Returns a new, sorted `List` of the instance's items.
 Numeric items (numbers, dates, booleans) are sorted numerically.
 Other types are sorted lexicographically.
 
-If a list contains many types, the order of sort precedence is:
+If a list contains mixed types, the order of sort precedence is:
 
 1. numbers
 2. dates
 3. booleans
-4. everything else
+4. strings
+5. everything else
 
 If the `comparer` function is passed, that will be used to determine
 sort order.
@@ -1002,11 +1003,11 @@ x = ls.sort(function(a, b) {
 var date1 = new Date('2012-06-23')
 var date2 = new Date('2000-01-01')
 ls = List(
-  [9, 'a', 8, /foo/, 3, true, 0, date1, 1, 'sd', date2, 5, false, '1']
+  [9, 'a', /foo/, true, 0, date1, {a:1}, 'sd', date2, 5, false, '1']
 );
 x = ls.sort();
 // x =>
-//  [0, 1, 3, 5, 8, 9, date2, date1, false, true, /foo/, '1', 'a', 'sd']
+//  [0, 5, 9, date2, date1, false, true, '1', 'a', 'sd', /foo/, {a:1}]
 ```
 
 <a name='list-reverse'></a>
