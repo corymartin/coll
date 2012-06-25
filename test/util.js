@@ -70,11 +70,8 @@ describe('util function', function() {
       expect(util.isNumeric(new Number)).to.be(true);
       return expect(util.isNumeric(new Number(34.2))).to.be(true);
     });
-    it('should return true for valid Date instances', function() {
-      return expect(util.isNumeric(new Date)).to.be(true);
-    });
-    it('should return false for invalid Date instances', function() {
-      return expect(util.isNumeric(new Date('hwefgyfguwe'))).to.be(false);
+    it('should return false for Date instances', function() {
+      return expect(util.isNumeric(new Date)).to.be(false);
     });
     it('should return false for NaN', function() {
       return expect(util.isNumeric(NaN)).to.be(false);
