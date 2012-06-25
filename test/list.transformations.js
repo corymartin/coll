@@ -253,14 +253,15 @@ describe('List Transformation Methods', function() {
       expect(x[2]).to.be(c);
       return expect(x[3]).to.be(a);
     });
-    it('should numeric types first, booleans second, everything else\nthird when dealing with lists of mixed types', function() {
-      var date, ls, obj, regex, therest, x;
-      date = new Date;
+    it('should sort and list numeric types first, dates second,\nbooleans third, then everything else fourth\nwhen dealing with lists of mixed types', function() {
+      var date1, date2, ls, obj, regex, therest, x;
+      date1 = new Date('2012-2-2');
+      date2 = new Date('2000-2-2');
       regex = /foo/;
       obj = {
         a: 1
       };
-      ls = new List([9, 'a', 8, regex, 3, true, 0, date, 1, false, obj, 'sd', 5, false, '4']);
+      ls = new List([9, 'a', 8, regex, 3, true, 0, date1, 1, false, obj, date2, 'sd', 5, false, '4']);
       x = ls.sort();
       expect(x[0]).to.be(0);
       expect(x[1]).to.be(1);
@@ -268,11 +269,12 @@ describe('List Transformation Methods', function() {
       expect(x[3]).to.be(5);
       expect(x[4]).to.be(8);
       expect(x[5]).to.be(9);
-      expect(x[6]).to.be(date);
-      expect(x[7]).to.be(false);
+      expect(x[6]).to.be(date2);
+      expect(x[7]).to.be(date1);
       expect(x[8]).to.be(false);
-      expect(x[9]).to.be(true);
-      therest = x.slice(10);
+      expect(x[9]).to.be(false);
+      expect(x[10]).to.be(true);
+      therest = x.slice(11);
       expect(therest).to.contain(regex);
       expect(therest).to.contain(obj);
       expect(therest).to.contain('a');
