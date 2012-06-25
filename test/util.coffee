@@ -85,5 +85,24 @@ describe 'util function', ->
       expect( util.isTypeEvery 'Number', [2,3,'a',6], 2 ).to.be false
 
 
+  describe 'isNumeric()', ->
+    it 'should return true for numbers', ->
+      expect(util.isNumeric 23).to.be true
+      expect(util.isNumeric 23.3802).to.be true
 
+    it 'should return true for Number instances', ->
+      expect(util.isNumeric new Number).to.be true
+      expect(util.isNumeric new Number(34.2)).to.be true
+
+    it 'should return true for valid Date instances', ->
+      expect(util.isNumeric new Date).to.be true
+
+    it 'should return false for invalid Date instances', ->
+      expect(util.isNumeric new Date('hwefgyfguwe')).to.be false
+
+    it 'should return false for NaN', ->
+      expect(util.isNumeric NaN).to.be false
+
+    it 'should return false for string numbers', ->
+      expect(util.isNumeric '5').to.be false
 

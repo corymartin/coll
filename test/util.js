@@ -104,7 +104,7 @@ describe('util function', function() {
       return expect(util.isType(Zzz, new Foo)).to.be(false);
     });
   });
-  return describe('isTypeEvery()', function() {
+  describe('isTypeEvery()', function() {
     it('should test if every type in the passed array is of the passed type', function() {
       expect(util.isTypeEvery('Number', [2, 3, 4])).to.be(true);
       return expect(util.isTypeEvery('Number', [2, 'a', 4])).to.be(false);
@@ -112,6 +112,28 @@ describe('util function', function() {
     return it('should only type check items after the optional index, if passed', function() {
       expect(util.isTypeEvery('Number', [2, 'a', 4, 6], 2)).to.be(true);
       return expect(util.isTypeEvery('Number', [2, 3, 'a', 6], 2)).to.be(false);
+    });
+  });
+  return describe('isNumeric()', function() {
+    it('should return true for numbers', function() {
+      expect(util.isNumeric(23)).to.be(true);
+      return expect(util.isNumeric(23.3802)).to.be(true);
+    });
+    it('should return true for Number instances', function() {
+      expect(util.isNumeric(new Number)).to.be(true);
+      return expect(util.isNumeric(new Number(34.2))).to.be(true);
+    });
+    it('should return true for valid Date instances', function() {
+      return expect(util.isNumeric(new Date)).to.be(true);
+    });
+    it('should return false for invalid Date instances', function() {
+      return expect(util.isNumeric(new Date('hwefgyfguwe'))).to.be(false);
+    });
+    it('should return false for NaN', function() {
+      return expect(util.isNumeric(NaN)).to.be(false);
+    });
+    return it('should return false for string numbers', function() {
+      return expect(util.isNumeric('5')).to.be(false);
     });
   });
 });
