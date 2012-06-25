@@ -972,9 +972,18 @@ x = ls.reduceRight('---', function(a, b, index, list) {
 <a name='list-sort'></a>
 ### List#sort( [comparer] )
 Returns a new, sorted `List` of the instance's items.
-Numeric items (numbers, dates) are sorted numerically.
-Other types are sorted lixicographically.
-If the `comparer` function is passed, this is used to determine sort order.
+Numeric items (numbers, dates, booleans) are sorted numerically.
+Other types are sorted lexicographically.
+
+If a list contains many types, the order of sort precedence is:
+
+1. numbers
+2. dates
+3. booleans
+4. everything else
+
+If the `comparer` function is passed, that will be used to determine
+sort order.
 
 ```js
 var ls = List([33, 4, 77, 5, 2, 8]);
@@ -982,11 +991,22 @@ var x = ls.sort();
 // x  => [2, 4, 5, 8, 33, 77]
 // ls => [33, 4, 77, 5, 2, 8]
 
+// With optional comparer
 x = ls.sort(function(a, b) {
   return b - a;
 });
 // x  => [77, 33, 8, 5, 4, 2]
 // ls => [33, 4, 77, 5, 2, 8]
+
+// Mixed types
+var date1 = new Date('2012-06-23')
+var date2 = new Date('2000-01-01')
+ls = List(
+  [9, 'a', 8, /foo/, 3, true, 0, date1, 1, 'sd', date2, 5, false, '1']
+);
+x = ls.sort();
+// x =>
+//  [0, 1, 3, 5, 8, 9, date2, date1, false, true, /foo/, '1', 'a', 'sd']
 ```
 
 <a name='list-reverse'></a>
