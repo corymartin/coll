@@ -227,6 +227,34 @@ describe 'List Transformation Methods', ->
       expect(x[2]).to.be c
       expect(x[3]).to.be a
 
+    it '''should numeric types first, booleans second, everything else
+      third when dealing with lists of mixed types''', ->
+      date  = new Date
+      regex = /foo/
+      obj   = {a:1}
+      ls = new List(
+        [9, 'a', 8, regex, 3, true, 0, date, 1, false, obj, 'sd', 5, false, '4']
+      )
+      x = ls.sort()
+
+      expect(x[0]).to.be 0
+      expect(x[1]).to.be 1
+      expect(x[2]).to.be 3
+      expect(x[3]).to.be 5
+      expect(x[4]).to.be 8
+      expect(x[5]).to.be 9
+      expect(x[6]).to.be date
+      expect(x[7]).to.be false
+      expect(x[8]).to.be false
+      expect(x[9]).to.be true
+
+      therest = x.slice 10
+      expect(therest).to.contain regex
+      expect(therest).to.contain obj
+      expect(therest).to.contain 'a'
+      expect(therest).to.contain 'sd'
+      expect(therest).to.contain '4'
+
     it 'should use Array#sort lexicographic order for other types', ->
       a = /mmm/
       b = /zzz/
