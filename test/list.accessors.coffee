@@ -321,6 +321,7 @@ describe 'List Accessor Methods', ->
       l2 = List [d1, d2, d3, d4]
       l3 = List ['zzzz', 'zzz', 'zzzzzz', 'zzzzz']
 
+
     it '''should return the maximum value from the list
       (for ordered types)''', ->
       x = l1.max()
@@ -328,10 +329,25 @@ describe 'List Accessor Methods', ->
       x = l2.max()
       expect(x).to.be d3
 
-    it '''should use the value returned by the optional iterator function to
+    it '''should use the value returned by the optional comparer function to
       determine the max value''', ->
       x = l3.max (a, b) -> a.length - b.length
       expect(x).to.be 'zzzzzz'
+
+    it '''should use the optional comparer property name to determine the
+      max value of an object''', ->
+      o1 = {foo:34, bar:'erf'}
+      o2 = {foo:12, bar:'xcv'}
+      o3 = {foo:45, bar:'bhu'}
+      o4 = {foo:5,  bar:'mer'}
+      o5 = {foo:26, bar:'aer'}
+      ls = List [o1, o2, o3, o4, o5]
+
+      x = ls.max 'foo'
+      expect(x).to.be o3
+
+      x = ls.max 'bar'
+      expect(x).to.be o2
 
 
   describe '#min', ->
@@ -353,10 +369,25 @@ describe 'List Accessor Methods', ->
       x = l2.min()
       expect(x).to.be d2
 
-    it '''should use the value returned by the optional iterator function to
+    it '''should use the value returned by the optional comparer function to
       determine the min value''', ->
       x = l3.min (a, b) -> a.length - b.length
       expect(x).to.be 'zzz'
+
+    it '''should use the optional comparer property name to determine the
+      max value of an object''', ->
+      o1 = {foo:34, bar:'erf'}
+      o2 = {foo:12, bar:'xcv'}
+      o3 = {foo:45, bar:'bhu'}
+      o4 = {foo:5,  bar:'mer'}
+      o5 = {foo:26, bar:'aer'}
+      ls = List [o1, o2, o3, o4, o5]
+
+      x = ls.min 'foo'
+      expect(x).to.be o4
+
+      x = ls.min 'bar'
+      expect(x).to.be o5
 
 
   describe '#intersect', ->

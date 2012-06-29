@@ -585,19 +585,36 @@ var x = ls.intersect(['peach', 'pear', 'plum', 'apple', 'mango']);
 <a name='list-max'></a>
 ### List#max( [comparer] )
 Returns the item with the maximum value from the list.
-If the optional `comparer` function is passed, that will be used to determine
-the maximum value. It works like the comparer function in `Array#sort`.
+
+The optional `comparer` parameter can be either a function or a string.
+If it is a function, then it will be used to determine the maximum value.
+`comparer` functions work as they do in `Array#sort()`.
+
+If `comparer` is a string, then it will be assumed that the list is composed
+of objects and the maximum value to be compared will be that of the
+property name passed.
 
 ```js
 var ls = List([4,2,8,5]);
 var x = ls.max();
 // x => 8
 
-var ls2 = List(['aaa', 'bb', 'ccccccc', 'dddd']);
-x = ls2.max(function(a, b) {
+// With optional comparer function
+ls = List(['aaa', 'bb', 'ccccccc', 'dddd']);
+x = ls.max(function(a, b) {
   return a.length - b.length;
 });
 // x => 'ccccccc'
+
+// With optional comparer property name
+ls = List([
+  {foo:34, bar:'erf'},
+  {foo:12, bar:'xcv'},
+  {foo:45, bar:'bhu'},
+  {foo:26, bar:'aer'}
+]);
+x = ls.max('bar');
+// x => {foo:12, bar:'xcv'}
 ```
 
 <a name='list-min'></a>
@@ -611,11 +628,22 @@ var ls = List([4,2,8,5]);
 var x = ls.min();
 // x => 2
 
-var ls2 = List(['aaa', 'bb', 'ccccccc', 'dddd']);
-x = ls2.min(function(a, b) {
+// With optional comparer function
+ls = List(['aaa', 'bb', 'ccccccc', 'dddd']);
+x = ls.min(function(a, b) {
   return a.length - b.length;
 });
 // x => 'bb'
+
+// With optional comparer property name
+ls = List([
+  {foo:34, bar:'erf'},
+  {foo:12, bar:'xcv'},
+  {foo:45, bar:'bhu'},
+  {foo:26, bar:'aer'}
+]);
+x = ls.min('bar');
+// x => {foo:26, bar:'aer'}
 ```
 
 <a name='list-take'></a>

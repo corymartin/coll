@@ -363,12 +363,40 @@ describe('List Accessor Methods', function() {
       x = l2.max();
       return expect(x).to.be(d3);
     });
-    return it('should use the value returned by the optional iterator function to\ndetermine the max value', function() {
+    it('should use the value returned by the optional comparer function to\ndetermine the max value', function() {
       var x;
       x = l3.max(function(a, b) {
         return a.length - b.length;
       });
       return expect(x).to.be('zzzzzz');
+    });
+    return it('should use the optional comparer property name to determine the\nmax value of an object', function() {
+      var ls, o1, o2, o3, o4, o5, x;
+      o1 = {
+        foo: 34,
+        bar: 'erf'
+      };
+      o2 = {
+        foo: 12,
+        bar: 'xcv'
+      };
+      o3 = {
+        foo: 45,
+        bar: 'bhu'
+      };
+      o4 = {
+        foo: 5,
+        bar: 'mer'
+      };
+      o5 = {
+        foo: 26,
+        bar: 'aer'
+      };
+      ls = List([o1, o2, o3, o4, o5]);
+      x = ls.max('foo');
+      expect(x).to.be(o3);
+      x = ls.max('bar');
+      return expect(x).to.be(o2);
     });
   });
   describe('#min', function() {
@@ -390,12 +418,40 @@ describe('List Accessor Methods', function() {
       x = l2.min();
       return expect(x).to.be(d2);
     });
-    return it('should use the value returned by the optional iterator function to\ndetermine the min value', function() {
+    it('should use the value returned by the optional comparer function to\ndetermine the min value', function() {
       var x;
       x = l3.min(function(a, b) {
         return a.length - b.length;
       });
       return expect(x).to.be('zzz');
+    });
+    return it('should use the optional comparer property name to determine the\nmax value of an object', function() {
+      var ls, o1, o2, o3, o4, o5, x;
+      o1 = {
+        foo: 34,
+        bar: 'erf'
+      };
+      o2 = {
+        foo: 12,
+        bar: 'xcv'
+      };
+      o3 = {
+        foo: 45,
+        bar: 'bhu'
+      };
+      o4 = {
+        foo: 5,
+        bar: 'mer'
+      };
+      o5 = {
+        foo: 26,
+        bar: 'aer'
+      };
+      ls = List([o1, o2, o3, o4, o5]);
+      x = ls.min('foo');
+      expect(x).to.be(o4);
+      x = ls.min('bar');
+      return expect(x).to.be(o5);
     });
   });
   return describe('#intersect', function() {
