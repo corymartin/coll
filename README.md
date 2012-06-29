@@ -977,14 +977,25 @@ Other types are sorted lexicographically.
 
 If a list contains mixed types, the order of sort precedence is:
 
-1. numbers
-2. dates
-3. booleans
-4. strings
-5. everything else
+1. number literals
+2. string literals
+3. boolean literals
+4. date objects
+5. number objects
+6. string objects
+7. boolean objects
+8. regexes
+9. functions
+10. objects
+11. arrays
+12. global properties (`NaN`, `Infinity`, `undefined`, `null`)
 
-If the `comparer` function is passed, that will be used to determine
-sort order.
+The optional `comparer` parameter can be either a function or a string.
+If it is a function, then it will be used to determine sort order.
+`comparer` functions work as they do in `Array#sort()`.
+
+If `comparer` is a string, then it will be assumed that the list is composed
+of objects and they will be sorted by the property name passed.
 
 ```js
 var ls = List([33, 4, 77, 5, 2, 8]);
@@ -992,12 +1003,27 @@ var x = ls.sort();
 // x  => [2, 4, 5, 8, 33, 77]
 // ls => [33, 4, 77, 5, 2, 8]
 
-// With optional comparer
+// With optional comparer function
 x = ls.sort(function(a, b) {
   return b - a;
 });
 // x  => [77, 33, 8, 5, 4, 2]
 // ls => [33, 4, 77, 5, 2, 8]
+
+// With optional comparer property name
+ls = List([
+  {foo:34, bar:'erf'},
+  {foo:12, bar:'xcv'},
+  {foo:45, bar:'bhu'},
+  {foo:26, bar:'aer'}
+]);
+x = ls.sort('bar');
+// x => [
+//  {foo:26, bar:'aer'},
+//  {foo:45, bar:'bhu'},
+//  {foo:34, bar:'erf'},
+//  {foo:12, bar:'xcv'}
+// ]
 
 // Mixed types
 var date1 = new Date('2012-06-23')
@@ -1007,7 +1033,7 @@ ls = List(
 );
 x = ls.sort();
 // x =>
-//  [0, 5, 9, date2, date1, false, true, '1', 'a', 'sd', /foo/, {a:1}]
+//  [0, 5, 9, '1', 'a', 'sd', false, true, date2, date1 /foo/, {a:1}]
 ```
 
 <a name='list-reverse'></a>

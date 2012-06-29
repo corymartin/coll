@@ -151,6 +151,7 @@ describe 'List Transformation Methods', ->
       expect(l2.length).to.be 4
 
 
+  #TODO: More tests.
   describe '#sort', ->
     it 'should sort numbers numerically', ->
       ls = List [33, 4, 77, 5, 2, 8]
@@ -204,6 +205,28 @@ describe 'List Transformation Methods', ->
       asc = ls.sort (a, b) -> a - b
       expect(asc.toArray()).to.eql [2, 4, 6, 8]
 
+    it '''should take an optional `comparer` string name to determine
+      an object's property to sort by''', ->
+      o1 = {foo:34, bar:'erf'}
+      o2 = {foo:12, bar:'xcv'}
+      o3 = {foo:45, bar:'bhu'}
+      o4 = {foo:5,  bar:'mer'}
+      o5 = {foo:26, bar:'aer'}
+      ls = List [o1, o2, o3, o4, o5]
+
+      x = ls.sort 'foo'
+      expect(x[0]).to.be o4
+      expect(x[1]).to.be o2
+      expect(x[2]).to.be o5
+      expect(x[3]).to.be o1
+      expect(x[4]).to.be o3
+
+      x = ls.sort 'bar'
+      expect(x[0]).to.be o5
+      expect(x[1]).to.be o3
+      expect(x[2]).to.be o1
+      expect(x[3]).to.be o4
+      expect(x[4]).to.be o2
 
     it 'should sort Dates chronologically', ->
       a = new Date '4/5/2012'
@@ -227,16 +250,52 @@ describe 'List Transformation Methods', ->
       expect(x[2]).to.be c
       expect(x[3]).to.be a
 
-    it '''should sort and list numeric types first, dates second,
-      booleans third, strings fourth, then everything else fifth
-      when dealing with lists of mixed types''', ->
-      date1 = new Date '2012-2-2'
-      date2 = new Date '2000-2-2'
-      regex = /foo/
-      obj   = {a:1}
-      ls = new List(
-        [9, 'a', 8, regex, 3, true, 0, date1, 1, false, obj, date2, 'sd', 5, false, '4']
-      )
+    it '''should sort lists of mixed types in the following order:
+      number literals,
+      string literals,
+      boolean literals,
+      date objects,
+      number objects,
+      string objects,
+      boolean objects,
+      regexes,
+      functions,
+      objects,
+      arrays,
+      globals
+      ''', ->
+      date1  = new Date '2012-5-5'
+      date2  = new Date '2000-9-9'
+      date3  = new Date '2008-2-2'
+      regex1 = /foo/
+      regex2 = new RegExp 'bar'
+      regex3 = /abc/
+      obj1   = {a:1}
+      obj2   = {z:9}
+      obj3   = {b:5}
+      fn1    = `function foo(){}`
+      fn2    = `function bar(){}`
+      fn3    = `function abc(){}`
+      str1   = new String 'foo'
+      str2   = new String 'bar'
+      str3   = new String 'abc'
+      num1   = new Number 12
+      num2   = new Number 3
+      num3   = new Number 6
+      bool1  = new Boolean true
+      bool2  = new Boolean false
+      bool3  = new Boolean true
+      arr1   = [2, 4]
+      arr2   = ['b', 'a']
+      arr3   = [1, 10]
+
+      ls = new List([
+        9, undefined, 'a', obj1, str1, fn1, NaN, arr1, 8, num1, regex1, 3,
+        Infinity, num2, true, bool1, str2, regex2, 0, obj2, date1, arr2, 1,
+        fn2, false, date2, 'sd', bool2, 5, regex3, obj3, num3, arr3,
+        false, fn3, null, date3, '4', str3, bool3
+      ])
+
       x = ls.sort()
 
       expect(x[0]).to.be 0
@@ -245,19 +304,46 @@ describe 'List Transformation Methods', ->
       expect(x[3]).to.be 5
       expect(x[4]).to.be 8
       expect(x[5]).to.be 9
-      expect(x[6]).to.be date2
-      expect(x[7]).to.be date1
-      expect(x[8]).to.be false
+      expect(x[6]).to.be '4'
+      expect(x[7]).to.be 'a'
+      expect(x[8]).to.be 'sd'
       expect(x[9]).to.be false
-      expect(x[10]).to.be true
-      expect(x[11]).to.be '4'
-      expect(x[12]).to.be 'a'
-      expect(x[13]).to.be 'sd'
+      expect(x[10]).to.be false
+      expect(x[11]).to.be true
+      expect(x[12]).to.be date2
+      expect(x[13]).to.be date3
+      expect(x[14]).to.be date1
+      expect(x[15]).to.be num2
+      expect(x[16]).to.be num3
+      expect(x[17]).to.be num1
+      expect(x[18]).to.be str3
+      expect(x[19]).to.be str2
+      expect(x[20]).to.be str1
+      expect(x[21].valueOf()).to.be false
+      expect(x[22].valueOf()).to.be true
+      expect(x[23].valueOf()).to.be true
+      expect(x[24]).to.be regex3
+      expect(x[25]).to.be regex2
+      expect(x[26]).to.be regex1
+      expect(x[27]).to.be fn3
+      expect(x[28]).to.be fn2
+      expect(x[29]).to.be fn1
 
-      therest = x.slice 14
-      expect(therest.length).to.be 2
-      expect(therest).to.contain regex
-      expect(therest).to.contain obj
+      objects = x.slice 30, 33
+      expect(objects).to.contain obj1
+      expect(objects).to.contain obj2
+      expect(objects).to.contain obj3
+
+      arrays = x.slice 33, 36
+      expect(arrays).to.contain arr1
+      expect(arrays).to.contain arr2
+      expect(arrays).to.contain arr3
+
+      globals = x.slice 36
+      expect(globals[0]).to.be Infinity
+      expect(isNaN(globals[1])).to.be true
+      expect(globals[2]).to.be null
+      expect(globals[3]).to.be undefined
 
     it 'should use Array#sort lexicographic order for other types', ->
       a = /mmm/
