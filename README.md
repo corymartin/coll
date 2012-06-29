@@ -63,8 +63,11 @@ The Classes
   - [List#takeWhile]
   - [List#drop]
   - [List#dropWhile]
+  - [List#filter]
+  - [List#reject]
   - [List#group]
   - [List#partition]
+  - [List#map]
   - [List#indexOf]
   - [List#lastIndexOf]
   - [List#indexIf]
@@ -78,9 +81,6 @@ The Classes
   - [List#reduceRight]
   - [List#sort]
   - [List#reverse]
-  - [List#filter]
-  - [List#reject]
-  - [List#map]
   - [List#intersperse]
 - [Dict]
   - [Dict Constructor]
@@ -708,6 +708,50 @@ ls.dropWhile(obj, function(item, index, list) {
 });
 ```
 
+<a name='list-filter'></a>
+### List#filter( [context,] iterator )
+Returns a new `List` composed of items that pass the `iterator` function.
+
+```js
+var ls = List([
+  {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
+]);
+var x = ls.filter(function(item, index, list) {
+  return item.name[0] === 'J';
+});
+// x => [
+//  {name:'Jay'}, {name:'Joan'}, {name:'Jim'}
+// ]
+
+// With optional context
+var obj = {foo:'bar'};
+ls.filter(obj, function(item, index, list) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='list-reject'></a>
+### List#reject( [context,] iterator )
+Returns a new `List` composed of items that fail the `iterator` function.
+
+```js
+var ls = List([
+  {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
+]);
+var x = ls.reject(function(item, index, list) {
+  return item.name[0] === 'J';
+});
+// x => [
+//  {name:'Bob'}, {name:'Flo'}
+// ]
+
+// With optional context
+var obj = {foo:'bar'};
+ls.reject(obj, function(item, index, list) {
+  // this => {foo:'bar'}
+});
+```
+
 <a name='list-group'></a>
 ### List#group( [[context,] iterator] )
 Returns a hash of sublists, grouped either by equality to each other or by
@@ -757,6 +801,28 @@ x[1] instanceof List; // true
 // With optional context
 var obj = {foo:'bar'};
 ls.partition(obj, function(item, index, list) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='list-map'></a>
+### List#map( [context,] iterator )
+Returns a new `List` of values determined by the `iterator` function.
+
+```js
+var ls = List([
+  {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
+]);
+var x = ls.map(function(item, index, list) {
+  return 'User ' + item.name;
+});
+// x => [
+//  'User Jay', 'User Joan', 'User Bob', 'User Flo', 'User Jim'
+// ]
+
+// With optional context
+var obj = {foo:'bar'};
+ls.map(obj, function(item, index, list) {
   // this => {foo:'bar'}
 });
 ```
@@ -1075,72 +1141,6 @@ var ls = List('abc');
 var x = ls.reverse();
 // x  => ['c', 'b', 'a']
 // ls => ['a', 'b', 'c']
-```
-
-<a name='list-filter'></a>
-### List#filter( [context,] iterator )
-Returns a new `List` composed of items that pass the `iterator` function.
-
-```js
-var ls = List([
-  {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
-]);
-var x = ls.filter(function(item, index, list) {
-  return item.name[0] === 'J';
-});
-// x => [
-//  {name:'Jay'}, {name:'Joan'}, {name:'Jim'}
-// ]
-
-// With optional context
-var obj = {foo:'bar'};
-ls.filter(obj, function(item, index, list) {
-  // this => {foo:'bar'}
-});
-```
-
-<a name='list-reject'></a>
-### List#reject( [context,] iterator )
-Returns a new `List` composed of items that fail the `iterator` function.
-
-```js
-var ls = List([
-  {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
-]);
-var x = ls.reject(function(item, index, list) {
-  return item.name[0] === 'J';
-});
-// x => [
-//  {name:'Bob'}, {name:'Flo'}
-// ]
-
-// With optional context
-var obj = {foo:'bar'};
-ls.reject(obj, function(item, index, list) {
-  // this => {foo:'bar'}
-});
-```
-
-<a name='list-map'></a>
-### List#map( [context,] iterator )
-Returns a new `List` of values determined by the `iterator` function.
-
-```js
-var ls = List([
-  {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
-]);
-var x = ls.map(function(item, index, list) {
-  return 'User ' + item.name;
-});
-// x => [
-//  'User Jay', 'User Joan', 'User Bob', 'User Flo', 'User Jim'
-// ]
-
-// With optional context
-var obj = {foo:'bar'};
-ls.map(obj, function(item, index, list) {
-  // this => {foo:'bar'}
-});
 ```
 
 <a name='list-intersperse'></a>
