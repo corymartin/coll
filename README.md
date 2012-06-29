@@ -3,6 +3,8 @@ Coll.js
 
 JavaScript Collection Classes.
 
+### API should be considered *alpha* and subject to change.
+
 Installation
 ============
 Install with NPM:
@@ -721,9 +723,9 @@ var x = ls.group();
 // }
 
 var ls = List(['#fff', '#3366ee', 'magenta', '#ccc', 'red'])
-var regexHexColor = /^#[abcdef0-9]{3,6}$/i;
+var hexColorRegex = /^#[abcdef0-9]{3,6}$/i;
 var x = ls.group(function(item, index, list) {
-  return regexHexColor.test(item)
+  return hexColorRegex.test(item)
     ? 'hex'
     : 'named';
 });
