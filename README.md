@@ -24,11 +24,20 @@ var Map  = require('coll').Map;
 The Classes
 ===========
 
-- [List]
-  - [List.range]
+- __[List]__
+  - *List Creation*
   - [List Constructor]
+  - [List.range]
+  - *Properties*
   - [List#length]
+  - *Accessor Functions*
   - [List#get]
+  - [List#slice]
+  - [List#first]
+  - [List#last]
+  - [List#min]
+  - [List#max]
+  - *Mutator Functions*
   - [List#set]
   - [List#add]
   - [List#addRange]
@@ -41,81 +50,95 @@ The Classes
   - [List#removeAll]
   - [List#removeAt]
   - [List#clear]
-  - [List#slice]
-  - [List#concat]
-  - [List#join]
-  - [List#count]
-  - [List#countIf]
-  - [List#contains]
+  - *Search Functions*
   - [List#find]
   - [List#findLast]
   - [List#findAll]
-  - [List#first]
-  - [List#last]
+  - [List#contains]
+  - [List#count]
+  - [List#countIf]
+  - [List#filter]
+  - [List#reject]
+  - *Transformation Functions*
+  - [List#sort]
+  - [List#reverse]
+  - [List#concat]
+  - [List#map]
+  - [List#intersperse]
+  - [List#join]
   - [List#unique]
   - [List#clean]
   - [List#clone]
   - [List#toArray]
-  - [List#intersect]
-  - [List#max]
-  - [List#min]
+  - *Sub-List Functions*
   - [List#take]
   - [List#takeWhile]
   - [List#drop]
   - [List#dropWhile]
-  - [List#filter]
-  - [List#reject]
   - [List#group]
   - [List#partition]
-  - [List#map]
+  - [List#intersect]
+  - *Indexing Functions*
   - [List#indexOf]
   - [List#lastIndexOf]
   - [List#indexIf]
   - [List#lastIndexIf]
   - [List#indicesOf]
   - [List#indicesIf]
+  - *Iteration Functions*
   - [List#forEach]
   - [List#some]
   - [List#every]
   - [List#reduce]
   - [List#reduceRight]
-  - [List#sort]
-  - [List#reverse]
-  - [List#intersperse]
-- [Dict]
+- __[Dict]__
+  - *Dict Creation*
   - [Dict Constructor]
+  - *Properties*
   - [Dict#length]
   - [Dict#keys]
   - [Dict#values]
+  - *Accessor Functions*
   - [Dict#hasKey]
   - [Dict#get]
+  - *Mutator Functions*
   - [Dict#set]
   - [Dict#add]
   - [Dict#remove]
   - [Dict#clear]
+  - *Iteration Functions*
   - [Dict#forEach]
   - [Dict#some]
   - [Dict#every]
+  - *Search Functions*
   - [Dict#filter]
   - [Dict#reject]
+  - *Transformation Functions*
   - [Dict#clone]
   - [Dict#toLiteral]
   - [Dict#toArray]
-- [Map]
+- __[Map]__
+  - *Map Creation*
   - [Map Constructor]
+  - *Properties*
   - [Map#length]
   - [Map#keys]
   - [Map#values]
+  - *Accessor Functions*
   - [Map#hasKey]
   - [Map#get]
+  - *Mutator Functions*
   - [Map#set]
   - [Map#remove]
   - [Map#clear]
+  - *Iteration Functions*
   - [Map#forEach]
   - [Map#some]
   - [Map#every]
+  - *Search Functions*
   - [Map#filter]
   - [Map#reject]
+  - *Transformation Functions*
   - [Map#clone]
   - [Map#toLiteral]
   - [Map#toArray]
@@ -128,26 +151,6 @@ List
 An indexed list of items with functions for manipulating, iterating,
 searching, indexing, transforming, and inspecting.
 
-List Functions
---------------
-
-<a name='list_range'></a>
-### List.range( start [, end [, step]] )
-Returns a `List` of numbers from `start` up to and including `end`.
-If only `start` is passed, a list of numbers ranging from `0` through
-`start` will be returned. If the optional `step` parameter is passed,
-that will be used as the incrementing value. The default is `1`.
-
-```js
-var ls = List.range(-4, 4);
-// ls => [-4, -3, -2, -1, 0, 1, 2, 3, 4]
-
-ls = List.range(3);
-// ls => [0, 1, 2, 3]
-
-ls = List.range(0, 10, 2);
-// ls => [0, 2, 4, 6, 8, 10]
-```
 
 <a name='list-constructor'></a>
 List Constructor
@@ -182,6 +185,31 @@ var ls3 = List(List([true, 2.99]))
 })('hi', true, /foo/);
 ```
 
+
+List Functions
+--------------
+
+<a name='list_range'></a>
+### List.range( start [, end [, step]] )
+Returns a `List` of numbers from `start` up to and including `end`.
+If only `start` is passed, a list of numbers ranging from `0` through
+`start` will be returned. If the optional `step` parameter is passed,
+that will be used as the incrementing value. The default increment is `1`.
+
+```js
+var ls = List.range(-4, 4);
+// ls => [-4, -3, -2, -1, 0, 1, 2, 3, 4]
+```
+```js
+var ls = List.range(3);
+// ls => [0, 1, 2, 3]
+```
+```js
+var ls = List.range(8, 18, 2);
+// ls => [8, 10, 12, 14, 16, 18]
+```
+
+
 List Instance Properties
 ------------------------
 
@@ -205,6 +233,109 @@ Returns the item at the specifed index.
 var ls = List(['apple', 'orange', 'pear', 'grape']);
 var x = ls.get(2);
 // x => 'pear'
+```
+
+<a name='list-slice'></a>
+### List#slice( [beginindex [, endindex]] )
+Returns a section of the list.
+Functions the same as `Array#slice` except this version returns
+an instance of `List`.
+
+```js
+var ls = List('abcde');
+var x = ls.slice(2, 4);
+// x  => ['c', 'd']
+// ls => ['a', 'b', 'c', 'd', 'e']
+```
+
+<a name='list-first'></a>
+### List#first()
+Returns the first item in the list.
+If the list is empty, `undefined` is returned.
+
+```js
+var ls = List(['apple', 'orange', 'pear', 'grape']);
+var x = ls.first();
+// x => 'apple'
+```
+
+<a name='list-last'></a>
+### List#last()
+Returns the last item in the list.
+If the list is empty, `undefined` is returned.
+
+```js
+var ls = List(['apple', 'orange', 'pear', 'grape']);
+var x = ls.last();
+// x => 'grape'
+```
+
+<a name='list-min'></a>
+### List#min( [comparer] )
+Returns the item with the minimum value from the list.
+If the optional `comparer` function is passed, that will be used to determine
+the minimum value. It works like the comparer function in `Array#sort`.
+
+```js
+var ls = List([4,2,8,5]);
+var x = ls.min();
+// x => 2
+```
+```js
+// With optional comparer function
+var ls = List(['aaa', 'bb', 'ccccccc', 'dddd']);
+var x = ls.min(function(a, b) {
+  return a.length - b.length;
+});
+// x => 'bb'
+```
+```js
+// With optional comparer property name
+var ls = List([
+  {foo:34, bar:'erf'},
+  {foo:12, bar:'xcv'},
+  {foo:45, bar:'bhu'},
+  {foo:26, bar:'aer'}
+]);
+var x = ls.min('bar');
+// x => {foo:26, bar:'aer'}
+```
+
+<a name='list-max'></a>
+### List#max( [comparer] )
+Returns the item with the maximum value from the list.
+
+The optional `comparer` parameter can be either a function or a string.
+If it is a function, then it will be used to determine the maximum value.
+`comparer` functions work as they do in `Array#sort`.
+
+If `comparer` is a string, then it will be assumed that the list is composed
+of objects and the maximum value to be compared will be that of the
+property name passed.
+
+```js
+var ls = List([4,2,8,5]);
+var x = ls.max();
+// x => 8
+```
+```js
+// With optional comparer function
+var ls = List(['aaa', 'bb', 'ccccccc', 'dddd']);
+var x = ls.max(function(a, b) {
+  return a.length - b.length;
+});
+// x => 'ccccccc'
+```
+```js
+// With optional comparer property name
+var ls = List([
+  {foo:34, bar:'erf'},
+  {foo:12, bar:'xcv'},
+  {foo:45, bar:'bhu'},
+  {foo:26, bar:'aer'}
+]);
+var x = ls.max('bar');
+// x => {foo:12, bar:'xcv'}
 ```
 
 <a name='list-set'></a>
@@ -352,7 +483,8 @@ var ls = List('abcdef');
 var x = removeAt(2);
 // x  => 'c'
 // ls => ['a', 'b', 'd' 'e', 'f']
-
+```
+```js
 // With `howmany` parameter
 var ls = List('abcdef');
 var x = removeAt(2, 3);
@@ -369,84 +501,6 @@ var ls = List([1,2,3]);
 var x = ls.clear();
 // ls => []
 x === ls; // true
-```
-
-
-<a name='list-slice'></a>
-### List#slice( [beginindex [, endindex]] )
-Functions the same as `Array#slice` function except this version returns
-an instance of `List`.
-
-```js
-var ls = List('abcde');
-var x = ls.slice(2, 4);
-// x  => ['c', 'd']
-// ls => ['a', 'b', 'c', 'd', 'e']
-```
-
-<a name='list-concat'></a>
-### List#concat( iterable [, iterable*N*] )
-Returns a new `List` composed of the instance list concatenated to one or more
-passed iterables.
-
-```js
-var ls = List([2, true]);
-var x = ls.concat('abc', List([0,1,2]), [12.99]);
-// x  => [2, true, 'a', 'b', 'c', 0, 1, 2, 12.99]
-// ls => [2, true]
-```
-
-<a name='list-join'></a>
-### List#join( [separator] )
-Borrowed from `Array#join`.
-
-```js
-var ls = List([2, 4, 6]);
-var x = ls.join();
-// x => '2,4,6'
-
-x = ls.join(' - ');
-// x => '2 - 4 - 6'
-```
-
-<a name='list-count'></a>
-### List#count( [item] )
-Returns the number of occurences of `item` within the list.
-If no argument is passed, the list's length is returned.
-
-```js
-var ls = List([2,4,2,7,2,8]);
-var x = ls.count(2);
-// x => 3
-```
-
-<a name='list-countif'></a>
-### List#countIf( [context,] iterator )
-Returns the number of occurences that the `iterator` tests successfully against
-the items in the list.
-
-```js
-var ls = List([1,2,3,4,5,6,7,8,9]);
-var x = ls.countIf(function(item, index, list) {
-  return item % 2 === 0;
-});
-// x => 4
-
-// With optional context
-var obj = {foo:'bar'};
-ls.countIf(obj, function(item, index, list) {
-  // this => {foo:'bar'}
-});
-```
-
-<a name='list-contains'></a>
-### List#contains( item )
-Determines if the passed item is in the list.
-
-```js
-var ls = List(['top', 'bottom', 'left']);
-ls.contains('left');  // true
-ls.contains('right'); // false
 ```
 
 <a name='list-find'></a>
@@ -505,26 +559,227 @@ ls.findAll(obj, function(item, index, list) {
   // this => {foo:'bar'}
 ```
 
-<a name='list-first'></a>
-### List#first()
-Returns the first item in the list.
-If the list is empty, `undefined` is returned.
+<a name='list-contains'></a>
+### List#contains( item )
+Determines if the passed item is in the list.
 
 ```js
-var ls = List(['apple', 'orange', 'pear', 'grape']);
-var x = ls.first();
-// x => 'apple'
+var ls = List(['top', 'bottom', 'left']);
+ls.contains('left');  // true
+ls.contains('right'); // false
 ```
 
-<a name='list-last'></a>
-### List#last()
-Returns the last item in the list.
-If the list is empty, `undefined` is returned.
+<a name='list-count'></a>
+### List#count( [item] )
+Returns the number of occurences of `item` within the list.
+If no argument is passed, the list's length is returned.
 
 ```js
-var ls = List(['apple', 'orange', 'pear', 'grape']);
-var x = ls.last();
-// x => 'grape'
+var ls = List([2,4,2,7,2,8]);
+var x = ls.count(2);
+// x => 3
+```
+
+<a name='list-countif'></a>
+### List#countIf( [context,] iterator )
+Returns the number of occurences that the `iterator` tests successfully against
+the items in the list.
+
+```js
+var ls = List([1,2,3,4,5,6,7,8,9]);
+var x = ls.countIf(function(item, index, list) {
+  return item % 2 === 0;
+});
+// x => 4
+
+// With optional context
+var obj = {foo:'bar'};
+ls.countIf(obj, function(item, index, list) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='list-filter'></a>
+### List#filter( [context,] iterator )
+Returns a new `List` composed of items that pass the `iterator` function.
+
+```js
+var ls = List([
+  {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
+]);
+var x = ls.filter(function(item, index, list) {
+  return item.name[0] === 'J';
+});
+// x => [
+//  {name:'Jay'}, {name:'Joan'}, {name:'Jim'}
+// ]
+
+// With optional context
+var obj = {foo:'bar'};
+ls.filter(obj, function(item, index, list) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='list-reject'></a>
+### List#reject( [context,] iterator )
+Returns a new `List` composed of items that fail the `iterator` function.
+
+```js
+var ls = List([
+  {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
+]);
+var x = ls.reject(function(item, index, list) {
+  return item.name[0] === 'J';
+});
+// x => [
+//  {name:'Bob'}, {name:'Flo'}
+// ]
+
+// With optional context
+var obj = {foo:'bar'};
+ls.reject(obj, function(item, index, list) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='list-sort'></a>
+### List#sort( [comparer] )
+Returns a new, sorted `List` of the instance's items.
+Numeric items (numbers, dates, booleans) are sorted numerically.
+Other types are sorted lexicographically.
+
+If a list contains mixed types, the order of sort precedence is:
+
+1. number literals
+2. string literals
+3. boolean literals
+4. date objects
+5. number objects
+6. string objects
+7. boolean objects
+8. regexes
+9. functions
+10. objects
+11. arrays
+12. global properties (`NaN`, `Infinity`, `undefined`, `null`)
+
+The optional `comparer` parameter can be either a function or a string.
+If it is a function, then it will be used to determine sort order.
+`comparer` functions work as they do in `Array#sort`.
+
+If `comparer` is a string, then it will be assumed that the list is composed
+of objects and they will be sorted by the property name passed.
+
+```js
+var ls = List([33, 4, 77, 5, 2, 8]);
+var x = ls.sort();
+// x  => [2, 4, 5, 8, 33, 77]
+```
+```js
+// Mixed types
+var date1 = new Date('2012-06-23')
+var date2 = new Date('2000-01-01')
+var ls = List(
+  [9, 'a', /foo/, true, 0, date1, {a:1}, 'sd', date2, 5, false, '1']
+);
+var x = ls.sort();
+// x =>
+//  [0, 5, 9, '1', 'a', 'sd', false, true, date2, date1 /foo/, {a:1}]
+```
+```js
+// With optional comparer function
+var ls = List([33, 4, 77, 5, 2, 8]);
+var x = ls.sort(function(a, b) {
+  return b - a;
+});
+// x  => [77, 33, 8, 5, 4, 2]
+```
+```js
+// With optional comparer property name
+var ls = List([
+  {foo:34, bar:'erf'},
+  {foo:12, bar:'xcv'},
+  {foo:45, bar:'bhu'},
+  {foo:26, bar:'aer'}
+]);
+var x = ls.sort('bar');
+// x => [
+//  {foo:26, bar:'aer'},
+//  {foo:45, bar:'bhu'},
+//  {foo:34, bar:'erf'},
+//  {foo:12, bar:'xcv'}
+// ]
+```
+
+<a name='list-reverse'></a>
+### List#reverse()
+Returns a new `List` of the instance's items with their order reversed.
+
+```js
+var ls = List('abc');
+var x = ls.reverse();
+// x  => ['c', 'b', 'a']
+// ls => ['a', 'b', 'c']
+```
+
+<a name='list-concat'></a>
+### List#concat( iterable [, iterable*N*] )
+Returns a new `List` composed of the instance list concatenated to one or more
+passed iterables.
+
+```js
+var ls = List([2, true]);
+var x = ls.concat('abc', List([0,1,2]), [12.99]);
+// x  => [2, true, 'a', 'b', 'c', 0, 1, 2, 12.99]
+// ls => [2, true]
+```
+
+<a name='list-map'></a>
+### List#map( [context,] iterator )
+Returns a new `List` of values determined by the `iterator` function.
+
+```js
+var ls = List([
+  {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
+]);
+var x = ls.map(function(item, index, list) {
+  return 'User ' + item.name;
+});
+// x => [
+//  'User Jay', 'User Joan', 'User Bob', 'User Flo', 'User Jim'
+// ]
+
+// With optional context
+var obj = {foo:'bar'};
+ls.map(obj, function(item, index, list) {
+  // this => {foo:'bar'}
+});
+```
+
+<a name='list-intersperse'></a>
+### List#intersperse( obj )
+Returns a new `List` with `obj` inserted between every item in the list.
+
+```js
+var ls = List([1,2,3,4,5]);
+var x = ls.intersperse('|');
+// x => [
+//  1, '|', 2, '|', 3, '|', 4, '|', 5
+// ]
+```
+
+<a name='list-join'></a>
+### List#join( [separator] )
+Borrowed from `Array#join`.
+
+```js
+var ls = List([2, 4, 6]);
+var x = ls.join();
+// x => '2,4,6'
+
+x = ls.join(' - ');
+// x => '2 - 4 - 6'
 ```
 
 <a name='list-unique'></a>
@@ -571,81 +826,6 @@ var ls = List([true, 'fajita', 4.89]);
 var x = ls.toArray();
 // x => [true, 'fajita', 4.89]
 Array.isArray(x); // true;
-```
-
-<a name='list-intersect'></a>
-### List#intersect( iterable )
-Returns a new `List` of items present in both the instance list and in the
-passed iterable.
-
-```js
-var ls = List(['apple', 'orange', 'pear', 'grape']);
-var x = ls.intersect(['peach', 'pear', 'plum', 'apple', 'mango']);
-// x => ['apple', 'pear']
-```
-
-<a name='list-max'></a>
-### List#max( [comparer] )
-Returns the item with the maximum value from the list.
-
-The optional `comparer` parameter can be either a function or a string.
-If it is a function, then it will be used to determine the maximum value.
-`comparer` functions work as they do in `Array#sort()`.
-
-If `comparer` is a string, then it will be assumed that the list is composed
-of objects and the maximum value to be compared will be that of the
-property name passed.
-
-```js
-var ls = List([4,2,8,5]);
-var x = ls.max();
-// x => 8
-
-// With optional comparer function
-ls = List(['aaa', 'bb', 'ccccccc', 'dddd']);
-x = ls.max(function(a, b) {
-  return a.length - b.length;
-});
-// x => 'ccccccc'
-
-// With optional comparer property name
-ls = List([
-  {foo:34, bar:'erf'},
-  {foo:12, bar:'xcv'},
-  {foo:45, bar:'bhu'},
-  {foo:26, bar:'aer'}
-]);
-x = ls.max('bar');
-// x => {foo:12, bar:'xcv'}
-```
-
-<a name='list-min'></a>
-### List#min( [comparer] )
-Returns the item with the minimum value from the list.
-If the optional `comparer` function is passed, that will be used to determine
-the minimum value. It works like the comparer function in `Array#sort`.
-
-```js
-var ls = List([4,2,8,5]);
-var x = ls.min();
-// x => 2
-
-// With optional comparer function
-ls = List(['aaa', 'bb', 'ccccccc', 'dddd']);
-x = ls.min(function(a, b) {
-  return a.length - b.length;
-});
-// x => 'bb'
-
-// With optional comparer property name
-ls = List([
-  {foo:34, bar:'erf'},
-  {foo:12, bar:'xcv'},
-  {foo:45, bar:'bhu'},
-  {foo:26, bar:'aer'}
-]);
-x = ls.min('bar');
-// x => {foo:26, bar:'aer'}
 ```
 
 <a name='list-take'></a>
@@ -708,50 +888,6 @@ ls.dropWhile(obj, function(item, index, list) {
 });
 ```
 
-<a name='list-filter'></a>
-### List#filter( [context,] iterator )
-Returns a new `List` composed of items that pass the `iterator` function.
-
-```js
-var ls = List([
-  {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
-]);
-var x = ls.filter(function(item, index, list) {
-  return item.name[0] === 'J';
-});
-// x => [
-//  {name:'Jay'}, {name:'Joan'}, {name:'Jim'}
-// ]
-
-// With optional context
-var obj = {foo:'bar'};
-ls.filter(obj, function(item, index, list) {
-  // this => {foo:'bar'}
-});
-```
-
-<a name='list-reject'></a>
-### List#reject( [context,] iterator )
-Returns a new `List` composed of items that fail the `iterator` function.
-
-```js
-var ls = List([
-  {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
-]);
-var x = ls.reject(function(item, index, list) {
-  return item.name[0] === 'J';
-});
-// x => [
-//  {name:'Bob'}, {name:'Flo'}
-// ]
-
-// With optional context
-var obj = {foo:'bar'};
-ls.reject(obj, function(item, index, list) {
-  // this => {foo:'bar'}
-});
-```
-
 <a name='list-group'></a>
 ### List#group( [[context,] iterator] )
 Returns a hash of sublists, grouped either by equality to each other or by
@@ -765,7 +901,9 @@ var x = ls.group();
 //  '2' : [2, 2, 2],
 //  '3' : [3, 3]
 // }
-
+```
+```js
+// With optional iterator function
 var ls = List(['#fff', '#3366ee', 'magenta', '#ccc', 'red'])
 var hexColorRegex = /^#[abcdef0-9]{3,6}$/i;
 var x = ls.group(function(item, index, list) {
@@ -805,26 +943,15 @@ ls.partition(obj, function(item, index, list) {
 });
 ```
 
-<a name='list-map'></a>
-### List#map( [context,] iterator )
-Returns a new `List` of values determined by the `iterator` function.
+<a name='list-intersect'></a>
+### List#intersect( iterable )
+Returns a new `List` of items present in both the instance list and in the
+passed iterable.
 
 ```js
-var ls = List([
-  {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
-]);
-var x = ls.map(function(item, index, list) {
-  return 'User ' + item.name;
-});
-// x => [
-//  'User Jay', 'User Joan', 'User Bob', 'User Flo', 'User Jim'
-// ]
-
-// With optional context
-var obj = {foo:'bar'};
-ls.map(obj, function(item, index, list) {
-  // this => {foo:'bar'}
-});
+var ls = List(['apple', 'orange', 'pear', 'grape']);
+var x = ls.intersect(['peach', 'pear', 'plum', 'apple', 'mango']);
+// x => ['apple', 'pear']
 ```
 
 <a name='list-indexof'></a>
@@ -868,14 +995,16 @@ var x = ls.indexIf(function(item, index, list) {
   return item.name === 'Jojo';
 });
 // x => 2
-
+```
+```js
 // With optional start index
-ls = List([2,3,6,4,7,4,6]);
-x = ls.indexIf(2, function(item, index, list) {
+var ls = List([2,3,6,4,7,4,6]);
+var x = ls.indexIf(2, function(item, index, list) {
   return item % 2 !== 0;
 });
 // x => 4
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 ls.indexIf(null, obj, function(item, index, list) {
@@ -896,14 +1025,16 @@ var x = ls.lastIndexIf(function(item, index, list) {
   return item.name === 'Jojo';
 });
 // x => 4
-
+```
+```js
 // With optional start index
-ls = List([2,3,6,4,7,4,6]);
-x = ls.lastIndexIf(3, function(item, index, list) {
+var ls = List([2,3,6,4,7,4,6]);
+var x = ls.lastIndexIf(3, function(item, index, list) {
   return item % 2 !== 0;
 });
 // x => 1
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 ls.lastIndexIf(null, obj, function(item, index, list) {
@@ -919,9 +1050,11 @@ Returns the indices of every item in the list matching `item`.
 var ls = List('abcaegaatf');
 var x = ls.indicesOf('a');
 // x => [0, 3, 6, 7]
-
+```
+```js
 // With optional index
-x = ls.indicesOf('a', 2);
+var ls = List('abcaegaatf');
+var x = ls.indicesOf('a', 2);
 // x => [3, 6, 7]
 ```
 
@@ -936,13 +1069,16 @@ var x = ls.indicesIf(function(item, index, list) {
   return item % 2 === 0;
 });
 // x => [1, 3, 5]
-
+```
+```js
 // With optional start index
-x = ls.indicesIf(2, function(item, index, list) {
+var ls = List([1,2,3,4,5,6,7]);
+var x = ls.indicesIf(2, function(item, index, list) {
   return item % 2 === 0;
 });
 // x => [3, 5]
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 ls.indicesIf(null, obj, function(item, index, list) {
@@ -965,7 +1101,8 @@ var x = ls.forEach(function(item, index, list) {
 //  1 : Burrito
 //  2 : Fajita
 x === ls; // true
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 ls.forEach(obj, function(item, index, list) {
@@ -989,7 +1126,8 @@ x = ls.some(function(item, index, list) {
   return item > 50;
 });
 // x => false
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 ls.some(obj, function(item, index, list) {
@@ -1013,7 +1151,8 @@ x = ls.every(function(item, index, list) {
   return item % 2 === 0;
 });
 // x => false
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 ls.every(obj, function(item, index, list) {
@@ -1028,18 +1167,22 @@ Left to right.
 
 ```js
 var ls = List([1,2,3]);
-var x = ls.reduce(function(a, b, index, list) {
+var sum = ls.reduce(function(a, b, index, list) {
   return a + b;
 });
-// x => 6
-
-x = ls.reduce(function(a, b, index, list) {
+// sum => 6
+```
+```js
+var ls = List([3,8,2,5]);
+var max = ls.reduce(function(a, b, index, list) {
   return a >= b ? a : b;
 });
-// x => 3
-
+// max => 8
+```
+```js
 // With optional initval
-x = ls.reduce([], function(arr, b, index, list) {
+var ls = List([1,2,3]);
+var x = ls.reduce([], function(arr, b, index, list) {
   arr.push(b * 10);
   return arr;
 });
@@ -1057,102 +1200,14 @@ var x = ls.reduceRight(function(a, b, index, list) {
   return a + b;
 });
 // x => 'cba'
-
+```
+```js
 // With optional initval
-x = ls.reduceRight('---', function(a, b, index, list) {
-  return a + b;
+var ls = List('abc');
+var x = ls.reduceRight('---', function(str, b, index, list) {
+  return str + b;
 });
 // x => '---cba'
-```
-
-<a name='list-sort'></a>
-### List#sort( [comparer] )
-Returns a new, sorted `List` of the instance's items.
-Numeric items (numbers, dates, booleans) are sorted numerically.
-Other types are sorted lexicographically.
-
-If a list contains mixed types, the order of sort precedence is:
-
-1. number literals
-2. string literals
-3. boolean literals
-4. date objects
-5. number objects
-6. string objects
-7. boolean objects
-8. regexes
-9. functions
-10. objects
-11. arrays
-12. global properties (`NaN`, `Infinity`, `undefined`, `null`)
-
-The optional `comparer` parameter can be either a function or a string.
-If it is a function, then it will be used to determine sort order.
-`comparer` functions work as they do in `Array#sort()`.
-
-If `comparer` is a string, then it will be assumed that the list is composed
-of objects and they will be sorted by the property name passed.
-
-```js
-var ls = List([33, 4, 77, 5, 2, 8]);
-var x = ls.sort();
-// x  => [2, 4, 5, 8, 33, 77]
-// ls => [33, 4, 77, 5, 2, 8]
-
-// With optional comparer function
-x = ls.sort(function(a, b) {
-  return b - a;
-});
-// x  => [77, 33, 8, 5, 4, 2]
-// ls => [33, 4, 77, 5, 2, 8]
-
-// With optional comparer property name
-ls = List([
-  {foo:34, bar:'erf'},
-  {foo:12, bar:'xcv'},
-  {foo:45, bar:'bhu'},
-  {foo:26, bar:'aer'}
-]);
-x = ls.sort('bar');
-// x => [
-//  {foo:26, bar:'aer'},
-//  {foo:45, bar:'bhu'},
-//  {foo:34, bar:'erf'},
-//  {foo:12, bar:'xcv'}
-// ]
-
-// Mixed types
-var date1 = new Date('2012-06-23')
-var date2 = new Date('2000-01-01')
-ls = List(
-  [9, 'a', /foo/, true, 0, date1, {a:1}, 'sd', date2, 5, false, '1']
-);
-x = ls.sort();
-// x =>
-//  [0, 5, 9, '1', 'a', 'sd', false, true, date2, date1 /foo/, {a:1}]
-```
-
-<a name='list-reverse'></a>
-### List#reverse()
-Returns a new `List` of the instance's items with their order reversed.
-
-```js
-var ls = List('abc');
-var x = ls.reverse();
-// x  => ['c', 'b', 'a']
-// ls => ['a', 'b', 'c']
-```
-
-<a name='list-intersperse'></a>
-### List#intersperse( obj )
-Returns a new `List` with `obj` inserted between every item in the list.
-
-```js
-var ls = List([1,2,3,4,5]);
-var x = ls.intersperse('|');
-// x => [
-//  1, '|', 2, '|', 3, '|', 4, '|', 5
-// ]
 ```
 
 
@@ -1226,6 +1281,9 @@ var x = ls.intersperse('|');
 [List#reject]:        #list-reject
 [List#map]:           #list-map
 [List#intersperse]:   #list-intersperse
+
+
+[Array#sort]: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/sort
 
 
 
@@ -1389,7 +1447,8 @@ var x = d.forEach(function(value, key, dict) {
 //  Key: age, Val: 5000
 //  Key: town, Val: Bedrock
 x === d; // true
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 d.forEach(obj, function(value, key, dict) {
@@ -1412,7 +1471,8 @@ var x = d.some(function(value, key, dict) {
   return value.year > 1996;
 });
 // x => true
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 d.some(obj, function(value, key, dict) {
@@ -1435,7 +1495,8 @@ var x = d.every(function(value, key, dict) {
   return value.album === 'OK Computer';
 });
 // x => false
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 d.every(obj, function(value, key, dict) {
@@ -1460,7 +1521,8 @@ var x = d.filter(function(value, key, dict) {
 //  'Paranoid Android' : {year:1997, album:'OK Computer'},
 //  'Karma Police'     : {year:1997, album:'OK Computer'}
 // }
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 d.filter(obj, function(value, key, dict) {
@@ -1484,7 +1546,8 @@ var x = d.reject(function(value, key, dict) {
 // x => {
 //  'Creep' : {year:1993, album:'Pablo Honey'},
 // }
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 d.reject(obj, function(value, key, dict) {
@@ -1514,21 +1577,23 @@ determine the key.
 
 ```js
 var d = Dict({a:10, b:20, c:30});
-var x = d.toLiteral();
-// x => {a:10, b:20, c:30}
-for (var key in x) {
-  console.log('%s : %s', key, x[key]);
+var obj = d.toLiteral();
+// obj => {a:10, b:20, c:30}
+for (var key in obj) {
+  console.log('%s : %s', key, obj[key]);
 }
 // Output:
 //  a : 10
 //  b : 20
 //  c : 30
-
+```
+```js
 // With optional serializer
-x = d.toLiteral(function(key, value) {
+var d = Dict({a:10, b:20, c:30});
+var obj = d.toLiteral(function(key, value) {
   return key.toUpperCase();
 });
-// x => {A:10, B:20, C:30}
+// obj => {A:10, B:20, C:30}
 ```
 
 <a name='dict-toarray'></a>
@@ -1756,7 +1821,8 @@ var x = m.forEach(function(value, key, map) {
 //  Key: Tue Apr 17 2012, Val: Taxes!!
 //  Key: Wed Oct 31 2012, Val: Halloween
 x === m; // true
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 m.forEach(obj, function(value, key, dict) {
@@ -1781,7 +1847,8 @@ var x = m.some(function(value, key, dict) {
   return value !== 'Halloween' && key.getFullYear() === 2012;
 });
 // x => true
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 m.some(obj, function(value, key, dict) {
@@ -1811,7 +1878,8 @@ x = m.every(function(value, key, dict) {
   return key.getFullYear() > 2010;
 });
 // x => true
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 m.every(obj, function(value, key, dict) {
@@ -1840,7 +1908,8 @@ var x = m.filter(function(value, key, dict) {
 //  Sat May 05 2012 => 'Cinco de Mayo',
 //  Wed Oct 31 2012 => 'Halloween'
 // }
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 m.filter(obj, function(value, key, dict) {
@@ -1868,7 +1937,8 @@ var x = m.reject(function(value, key, dict) {
 //  Sun Jan 01 2012 => 'New Years'
 //  Tue Apr 17 2012 => 'Taxes!!'
 // }
-
+```
+```js
 // With optional context
 var obj = {foo:'bar'};
 m.reject(obj, function(value, key, dict) {
