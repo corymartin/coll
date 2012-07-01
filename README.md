@@ -1439,7 +1439,7 @@ each key/value pair. Returns the instance.
 
 ```js
 var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
-var x = d.forEach(function(value, key, dict) {
+var x = d.forEach(function(key, value, dict) {
   console.log('Key: %s, Val: %s', key, value);
 });
 // Output:
@@ -1451,7 +1451,7 @@ x === d; // true
 ```js
 // With optional context
 var obj = {foo:'bar'};
-d.forEach(obj, function(value, key, dict) {
+d.forEach(obj, function(key, value, dict) {
   // this => {foo:'bar'}
 });
 ```
@@ -1467,7 +1467,7 @@ var d = Dict();
 d.set('Creep',            {year:1993, album:'Pablo Honey'});
 d.set('Paranoid Android', {year:1997, album:'OK Computer'});
 d.set('Karma Police',     {year:1997, album:'OK Computer'});
-var x = d.some(function(value, key, dict) {
+var x = d.some(function(key, value, dict) {
   return value.year > 1996;
 });
 // x => true
@@ -1475,7 +1475,7 @@ var x = d.some(function(value, key, dict) {
 ```js
 // With optional context
 var obj = {foo:'bar'};
-d.some(obj, function(value, key, dict) {
+d.some(obj, function(key, value, dict) {
   // this => {foo:'bar'}
 });
 ```
@@ -1491,7 +1491,7 @@ var d = Dict();
 d.set('Creep',            {year:1993, album:'Pablo Honey'});
 d.set('Paranoid Android', {year:1997, album:'OK Computer'});
 d.set('Karma Police',     {year:1997, album:'OK Computer'});
-var x = d.every(function(value, key, dict) {
+var x = d.every(function(key, value, dict) {
   return value.album === 'OK Computer';
 });
 // x => false
@@ -1499,7 +1499,7 @@ var x = d.every(function(value, key, dict) {
 ```js
 // With optional context
 var obj = {foo:'bar'};
-d.every(obj, function(value, key, dict) {
+d.every(obj, function(key, value, dict) {
   // this => {foo:'bar'}
 });
 ```
@@ -1514,7 +1514,7 @@ var d = Dict();
 d.set('Creep',            {year:1993, album:'Pablo Honey'});
 d.set('Paranoid Android', {year:1997, album:'OK Computer'});
 d.set('Karma Police',     {year:1997, album:'OK Computer'});
-var x = d.filter(function(value, key, dict) {
+var x = d.filter(function(key, value, dict) {
   return value.album === 'OK Computer';
 });
 // x => {
@@ -1525,7 +1525,7 @@ var x = d.filter(function(value, key, dict) {
 ```js
 // With optional context
 var obj = {foo:'bar'};
-d.filter(obj, function(value, key, dict) {
+d.filter(obj, function(key, value, dict) {
   // this => {foo:'bar'}
 });
 ```
@@ -1540,7 +1540,7 @@ var d = Dict();
 d.set('Creep',            {year:1993, album:'Pablo Honey'});
 d.set('Paranoid Android', {year:1997, album:'OK Computer'});
 d.set('Karma Police',     {year:1997, album:'OK Computer'});
-var x = d.reject(function(value, key, dict) {
+var x = d.reject(function(key, value, dict) {
   return value.album === 'OK Computer';
 });
 // x => {
@@ -1550,7 +1550,7 @@ var x = d.reject(function(value, key, dict) {
 ```js
 // With optional context
 var obj = {foo:'bar'};
-d.reject(obj, function(value, key, dict) {
+d.reject(obj, function(key, value, dict) {
   // this => {foo:'bar'}
 });
 ```
@@ -1813,7 +1813,7 @@ m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
 m.set(new Date(2012, 3, 17), 'Taxes!!');
 m.set(new Date(2012, 9, 31), 'Halloween');
 
-var x = m.forEach(function(value, key, map) {
+var x = m.forEach(function(key, value, map) {
   console.log('Key: %s, Val: %s', key.toDateString(), value);
 });
 // Output:
@@ -1825,7 +1825,7 @@ x === m; // true
 ```js
 // With optional context
 var obj = {foo:'bar'};
-m.forEach(obj, function(value, key, dict) {
+m.forEach(obj, function(key, value, dict) {
   // this => {foo:'bar'}
 });
 ```
@@ -1843,7 +1843,7 @@ m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
 m.set(new Date(2012, 3, 17), 'Taxes!!');
 m.set(new Date(2012, 9, 31), 'Halloween');
 
-var x = m.some(function(value, key, dict) {
+var x = m.some(function(key, value, dict) {
   return value !== 'Halloween' && key.getFullYear() === 2012;
 });
 // x => true
@@ -1851,7 +1851,7 @@ var x = m.some(function(value, key, dict) {
 ```js
 // With optional context
 var obj = {foo:'bar'};
-m.some(obj, function(value, key, dict) {
+m.some(obj, function(key, value, dict) {
   // this => {foo:'bar'}
 });
 ```
@@ -1869,12 +1869,12 @@ m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
 m.set(new Date(2012, 3, 17), 'Taxes!!');
 m.set(new Date(2012, 9, 31), 'Halloween');
 
-var x = m.every(function(value, key, dict) {
+var x = m.every(function(key, value, dict) {
   return key.getFullYear() === 2012;
 });
 // x => false
 
-x = m.every(function(value, key, dict) {
+x = m.every(function(key, value, dict) {
   return key.getFullYear() > 2010;
 });
 // x => true
@@ -1882,7 +1882,7 @@ x = m.every(function(value, key, dict) {
 ```js
 // With optional context
 var obj = {foo:'bar'};
-m.every(obj, function(value, key, dict) {
+m.every(obj, function(key, value, dict) {
   // this => {foo:'bar'}
 });
 ```
@@ -1900,7 +1900,7 @@ m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
 m.set(new Date(2012, 3, 17), 'Taxes!!');
 m.set(new Date(2012, 9, 31), 'Halloween');
 
-var x = m.filter(function(value, key, dict) {
+var x = m.filter(function(key, value, dict) {
   return key.getMonth() >= 3 && value !== 'Taxes!!';
 });
 // x => {
@@ -1912,7 +1912,7 @@ var x = m.filter(function(value, key, dict) {
 ```js
 // With optional context
 var obj = {foo:'bar'};
-m.filter(obj, function(value, key, dict) {
+m.filter(obj, function(key, value, dict) {
   // this => {foo:'bar'}
 });
 ```
@@ -1930,7 +1930,7 @@ m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
 m.set(new Date(2012, 3, 17), 'Taxes!!');
 m.set(new Date(2012, 9, 31), 'Halloween');
 
-var x = m.reject(function(value, key, dict) {
+var x = m.reject(function(key, value, dict) {
   return key.getMonth() > 3;
 });
 // x => {
@@ -1941,7 +1941,7 @@ var x = m.reject(function(value, key, dict) {
 ```js
 // With optional context
 var obj = {foo:'bar'};
-m.reject(obj, function(value, key, dict) {
+m.reject(obj, function(key, value, dict) {
   // this => {foo:'bar'}
 });
 ```

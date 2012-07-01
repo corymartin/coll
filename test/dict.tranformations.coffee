@@ -17,47 +17,47 @@ describe 'Dict / Map Transformation Methods', ->
   describe '#filter', ->
     it 'should return a new dictionary of key/vals that pass the iterator test', ->
       map.set 'zzz', 25
-      x = map.filter (val, key) -> val > 20
+      x = map.filter (key, val) -> val > 20
       expect(x).to.be.a Map
       expect(x.length).to.be 2
-      expect(x.some (v, k) -> v == 25 && k == 'zzz').to.be true
-      expect(x.some (v, k) -> v == 33 && k == 'bar').to.be true
+      expect(x.some (k, v) -> v == 25 && k == 'zzz').to.be true
+      expect(x.some (k, v) -> v == 33 && k == 'bar').to.be true
       expect(x).not.to.be map
       expect(map.length).to.be 3
 
       dict.add {stuff:1000, how:/do/}
-      x = dict.filter (val, key) -> typeof val == 'number'
+      x = dict.filter (key, val) -> typeof val == 'number'
       expect(x).to.be.a Dict
       expect(x.length).to.be 2
-      expect(x.some (v, k) -> v == 1000 && k == 'stuff').to.be true
-      expect(x.some (v, k) -> v == 4000 && k == 'age').to.be true
+      expect(x.some (k, v) -> v == 1000 && k == 'stuff').to.be true
+      expect(x.some (k, v) -> v == 4000 && k == 'age').to.be true
       expect(x).not.to.be dict
       expect(dict.length).to.be 4
 
-    it 'should pass 3 params to callback: val, key, dict', ->
-      map.filter (val, key, dict) ->
+    it 'should pass 3 params to callback: key, val, dict', ->
+      map.filter (key, val, dict) ->
         expect(val).to.be if key == 'foo' then 10 else 33
         expect(key).to.be if val == 10 then 'foo' else 'bar'
         expect(dict).to.be map
 
-      dict.filter (val, key, dict) ->
+      dict.filter (key, val, dict) ->
         expect(val).to.be if key == 'name' then 'Fred' else 4000
         expect(key).to.be if val == 'Fred' then 'name' else 'age'
         expect(dict).to.be dict
 
     it 'should accept an optional context argument', ->
       obj = {foo:'bar'}
-      map.filter obj, (val, key) ->
+      map.filter obj, (key, val) ->
         expect(this).to.be obj
 
-      dict.filter obj, (val, key) ->
+      dict.filter obj, (key, val) ->
         expect(this).to.be obj
 
 
   describe '#reject', ->
     it 'should return a new dictionary of key/vals that fail the iterator test', ->
       map.set 'zzz', 25
-      x = map.reject (val, key) -> val > 20
+      x = map.reject (key, val) -> val > 20
       expect(x).to.be.a Map
       expect(x.length).to.be 1
       expect(x.keys).to.eql ['foo']
@@ -66,7 +66,7 @@ describe 'Dict / Map Transformation Methods', ->
       expect(map.length).to.be 3
 
       dict.add {stuff:1000, how:/do/}
-      x = dict.reject (val, key) -> typeof val != 'number'
+      x = dict.reject (key, val) -> typeof val != 'number'
       expect(x).to.be.a Dict
       expect(x.length).to.be 2
       expect(x.keys).to.contain 'stuff'
@@ -76,23 +76,23 @@ describe 'Dict / Map Transformation Methods', ->
       expect(x).not.to.be dict
       expect(dict.length).to.be 4
 
-    it 'should pass 3 params to callback: val, key, dict', ->
-      map.reject (val, key, dict) ->
+    it 'should pass 3 params to callback: key, val, dict', ->
+      map.reject (key, val, dict) ->
         expect(val).to.be if key == 'foo' then 10 else 33
         expect(key).to.be if val == 10 then 'foo' else 'bar'
         expect(dict).to.be map
 
-      dict.reject (val, key, dict) ->
+      dict.reject (key, val, dict) ->
         expect(val).to.be if key == 'name' then 'Fred' else 4000
         expect(key).to.be if val == 'Fred' then 'name' else 'age'
         expect(dict).to.be dict
 
     it 'should accept an optional context argument', ->
       obj = {foo:'bar'}
-      map.reject obj, (val, key) ->
+      map.reject obj, (key, val) ->
         expect(this).to.be obj
 
-      dict.reject obj, (val, key) ->
+      dict.reject obj, (key, val) ->
         expect(this).to.be obj
 
 

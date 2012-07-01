@@ -21,7 +21,7 @@ describe('Dict / Map Iteration Methods', function() {
     it('should iterate over each item in the collection', function() {
       var cnt;
       cnt = 0;
-      map.forEach(function(val, key, dict) {
+      map.forEach(function(key, val, dict) {
         expect(val).to.be(key === 'foo' ? 10 : 33);
         expect(key).to.be(val === 10 ? 'foo' : 'bar');
         expect(dict).to.be(map);
@@ -29,7 +29,7 @@ describe('Dict / Map Iteration Methods', function() {
       });
       expect(cnt).to.be(2);
       cnt = 0;
-      dict.forEach(function(val, key, dict) {
+      dict.forEach(function(key, val, dict) {
         expect(val).to.be(key === 'name' ? 'Fred' : 4000);
         expect(key).to.be(val === 'Fred' ? 'name' : 'age');
         expect(dict).to.be(dict);
@@ -42,10 +42,10 @@ describe('Dict / Map Iteration Methods', function() {
       obj = {
         foo: 'bar'
       };
-      map.forEach(obj, function(val, key) {
+      map.forEach(obj, function(key, val) {
         return expect(this).to.be(obj);
       });
-      return dict.forEach(obj, function(val, key) {
+      return dict.forEach(obj, function(key, val) {
         return expect(this).to.be(obj);
       });
     });
@@ -53,30 +53,30 @@ describe('Dict / Map Iteration Methods', function() {
   describe('#some', function() {
     it('should return true if at least one key/val passes the iterator test', function() {
       var x;
-      x = map.some(function(val, key, dict) {
+      x = map.some(function(key, val, dict) {
         return val === 33;
       });
       expect(x).to.be(true);
-      x = map.some(function(val, key, dict) {
+      x = map.some(function(key, val, dict) {
         return val === 99;
       });
       expect(x).to.be(false);
-      x = dict.some(function(val, key, dict) {
+      x = dict.some(function(key, val, dict) {
         return val === 4000;
       });
       expect(x).to.be(true);
-      x = dict.some(function(val, key, dict) {
+      x = dict.some(function(key, val, dict) {
         return val === 'Barney';
       });
       return expect(x).to.be(false);
     });
-    it('should pass 3 vals to callback: val, key, dict', function() {
-      map.some(function(val, key, dict) {
+    it('should pass 3 vals to callback: key, val, dict', function() {
+      map.some(function(key, val, dict) {
         expect(val).to.be(key === 'foo' ? 10 : 33);
         expect(key).to.be(val === 10 ? 'foo' : 'bar');
         return expect(dict).to.be(map);
       });
-      return dict.some(function(val, key, dict) {
+      return dict.some(function(key, val, dict) {
         expect(val).to.be(key === 'name' ? 'Fred' : 4000);
         expect(key).to.be(val === 'Fred' ? 'name' : 'age');
         return expect(dict).to.be(dict);
@@ -87,10 +87,10 @@ describe('Dict / Map Iteration Methods', function() {
       obj = {
         foo: 'bar'
       };
-      map.some(obj, function(val, key) {
+      map.some(obj, function(key, val) {
         return expect(this).to.be(obj);
       });
-      return dict.some(obj, function(val, key) {
+      return dict.some(obj, function(key, val) {
         return expect(this).to.be(obj);
       });
     });
@@ -98,30 +98,30 @@ describe('Dict / Map Iteration Methods', function() {
   return describe('#every', function() {
     it('should return true if every key/val passes the iterator test', function() {
       var x;
-      x = map.every(function(val, key, dict) {
+      x = map.every(function(key, val, dict) {
         return val < 40;
       });
       expect(x).to.be(true);
-      x = map.every(function(val, key, dict) {
+      x = map.every(function(key, val, dict) {
         return val === 10;
       });
       expect(x).to.be(false);
-      x = dict.every(function(val, key, dict) {
+      x = dict.every(function(key, val, dict) {
         return val !== void 0;
       });
       expect(x).to.be(true);
-      x = dict.every(function(val, key, dict) {
+      x = dict.every(function(key, val, dict) {
         return val === 'Barney';
       });
       return expect(x).to.be(false);
     });
-    it('should pass 3 params to callback: val, key, dict', function() {
-      map.every(function(val, key, dict) {
+    it('should pass 3 params to callback: key, val, dict', function() {
+      map.every(function(key, val, dict) {
         expect(val).to.be(key === 'foo' ? 10 : 33);
         expect(key).to.be(val === 10 ? 'foo' : 'bar');
         return expect(dict).to.be(map);
       });
-      return dict.every(function(val, key, dict) {
+      return dict.every(function(key, val, dict) {
         expect(val).to.be(key === 'name' ? 'Fred' : 4000);
         expect(key).to.be(val === 'Fred' ? 'name' : 'age');
         return expect(dict).to.be(dict);
@@ -132,10 +132,10 @@ describe('Dict / Map Iteration Methods', function() {
       obj = {
         foo: 'bar'
       };
-      map.every(obj, function(val, key) {
+      map.every(obj, function(key, val) {
         return expect(this).to.be(obj);
       });
-      return dict.every(obj, function(val, key) {
+      return dict.every(obj, function(key, val) {
         return expect(this).to.be(obj);
       });
     });

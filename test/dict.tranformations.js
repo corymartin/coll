@@ -21,15 +21,15 @@ describe('Dict / Map Transformation Methods', function() {
     it('should return a new dictionary of key/vals that pass the iterator test', function() {
       var x;
       map.set('zzz', 25);
-      x = map.filter(function(val, key) {
+      x = map.filter(function(key, val) {
         return val > 20;
       });
       expect(x).to.be.a(Map);
       expect(x.length).to.be(2);
-      expect(x.some(function(v, k) {
+      expect(x.some(function(k, v) {
         return v === 25 && k === 'zzz';
       })).to.be(true);
-      expect(x.some(function(v, k) {
+      expect(x.some(function(k, v) {
         return v === 33 && k === 'bar';
       })).to.be(true);
       expect(x).not.to.be(map);
@@ -38,27 +38,27 @@ describe('Dict / Map Transformation Methods', function() {
         stuff: 1000,
         how: /do/
       });
-      x = dict.filter(function(val, key) {
+      x = dict.filter(function(key, val) {
         return typeof val === 'number';
       });
       expect(x).to.be.a(Dict);
       expect(x.length).to.be(2);
-      expect(x.some(function(v, k) {
+      expect(x.some(function(k, v) {
         return v === 1000 && k === 'stuff';
       })).to.be(true);
-      expect(x.some(function(v, k) {
+      expect(x.some(function(k, v) {
         return v === 4000 && k === 'age';
       })).to.be(true);
       expect(x).not.to.be(dict);
       return expect(dict.length).to.be(4);
     });
-    it('should pass 3 params to callback: val, key, dict', function() {
-      map.filter(function(val, key, dict) {
+    it('should pass 3 params to callback: key, val, dict', function() {
+      map.filter(function(key, val, dict) {
         expect(val).to.be(key === 'foo' ? 10 : 33);
         expect(key).to.be(val === 10 ? 'foo' : 'bar');
         return expect(dict).to.be(map);
       });
-      return dict.filter(function(val, key, dict) {
+      return dict.filter(function(key, val, dict) {
         expect(val).to.be(key === 'name' ? 'Fred' : 4000);
         expect(key).to.be(val === 'Fred' ? 'name' : 'age');
         return expect(dict).to.be(dict);
@@ -69,10 +69,10 @@ describe('Dict / Map Transformation Methods', function() {
       obj = {
         foo: 'bar'
       };
-      map.filter(obj, function(val, key) {
+      map.filter(obj, function(key, val) {
         return expect(this).to.be(obj);
       });
-      return dict.filter(obj, function(val, key) {
+      return dict.filter(obj, function(key, val) {
         return expect(this).to.be(obj);
       });
     });
@@ -81,7 +81,7 @@ describe('Dict / Map Transformation Methods', function() {
     it('should return a new dictionary of key/vals that fail the iterator test', function() {
       var x;
       map.set('zzz', 25);
-      x = map.reject(function(val, key) {
+      x = map.reject(function(key, val) {
         return val > 20;
       });
       expect(x).to.be.a(Map);
@@ -94,7 +94,7 @@ describe('Dict / Map Transformation Methods', function() {
         stuff: 1000,
         how: /do/
       });
-      x = dict.reject(function(val, key) {
+      x = dict.reject(function(key, val) {
         return typeof val !== 'number';
       });
       expect(x).to.be.a(Dict);
@@ -106,13 +106,13 @@ describe('Dict / Map Transformation Methods', function() {
       expect(x).not.to.be(dict);
       return expect(dict.length).to.be(4);
     });
-    it('should pass 3 params to callback: val, key, dict', function() {
-      map.reject(function(val, key, dict) {
+    it('should pass 3 params to callback: key, val, dict', function() {
+      map.reject(function(key, val, dict) {
         expect(val).to.be(key === 'foo' ? 10 : 33);
         expect(key).to.be(val === 10 ? 'foo' : 'bar');
         return expect(dict).to.be(map);
       });
-      return dict.reject(function(val, key, dict) {
+      return dict.reject(function(key, val, dict) {
         expect(val).to.be(key === 'name' ? 'Fred' : 4000);
         expect(key).to.be(val === 'Fred' ? 'name' : 'age');
         return expect(dict).to.be(dict);
@@ -123,10 +123,10 @@ describe('Dict / Map Transformation Methods', function() {
       obj = {
         foo: 'bar'
       };
-      map.reject(obj, function(val, key) {
+      map.reject(obj, function(key, val) {
         return expect(this).to.be(obj);
       });
-      return dict.reject(obj, function(val, key) {
+      return dict.reject(obj, function(key, val) {
         return expect(this).to.be(obj);
       });
     });
