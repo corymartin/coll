@@ -1,7 +1,7 @@
 Coll
 ====
 
-JavaScript Collection Classes for Node.js
+JavaScript Collections for Node.js
 
 ### API should be considered *alpha* and subject to change.
 
@@ -149,7 +149,7 @@ The Classes
 List
 ====
 An indexed list of items with functions for manipulating, iterating,
-searching, indexing, transforming, and inspecting.
+searching, indexing, and transforming.
 
 
 <a name='list-constructor'></a>
