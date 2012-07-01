@@ -1,5 +1,5 @@
-Coll.js
-=======
+Coll
+====
 
 JavaScript Collection Classes for Node.js
 
