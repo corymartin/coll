@@ -273,8 +273,14 @@ var x = ls.last();
 <a name='list-min'></a>
 ### List#min( [comparer] )
 Returns the item with the minimum value from the list.
-If the optional `comparer` function is passed, that will be used to determine
-the minimum value. It works like the comparer function in `Array#sort`.
+
+The optional `comparer` parameter can be either a function or a string.
+If it is a function, then it will be used to determine the minimum value.
+`comparer` functions work as they do in `Array#sort`.
+
+If `comparer` is a string, then it will be assumed that the list is composed
+of objects and the value to be compared will be that of the
+property name passed.
 
 ```js
 var ls = List([4,2,8,5]);
@@ -310,7 +316,7 @@ If it is a function, then it will be used to determine the maximum value.
 `comparer` functions work as they do in `Array#sort`.
 
 If `comparer` is a string, then it will be assumed that the list is composed
-of objects and the maximum value to be compared will be that of the
+of objects and the value to be compared will be that of the
 property name passed.
 
 ```js
