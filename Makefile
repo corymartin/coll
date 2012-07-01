@@ -1,6 +1,6 @@
 
 compile-tests:
-	@coffee \
+	@./node_modules/coffee-script/bin/coffee \
 		--compile \
 		--bare \
 		./test/*.coffee

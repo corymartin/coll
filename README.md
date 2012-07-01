@@ -1,7 +1,7 @@
 Coll.js
 =======
 
-JavaScript Collection Classes.
+JavaScript Collection Classes for Node.js
 
 ### API should be considered *alpha* and subject to change.
 
