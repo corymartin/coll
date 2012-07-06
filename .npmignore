@@ -1,0 +1,7 @@
+*.swp
+.DS_Store*
+node_modules/
+test/
+perftest.js
+TODO.txt
+
