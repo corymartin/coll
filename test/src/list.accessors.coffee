@@ -253,6 +253,10 @@ describe 'List Accessor Methods', ->
       x = l2.first()
       expect(x).to.be undefined
 
+    it 'should accept a default value to be returned if the list is empty', ->
+      x = l2.first 'foo'
+      expect(x).to.be 'foo'
+
 
   describe '#last', ->
     l1 = l2 = null
@@ -268,6 +272,10 @@ describe 'List Accessor Methods', ->
     it 'should return `undefined` if the list is empty', ->
       x = l2.last()
       expect(x).to.be undefined
+
+    it 'should accept a default value to be returned if the list is empty', ->
+      x = l2.last 'foo'
+      expect(x).to.be 'foo'
 
 
   describe '#unique', ->

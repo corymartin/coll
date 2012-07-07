@@ -277,10 +277,15 @@ describe('List Accessor Methods', function() {
       x = l1.first();
       return expect(x).to.be('a');
     });
-    return it('should return `undefined` if the list is empty', function() {
+    it('should return `undefined` if the list is empty', function() {
       var x;
       x = l2.first();
       return expect(x).to.be(void 0);
+    });
+    return it('should accept a default value to be returned if the list is empty', function() {
+      var x;
+      x = l2.first('foo');
+      return expect(x).to.be('foo');
     });
   });
   describe('#last', function() {
@@ -295,10 +300,15 @@ describe('List Accessor Methods', function() {
       x = l1.last();
       return expect(x).to.be('d');
     });
-    return it('should return `undefined` if the list is empty', function() {
+    it('should return `undefined` if the list is empty', function() {
       var x;
       x = l2.last();
       return expect(x).to.be(void 0);
+    });
+    return it('should accept a default value to be returned if the list is empty', function() {
+      var x;
+      x = l2.last('foo');
+      return expect(x).to.be('foo');
     });
   });
   describe('#unique', function() {

@@ -249,25 +249,45 @@ var x = ls.slice(2, 4);
 ```
 
 <a name='list-first'></a>
-### List#first()
+### List#first( [\_default] )
 Returns the first item in the list.
 If the list is empty, `undefined` is returned.
+If an optional `_default` value is passed, that will be returned in the
+case of an empty list.
 
 ```js
 var ls = List(['apple', 'orange', 'pear', 'grape']);
 var x = ls.first();
 // x => 'apple'
 ```
+```js
+var ls = List();
+var x = ls.first();
+// x => undefined
+
+x = ls.first('foo');
+// x => 'foo'
+```
 
 <a name='list-last'></a>
 ### List#last()
 Returns the last item in the list.
 If the list is empty, `undefined` is returned.
+If an optional `_default` value is passed, that will be returned in the
+case of an empty list.
 
 ```js
 var ls = List(['apple', 'orange', 'pear', 'grape']);
 var x = ls.last();
 // x => 'grape'
+```
+```js
+var ls = List();
+var x = ls.last();
+// x => undefined
+
+x = ls.last('bar');
+// x => 'bar'
 ```
 
 <a name='list-min'></a>
