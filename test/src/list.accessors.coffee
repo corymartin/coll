@@ -237,6 +237,12 @@ describe 'List Accessor Methods', ->
       expect(-> ls.get -99).to.throwError (e) ->
         expect(e).to.be.a RangeError
 
+    it '''should return the optional default value if it is passed and the
+      index is not in the list''', ->
+      ls = List 'abc'
+      x = ls.get(99, 'chuck')
+      expect(x).to.be 'chuck'
+
 
   describe '#first', ->
     l1 = l2 = null

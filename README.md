@@ -228,13 +228,21 @@ List Instance Functions
 -----------------------
 
 <a name='list-get'></a>
-### List#get( index )
+### List#get( index [, \_default] )
 Returns the item at the specifed index.
+If the index is not present within the list, a `RangeError` is thrown.
+If the optional `_default` value is passed, that will be returned when
+the index is not present.
 
 ```js
 var ls = List(['apple', 'orange', 'pear', 'grape']);
 var x = ls.get(2);
 // x => 'pear'
+
+ls.get(37); // throws RangeError
+
+x = ls.get(37, 'mango');
+// x => 'mango'
 ```
 
 <a name='list-slice'></a>

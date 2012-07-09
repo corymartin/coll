@@ -250,7 +250,7 @@ describe('List Accessor Methods', function() {
       ls = List('asd');
       return expect(ls.get(1)).to.be('s');
     });
-    return it('should throw a `RangeError` if the index is not in the list', function() {
+    it('should throw a `RangeError` if the index is not in the list', function() {
       var ls;
       ls = List('abc');
       expect(function() {
@@ -263,6 +263,12 @@ describe('List Accessor Methods', function() {
       }).to.throwError(function(e) {
         return expect(e).to.be.a(RangeError);
       });
+    });
+    return it('should return the optional default value if it is passed and the\nindex is not in the list', function() {
+      var ls, x;
+      ls = List('abc');
+      x = ls.get(99, 'chuck');
+      return expect(x).to.be('chuck');
     });
   });
   describe('#first', function() {
