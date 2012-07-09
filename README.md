@@ -78,6 +78,8 @@ The Classes
   - [List#group]
   - [List#partition]
   - [List#intersect]
+  - [List#difference]
+  - [List#union]
   - *Indexing Functions*
   - [List#indexOf]
   - [List#lastIndexOf]
@@ -980,6 +982,28 @@ var x = ls.intersect(['peach', 'pear', 'plum', 'apple', 'mango']);
 // x => ['apple', 'pear']
 ```
 
+<a name='list-difference'></a>
+### List#difference( iterable )
+Returns a new list composed of the list values not present in
+the passed iterable.
+
+```js
+var ls = List(['apple', 'orange', 'pear', 'grape']);
+var x = ls.difference(['peach', 'pear', 'plum', 'apple', 'mango']);
+// x => ['orange', 'grape']
+```
+
+<a name='list-union'></a>
+### List#union( iterable )
+Returns a new `List` representing the union of the list and in the
+passed iterable. That is, the combined unique items between the two.
+
+```js
+var ls = List(['apple', 'orange', 'pear', 'grape']);
+var x = ls.union(['peach', 'pear', 'plum', 'apple', 'mango']);
+// x => ['apple', 'orange', 'pear', 'grape', 'peach', 'plum', 'mango']
+```
+
 <a name='list-indexof'></a>
 ### List#indexOf( item [, index] )
 Returns the index of the first occurence of `item` in the list.
@@ -1277,6 +1301,8 @@ var x = ls.reduceRight('---', function(str, b, index, list) {
 [List#toArray]:       #list-toarray
 
 [List#intersect]:     #list-intersect
+[List#difference]:    #list-difference
+[List#union]:         #list-union
 [List#max]:           #list-max
 [List#min]:           #list-min
 

@@ -464,7 +464,7 @@ describe('List Accessor Methods', function() {
       return expect(x).to.be(o5);
     });
   });
-  return describe('#intersect', function() {
+  describe('#intersect', function() {
     var l1, l2;
     l1 = l2 = null;
     beforeEach(function() {
@@ -478,37 +478,110 @@ describe('List Accessor Methods', function() {
       expect(x).not.to.be(l1);
       expect(x).not.to.be(l2);
       expect(x.length).to.be(3);
-      expect(x).to.contain('a');
-      expect(x).to.contain('b');
-      return expect(x).to.contain('c');
+      return expect(x.toArray()).to.eql(['a', 'b', 'c']);
     });
     it('should not modify either the instance list or the passed list', function() {
       var x;
       x = l1.intersect(l2);
       expect(l1).to.be.a(List);
       expect(l2).to.be.a(List);
-      expect(l1.length).to.be(7);
-      return expect(l2.length).to.be(8);
+      expect(l1.toArray()).to.eql('abcabcd'.split(''));
+      return expect(l2.toArray()).to.eql('zxczxaab'.split(''));
     });
     return it('should accept any iterable as a list parameter', function() {
       var x;
-      x = l1.intersect('xybyxdxy');
+      x = l1.intersect(List('xybyxdxy'));
       expect(x).to.be.a(List);
       expect(x.length).to.be(2);
-      expect(x).to.contain('b');
-      expect(x).to.contain('d');
+      expect(x.toArray()).to.eql(['b', 'd']);
       x = l2.intersect(['a', 'c', 'a', 'y']);
       expect(x).to.be.a(List);
       expect(x.length).to.be(2);
-      expect(x).to.contain('c');
-      expect(x).to.contain('a');
+      expect(x.toArray()).to.eql(['c', 'a']);
       return (function() {
         x = l1.intersect(arguments);
         expect(x).to.be.a(List);
         expect(x.length).to.be(2);
-        expect(x).to.contain('c');
-        return expect(x).to.contain('a');
+        return expect(x.toArray()).to.eql(['a', 'c']);
       })('aaa', 23, 'c', 'dd', 'a', /foo/, true);
+    });
+  });
+  describe('#union', function() {
+    var l1, l2;
+    l1 = l2 = null;
+    beforeEach(function() {
+      l1 = List('asdfaaf');
+      return l2 = List('aszxddqff');
+    });
+    it('should return a new list of the combined unique values', function() {
+      var x;
+      x = l1.union(l2);
+      expect(x).to.be.a(List);
+      expect(x).not.to.be(l1);
+      expect(x).not.to.be(l2);
+      expect(x.length).to.be(7);
+      return expect(x.toArray()).to.eql('asdfzxq'.split(''));
+    });
+    it('should not modify either the instance list or the passed list', function() {
+      var x;
+      x = l1.union(l2);
+      expect(l1).to.be.a(List);
+      expect(l2).to.be.a(List);
+      expect(l1.toArray()).to.eql('asdfaaf'.split(''));
+      return expect(l2.toArray()).to.eql('aszxddqff'.split(''));
+    });
+    return it('should accept any iterable as a list parameter', function() {
+      var x;
+      x = l1.union(List('aaxxssyydd'));
+      expect(x).to.be.a(List);
+      expect(x.toArray()).to.eql('asdfxy'.split(''));
+      x = l1.union(['a', 'c', 'a', 'y']);
+      expect(x).to.be.a(List);
+      expect(x.toArray()).to.eql('asdfcy'.split(''));
+      return (function() {
+        x = l1.union(arguments);
+        expect(x).to.be.a(List);
+        return expect(x.toArray()).to.eql('asdfqw'.split(''));
+      })('d', 's', 'q', 'a', 'w');
+    });
+  });
+  return describe('#difference', function() {
+    var l1, l2;
+    l1 = l2 = null;
+    beforeEach(function() {
+      l1 = List('asdfabbbaf');
+      return l2 = List('axcveden');
+    });
+    it('should return a new list of the instance\'s values that are not\npresent in the passed iterable', function() {
+      var x;
+      x = l1.difference(l2);
+      expect(x).to.be.a(List);
+      expect(x).not.to.be(l1);
+      expect(x).not.to.be(l2);
+      expect(x.length).to.be(3);
+      return expect(x.toArray()).to.eql('sfb'.split(''));
+    });
+    it('should not modify either the instance list or the passed list', function() {
+      var x;
+      x = l1.difference(l2);
+      expect(l1).to.be.a(List);
+      expect(l2).to.be.a(List);
+      expect(l1.toArray()).to.eql('asdfabbbaf'.split(''));
+      return expect(l2.toArray()).to.eql('axcveden'.split(''));
+    });
+    return it('should accept any iterable as a list parameter', function() {
+      var x;
+      x = l1.difference(List('aaxxssyy'));
+      expect(x).to.be.a(List);
+      expect(x.toArray()).to.eql('dfb'.split(''));
+      x = l1.difference(['a', 'c', 'a', 'y']);
+      expect(x).to.be.a(List);
+      expect(x.toArray()).to.eql('sdfb'.split(''));
+      return (function() {
+        x = l1.difference(arguments);
+        expect(x).to.be.a(List);
+        return expect(x.toArray()).to.eql(['f', 'b']);
+      })('d', 's', 'q', 'a', 'w');
     });
   });
 });

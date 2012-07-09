@@ -411,36 +411,107 @@ describe 'List Accessor Methods', ->
       expect(x).not.to.be l1
       expect(x).not.to.be l2
       expect(x.length).to.be 3
-      expect(x).to.contain 'a'
-      expect(x).to.contain 'b'
-      expect(x).to.contain 'c'
+      expect(x.toArray()).to.eql ['a','b','c']
 
     it 'should not modify either the instance list or the passed list', ->
       x = l1.intersect l2
       expect(l1).to.be.a List
       expect(l2).to.be.a List
-      expect(l1.length).to.be 7
-      expect(l2.length).to.be 8
+      expect(l1.toArray()).to.eql 'abcabcd'.split('')
+      expect(l2.toArray()).to.eql 'zxczxaab'.split('')
 
     it 'should accept any iterable as a list parameter', ->
-      x = l1.intersect 'xybyxdxy'
+      x = l1.intersect List('xybyxdxy')
       expect(x).to.be.a List
       expect(x.length).to.be 2
-      expect(x).to.contain 'b'
-      expect(x).to.contain 'd'
+      expect(x.toArray()).to.eql ['b','d']
 
       x = l2.intersect ['a','c','a','y']
       expect(x).to.be.a List
       expect(x.length).to.be 2
-      expect(x).to.contain 'c'
-      expect(x).to.contain 'a'
+      expect(x.toArray()).to.eql ['c','a']
 
       (->
         x = l1.intersect arguments
         expect(x).to.be.a List
         expect(x.length).to.be 2
-        expect(x).to.contain 'c'
-        expect(x).to.contain 'a'
+        expect(x.toArray()).to.eql ['a','c']
       )('aaa', 23, 'c', 'dd', 'a', /foo/, true)
 
+
+  describe '#union', ->
+    l1 = l2 = null
+
+    beforeEach ->
+      l1 = List 'asdfaaf'
+      l2 = List 'aszxddqff'
+
+    it 'should return a new list of the combined unique values', ->
+      x = l1.union l2
+      expect(x).to.be.a List
+      expect(x).not.to.be l1
+      expect(x).not.to.be l2
+      expect(x.length).to.be 7
+      expect(x.toArray()).to.eql 'asdfzxq'.split('')
+
+    it 'should not modify either the instance list or the passed list', ->
+      x = l1.union l2
+      expect(l1).to.be.a List
+      expect(l2).to.be.a List
+      expect(l1.toArray()).to.eql 'asdfaaf'.split('')
+      expect(l2.toArray()).to.eql 'aszxddqff'.split('')
+
+    it 'should accept any iterable as a list parameter', ->
+      x = l1.union List('aaxxssyydd')
+      expect(x).to.be.a List
+      expect(x.toArray()).to.eql 'asdfxy'.split('')
+
+      x = l1.union ['a','c','a','y']
+      expect(x).to.be.a List
+      expect(x.toArray()).to.eql 'asdfcy'.split('')
+
+      (->
+        x = l1.union arguments
+        expect(x).to.be.a List
+        expect(x.toArray()).to.eql 'asdfqw'.split('')
+      )('d', 's', 'q', 'a', 'w')
+
+
+  describe '#difference', ->
+    l1 = l2 = null
+
+    beforeEach ->
+      l1 = List 'asdfabbbaf'
+      l2 = List 'axcveden'
+
+    it '''should return a new list of the instance's values that are not
+      present in the passed iterable''', ->
+      x = l1.difference l2
+      expect(x).to.be.a List
+      expect(x).not.to.be l1
+      expect(x).not.to.be l2
+      expect(x.length).to.be 3
+      expect(x.toArray()).to.eql 'sfb'.split('')
+
+    it 'should not modify either the instance list or the passed list', ->
+      x = l1.difference l2
+      expect(l1).to.be.a List
+      expect(l2).to.be.a List
+      expect(l1.toArray()).to.eql 'asdfabbbaf'.split('')
+      expect(l2.toArray()).to.eql 'axcveden'.split('')
+
+    it 'should accept any iterable as a list parameter', ->
+      x = l1.difference List('aaxxssyy')
+      expect(x).to.be.a List
+      expect(x.toArray()).to.eql 'dfb'.split('')
+
+      x = l1.difference ['a','c','a','y']
+      expect(x).to.be.a List
+      expect(x.toArray()).to.eql 'sdfb'.split('')
+
+      (->
+        x = l1.difference arguments
+        expect(x).to.be.a List
+        expect(x.toArray()).to.eql ['f', 'b']
+      )('d', 's', 'q', 'a', 'w')
 
