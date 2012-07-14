@@ -3,7 +3,7 @@ var List, expect;
 
 expect = require('expect.js');
 
-List = require('../lib/coll').List;
+List = require('../lib/coll').coll.List;
 
 describe('List Indexing Methods', function() {
   describe('#indexOf', function() {

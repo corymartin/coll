@@ -1,8 +1,7 @@
 
 expect = require 'expect.js'
 
-{List} = require '../lib/coll'
-
+{List} = require('../lib/coll').coll
 
 describe 'List Accessor Methods', ->
 

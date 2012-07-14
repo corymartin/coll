@@ -1,8 +1,7 @@
 
 expect = require 'expect.js'
 
-{Map, Dict} = require '../lib/coll'
-
+{Map, Dict} = require('../lib/coll').coll
 
 describe 'Dict / Map Mutators', ->
   map = dict = null

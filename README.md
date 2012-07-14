@@ -16,9 +16,7 @@ $ npm install coll
 In your JavaScript:
 
 ```js
-var List = require('coll').List;
-var Dict = require('coll').Dict;
-var Map  = require('coll').Map;
+var coll = require('coll');
 ```
 
 The Classes
@@ -160,11 +158,11 @@ List Constructor
 `new` is optional
 
 ```js
-var ls1 = new List;
-var ls2 = List();
+var ls1 = new coll.List;
+var ls2 = coll.List();
 
-ls1 instanceof List; // true
-ls2 instanceof List; // true
+ls1 instanceof coll.List; // true
+ls2 instanceof coll.List; // true
 ```
 
 Accepts any *iterable* item to initially populate the list.
@@ -172,17 +170,17 @@ An iterable is most anything with indexes and a length property
 that can be iterated over.
 
 ```js
-var ls1 = List([2, 4, 6]);
+var ls1 = coll.List([2, 4, 6]);
 // ls1 => [2, 4, 5]
 
-var ls2 = List('abc');
+var ls2 = coll.List('abc');
 // ls2 => ['a', 'b', 'c']
 
-var ls3 = List(List([true, 2.99]))
+var ls3 = coll.List(coll.List([true, 2.99]))
 // ls3 => [true, 2.99]
 
 ;(function() {
-  var argls = List(arguments);
+  var argls = coll.List(arguments);
   // argls => ['hi', true, /foo/]
 })('hi', true, /foo/);
 ```
@@ -220,7 +218,7 @@ List Instance Properties
 Number of items in the list.
 
 ```js
-var ls = List([2,4,6]);
+var ls = coll.List([2,4,6]);
 // ls.length => 3
 ```
 
@@ -235,7 +233,7 @@ If the optional `_default` value is passed, that will be returned when
 the index is not present.
 
 ```js
-var ls = List(['apple', 'orange', 'pear', 'grape']);
+var ls = coll.List(['apple', 'orange', 'pear', 'grape']);
 var x = ls.get(2);
 // x => 'pear'
 
@@ -252,7 +250,7 @@ Functions the same as `Array#slice` except this version returns
 an instance of `List`.
 
 ```js
-var ls = List('abcde');
+var ls = coll.List('abcde');
 var x = ls.slice(2, 4);
 // x  => ['c', 'd']
 // ls => ['a', 'b', 'c', 'd', 'e']
@@ -266,12 +264,12 @@ If an optional `_default` value is passed, that will be returned in the
 case of an empty list.
 
 ```js
-var ls = List(['apple', 'orange', 'pear', 'grape']);
+var ls = coll.List(['apple', 'orange', 'pear', 'grape']);
 var x = ls.first();
 // x => 'apple'
 ```
 ```js
-var ls = List();
+var ls = coll.List();
 var x = ls.first();
 // x => undefined
 
@@ -287,12 +285,12 @@ If an optional `_default` value is passed, that will be returned in the
 case of an empty list.
 
 ```js
-var ls = List(['apple', 'orange', 'pear', 'grape']);
+var ls = coll.List(['apple', 'orange', 'pear', 'grape']);
 var x = ls.last();
 // x => 'grape'
 ```
 ```js
-var ls = List();
+var ls = coll.List();
 var x = ls.last();
 // x => undefined
 
@@ -313,13 +311,13 @@ of objects and the value to be compared will be that of the
 property name passed.
 
 ```js
-var ls = List([4,2,8,5]);
+var ls = coll.List([4,2,8,5]);
 var x = ls.min();
 // x => 2
 ```
 ```js
 // With optional comparer function
-var ls = List(['aaa', 'bb', 'ccccccc', 'dddd']);
+var ls = coll.List(['aaa', 'bb', 'ccccccc', 'dddd']);
 var x = ls.min(function(a, b) {
   return a.length - b.length;
 });
@@ -327,7 +325,7 @@ var x = ls.min(function(a, b) {
 ```
 ```js
 // With optional comparer property name
-var ls = List([
+var ls = coll.List([
   {foo:34, bar:'erf'},
   {foo:12, bar:'xcv'},
   {foo:45, bar:'bhu'},
@@ -350,13 +348,13 @@ of objects and the value to be compared will be that of the
 property name passed.
 
 ```js
-var ls = List([4,2,8,5]);
+var ls = coll.List([4,2,8,5]);
 var x = ls.max();
 // x => 8
 ```
 ```js
 // With optional comparer function
-var ls = List(['aaa', 'bb', 'ccccccc', 'dddd']);
+var ls = coll.List(['aaa', 'bb', 'ccccccc', 'dddd']);
 var x = ls.max(function(a, b) {
   return a.length - b.length;
 });
@@ -364,7 +362,7 @@ var x = ls.max(function(a, b) {
 ```
 ```js
 // With optional comparer property name
-var ls = List([
+var ls = coll.List([
   {foo:34, bar:'erf'},
   {foo:12, bar:'xcv'},
   {foo:45, bar:'bhu'},
@@ -379,7 +377,7 @@ var x = ls.max('bar');
 Set the list item at `index` to `obj`.
 
 ```js
-var ls = List([1,2,3]);
+var ls = coll.List([1,2,3]);
 ls.set(1, 99);
 // ls => [1, 99, 3]
 ```
@@ -390,7 +388,7 @@ Appends one or more items to the end of the list.
 Returns the list instance.
 
 ```js
-var ls = List('abc');
+var ls = coll.List('abc');
 ls.add('d');
 ls.add('e', 'f');
 // ls => ['a', 'b', 'c', 'd', 'e', 'f']
@@ -402,7 +400,7 @@ Appends a range of new items to the end of the list.
 Returns the list instance.
 
 ```js
-var ls = List();
+var ls = coll.List();
 ls.addRange([2,4,6]);
 ls.addRange('abc');
 // ls => [2, 4, 6, 'a', 'b', 'c']
@@ -414,7 +412,7 @@ Inserts a new item at the specified index.
 Returns the list instance.
 
 ```js
-var ls = List('abd');
+var ls = coll.List('abd');
 ls.insert(2, 'c');
 // ls => ['a', 'b', 'c', 'd']
 ```
@@ -425,7 +423,7 @@ Inserts a range of new items starting at the specifed index.
 Returns the list instance.
 
 ```js
-var ls = List([10,20,30]);
+var ls = coll.List([10,20,30]);
 ls.insertRange(1, [12,14]);
 // ls => [10, 12, 14, 20, 30]
 ```
@@ -438,7 +436,7 @@ If the optional `index` parameter is passed, the first matching item after
 that index will be removed.
 
 ```js
-var ls = List([1,4,2,6,2,3]);
+var ls = coll.List([1,4,2,6,2,3]);
 var x = ls.remove(2);
 // x  => 2
 // ls => [1, 4, 6, 2, 3]
@@ -449,7 +447,7 @@ var x = ls.remove(2);
 Removes and returns the first item in the list.
 
 ```js
-var ls = List(['some', 'text', 'and', 'stuff']);
+var ls = coll.List(['some', 'text', 'and', 'stuff']);
 var x = ls.removeFirst();
 // x  => 'some'
 // ls => ['text', 'and', 'stuff']
@@ -460,7 +458,7 @@ var x = ls.removeFirst();
 Removes and returns the last item in the list.
 
 ```js
-var ls = List(['some', 'text', 'and', 'stuff']);
+var ls = coll.List(['some', 'text', 'and', 'stuff']);
 var x = ls.removeLast();
 // x  => 'stuff'
 // ls => ['some', 'text', 'and']
@@ -472,7 +470,7 @@ Removes and returns the first item in the list to pass the `iterator` function.
 If no item passes the `iterator` test, `undefined` is returned.
 
 ```js
-var ls = List([2,4,6,7,8]);
+var ls = coll.List([2,4,6,7,8]);
 var x = ls.removeIf(function(item, index, list) {
   return item % 2 !== 0;
 });
@@ -492,7 +490,7 @@ Removes every item in the list that passes the `iterator` test.
 Returns a new `List` of the removed items.
 
 ```js
-var ls = List([1,2,3,4,5,6,7,8]);
+var ls = coll.List([1,2,3,4,5,6,7,8]);
 var x = ls.removeAll(function(item, index, list) {
   return item % 2 === 0;
 });
@@ -515,14 +513,14 @@ If the optional `howmany` parameter is passed, a range of items is removed
 starting at the index. A new `List` of the removed items will then be returned.
 
 ```js
-var ls = List('abcdef');
+var ls = coll.List('abcdef');
 var x = removeAt(2);
 // x  => 'c'
 // ls => ['a', 'b', 'd' 'e', 'f']
 ```
 ```js
 // With `howmany` parameter
-var ls = List('abcdef');
+var ls = coll.List('abcdef');
 var x = removeAt(2, 3);
 // x  => ['c', 'd', 'e']
 // ls => ['a', 'b', 'f']
@@ -533,7 +531,7 @@ var x = removeAt(2, 3);
 Removes all items from the list. Returns the instance.
 
 ```js
-var ls = List([1,2,3]);
+var ls = coll.List([1,2,3]);
 var x = ls.clear();
 // ls => []
 x === ls; // true
@@ -545,7 +543,7 @@ Returns the first item in the list to pass the `iterator` test.
 If no item passes the `iterator` test, `undefined` is returned.
 
 ```js
-var ls = List(23, '45', Date.now(), 'foo', 99.99, 'bar']);
+var ls = coll.List(23, '45', Date.now(), 'foo', 99.99, 'bar']);
 var x = ls.find(function(item, index, list) {
   return isNaN(item);
 });
@@ -564,7 +562,7 @@ Returns the last item in the list that passes the `iterator` test.
 If no item passes the `iterator` test, `undefined` is returned.
 
 ```js
-var ls = List(['aa', 'bb', 'cccccccc', 'dd', 'eeeeee']);
+var ls = coll.List(['aa', 'bb', 'cccccccc', 'dd', 'eeeeee']);
 var x = ls.findLast(function(item, index, list) {
   return item.length < 3;
 });
@@ -583,7 +581,7 @@ Returns a new `List` of every item in the instance list that passes the
 `iterator` test.
 
 ```js
-var ls = List(['aa', 'bb', 'cccccccc', 'dd', 'eeeeee']);
+var ls = coll.List(['aa', 'bb', 'cccccccc', 'dd', 'eeeeee']);
 var x = ls.findAll(function(item, index, list) {
   return item.length < 3;
 });
@@ -600,7 +598,7 @@ ls.findAll(obj, function(item, index, list) {
 Determines if the passed item is in the list.
 
 ```js
-var ls = List(['top', 'bottom', 'left']);
+var ls = coll.List(['top', 'bottom', 'left']);
 ls.contains('left');  // true
 ls.contains('right'); // false
 ```
@@ -611,7 +609,7 @@ Returns the number of occurences of `item` within the list.
 If no argument is passed, the list's length is returned.
 
 ```js
-var ls = List([2,4,2,7,2,8]);
+var ls = coll.List([2,4,2,7,2,8]);
 var x = ls.count(2);
 // x => 3
 ```
@@ -622,7 +620,7 @@ Returns the number of occurences that the `iterator` tests successfully against
 the items in the list.
 
 ```js
-var ls = List([1,2,3,4,5,6,7,8,9]);
+var ls = coll.List([1,2,3,4,5,6,7,8,9]);
 var x = ls.countIf(function(item, index, list) {
   return item % 2 === 0;
 });
@@ -640,7 +638,7 @@ ls.countIf(obj, function(item, index, list) {
 Returns a new `List` composed of items that pass the `iterator` function.
 
 ```js
-var ls = List([
+var ls = coll.List([
   {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
 ]);
 var x = ls.filter(function(item, index, list) {
@@ -662,7 +660,7 @@ ls.filter(obj, function(item, index, list) {
 Returns a new `List` composed of items that fail the `iterator` function.
 
 ```js
-var ls = List([
+var ls = coll.List([
   {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
 ]);
 var x = ls.reject(function(item, index, list) {
@@ -708,7 +706,7 @@ If `comparer` is a string, then it will be assumed that the list is composed
 of objects and they will be sorted by the property name passed.
 
 ```js
-var ls = List([33, 4, 77, 5, 2, 8]);
+var ls = coll.List([33, 4, 77, 5, 2, 8]);
 var x = ls.sort();
 // x  => [2, 4, 5, 8, 33, 77]
 ```
@@ -716,7 +714,7 @@ var x = ls.sort();
 // Mixed types
 var date1 = new Date('2012-06-23')
 var date2 = new Date('2000-01-01')
-var ls = List(
+var ls = coll.List(
   [9, 'a', /foo/, true, 0, date1, {a:1}, 'sd', date2, 5, false, '1']
 );
 var x = ls.sort();
@@ -725,7 +723,7 @@ var x = ls.sort();
 ```
 ```js
 // With optional comparer function
-var ls = List([33, 4, 77, 5, 2, 8]);
+var ls = coll.List([33, 4, 77, 5, 2, 8]);
 var x = ls.sort(function(a, b) {
   return b - a;
 });
@@ -733,7 +731,7 @@ var x = ls.sort(function(a, b) {
 ```
 ```js
 // With optional comparer property name
-var ls = List([
+var ls = coll.List([
   {foo:34, bar:'erf'},
   {foo:12, bar:'xcv'},
   {foo:45, bar:'bhu'},
@@ -753,7 +751,7 @@ var x = ls.sort('bar');
 Returns a new `List` of the instance's items with their order reversed.
 
 ```js
-var ls = List('abc');
+var ls = coll.List('abc');
 var x = ls.reverse();
 // x  => ['c', 'b', 'a']
 // ls => ['a', 'b', 'c']
@@ -765,8 +763,8 @@ Returns a new `List` composed of the instance list concatenated to one or more
 passed iterables.
 
 ```js
-var ls = List([2, true]);
-var x = ls.concat('abc', List([0,1,2]), [12.99]);
+var ls = coll.List([2, true]);
+var x = ls.concat('abc', coll.List([0,1,2]), [12.99]);
 // x  => [2, true, 'a', 'b', 'c', 0, 1, 2, 12.99]
 // ls => [2, true]
 ```
@@ -776,7 +774,7 @@ var x = ls.concat('abc', List([0,1,2]), [12.99]);
 Returns a new `List` of values determined by the `iterator` function.
 
 ```js
-var ls = List([
+var ls = coll.List([
   {name:'Jay'}, {name:'Joan'}, {name:'Bob'}, {name:'Flo'}, {name:'Jim'}
 ]);
 var x = ls.map(function(item, index, list) {
@@ -798,7 +796,7 @@ ls.map(obj, function(item, index, list) {
 Returns a new `List` with `obj` inserted between every item in the list.
 
 ```js
-var ls = List([1,2,3,4,5]);
+var ls = coll.List([1,2,3,4,5]);
 var x = ls.intersperse('|');
 // x => [
 //  1, '|', 2, '|', 3, '|', 4, '|', 5
@@ -810,7 +808,7 @@ var x = ls.intersperse('|');
 Borrowed from `Array#join`.
 
 ```js
-var ls = List([2, 4, 6]);
+var ls = coll.List([2, 4, 6]);
 var x = ls.join();
 // x => '2,4,6'
 
@@ -824,7 +822,7 @@ Returns a new `List` of non-duplicate items found within the instance list.
 Duplicates are determines with strict equality.
 
 ```js
-var ls = List('abcddcba');
+var ls = coll.List('abcddcba');
 var x = ls.unique();
 // x => ['a', 'b', 'c', 'd']
 ```
@@ -835,7 +833,7 @@ Returns a copy of the list with all occurences of `undefined`, `null`, and
 `NaN` removed.
 
 ```js
-var ls = List(['a', null, 0, false, undefined, +'foo', 'bar']);
+var ls = coll.List(['a', null, 0, false, undefined, +'foo', 'bar']);
 var x = ls.clean();
 // x => ['a', 0, false, 'bar']
 ```
@@ -845,12 +843,12 @@ var x = ls.clean();
 Returns a copy of the list in a new instance.
 
 ```js
-var ls = List([2,4]);
+var ls = coll.List([2,4]);
 var x = ls.clone();
 // x  => [2, 4]
 // ls => [2, 4]
-x instanceof List; // true
-x === ls;          // false
+x instanceof coll.List; // true
+x === ls;               // false
 ```
 
 <a name='list-toarray'></a>
@@ -858,7 +856,7 @@ x === ls;          // false
 Returns a copy of the list's items in an `Array`.
 
 ```js
-var ls = List([true, 'fajita', 4.89]);
+var ls = coll.List([true, 'fajita', 4.89]);
 var x = ls.toArray();
 // x => [true, 'fajita', 4.89]
 Array.isArray(x); // true;
@@ -870,7 +868,7 @@ Returns a new `List` of the first `howmany` contiguous items from the
 instance list.
 
 ```js
-var ls = List('abcdefg');
+var ls = coll.List('abcdefg');
 var x = ls.take(3);
 // x => ['a', 'b', 'c']
 ```
@@ -881,7 +879,7 @@ Returns a new `List` of contiguous items, starting at the beginning of the
 list, so long as the `iterator` function returns true.
 
 ```js
-var ls = List([4,2,6,3,8,4,2,6]);
+var ls = coll.List([4,2,6,3,8,4,2,6]);
 var x = ls.takeWhile(function(item, index, list) {
   return item < 8;
 });
@@ -900,7 +898,7 @@ Returns a new `List` of contiguous items, dropping the first `howmany` items
 from the instance list.
 
 ```js
-var ls = List('abcdefg');
+var ls = coll.List('abcdefg');
 var x = ls.drop(3);
 // x => ['d', 'e', 'f', 'g']
 ```
@@ -911,7 +909,7 @@ Returns a new `List` of contiguous items, starting at the first item in the
 instance list that fails the passed `iterator` function.
 
 ```js
-var ls = List([4,2,6,3,8,4,2,6]);
+var ls = coll.List([4,2,6,3,8,4,2,6]);
 var x = ls.dropWhile(function(item, index, list) {
   return item < 8;
 });
@@ -930,7 +928,7 @@ Returns a hash of sublists, grouped either by equality to each other or by
 the result of the optional `iterator` function.
 
 ```js
-var ls = List([2,3,1,2,2,3]);
+var ls = coll.List([2,3,1,2,2,3]);
 var x = ls.group();
 // x => {
 //  '1' : [1],
@@ -940,7 +938,7 @@ var x = ls.group();
 ```
 ```js
 // With optional iterator function
-var ls = List(['#fff', '#3366ee', 'magenta', '#ccc', 'red'])
+var ls = coll.List(['#fff', '#3366ee', 'magenta', '#ccc', 'red'])
 var hexColorRegex = /^#[abcdef0-9]{3,6}$/i;
 var x = ls.group(function(item, index, list) {
   return hexColorRegex.test(item)
@@ -960,7 +958,7 @@ that pass the `iterator` function. The second list is composed of those items
 that failed it.
 
 ```js
-var ls = List([2,4,8,3,6,3,9,0,7]);
+var ls = coll.List([2,4,8,3,6,3,9,0,7]);
 var x = ls.partition(function(item, index, list) {
   return item < 5;
 });
@@ -969,8 +967,8 @@ var x = ls.partition(function(item, index, list) {
 //  [8, 6, 9, 7]
 // ]
 Array.isArray(x);     // true
-x[0] instanceof List; // true
-x[1] instanceof List; // true
+x[0] instanceof coll.List; // true
+x[1] instanceof coll.List; // true
 
 // With optional context
 var obj = {foo:'bar'};
@@ -985,7 +983,7 @@ Returns a new `List` of items present in both the instance list and in the
 passed iterable.
 
 ```js
-var ls = List(['apple', 'orange', 'pear', 'grape']);
+var ls = coll.List(['apple', 'orange', 'pear', 'grape']);
 var x = ls.intersect(['peach', 'pear', 'plum', 'apple', 'mango']);
 // x => ['apple', 'pear']
 ```
@@ -996,7 +994,7 @@ Returns a new list composed of the list values not present in
 the passed iterable.
 
 ```js
-var ls = List(['apple', 'orange', 'pear', 'grape']);
+var ls = coll.List(['apple', 'orange', 'pear', 'grape']);
 var x = ls.difference(['peach', 'pear', 'plum', 'apple', 'mango']);
 // x => ['orange', 'grape']
 ```
@@ -1007,7 +1005,7 @@ Returns a new `List` representing the union of the list and in the
 passed iterable. That is, the combined unique items between the two.
 
 ```js
-var ls = List(['apple', 'orange', 'pear', 'grape']);
+var ls = coll.List(['apple', 'orange', 'pear', 'grape']);
 var x = ls.union(['peach', 'pear', 'plum', 'apple', 'mango']);
 // x => ['apple', 'orange', 'pear', 'grape', 'peach', 'plum', 'mango']
 ```
@@ -1019,7 +1017,7 @@ If `item` is not found, `-1` will be returned.
 Borrowed from `Array#indexOf`.
 
 ```js
-var ls = List([1.99, 8.99, 3.99, 1.99, 7.99, 3.99, 1.99]);
+var ls = coll.List([1.99, 8.99, 3.99, 1.99, 7.99, 3.99, 1.99]);
 var x = ls.indexOf(3.99);
 // x => 2
 x = ls.indexOf(9.99);
@@ -1033,7 +1031,7 @@ If `item` is not found, `-1` will be returned.
 Borrowed from `Array#lastIndexOf`.
 
 ```js
-var ls = List([1.99, 8.99, 3.99, 1.99, 7.99, 3.99, 1.99]);
+var ls = coll.List([1.99, 8.99, 3.99, 1.99, 7.99, 3.99, 1.99]);
 var x = ls.lastIndexOf(3.99);
 // x => 5
 x = ls.lastIndexOf(9.99);
@@ -1046,7 +1044,7 @@ Returns the index of the first item in the list that passes the `iterator`
 function.
 
 ```js
-var ls = List([
+var ls = coll.List([
   {name:'Leo'}, {name:'Jeb'}, {name:'Jojo'}, {name:'Flo'}, {name:'Jojo'}
 ]);
 var x = ls.indexIf(function(item, index, list) {
@@ -1056,7 +1054,7 @@ var x = ls.indexIf(function(item, index, list) {
 ```
 ```js
 // With optional start index
-var ls = List([2,3,6,4,7,4,6]);
+var ls = coll.List([2,3,6,4,7,4,6]);
 var x = ls.indexIf(2, function(item, index, list) {
   return item % 2 !== 0;
 });
@@ -1076,7 +1074,7 @@ Returns the index of the last item in the list that passes the `iterator`
 function.
 
 ```js
-var ls = List([
+var ls = coll.List([
   {name:'Leo'}, {name:'Jeb'}, {name:'Jojo'}, {name:'Flo'}, {name:'Jojo'}
 ]);
 var x = ls.lastIndexIf(function(item, index, list) {
@@ -1086,7 +1084,7 @@ var x = ls.lastIndexIf(function(item, index, list) {
 ```
 ```js
 // With optional start index
-var ls = List([2,3,6,4,7,4,6]);
+var ls = coll.List([2,3,6,4,7,4,6]);
 var x = ls.lastIndexIf(3, function(item, index, list) {
   return item % 2 !== 0;
 });
@@ -1105,13 +1103,13 @@ ls.lastIndexIf(null, obj, function(item, index, list) {
 Returns the indices of every item in the list matching `item`.
 
 ```js
-var ls = List('abcaegaatf');
+var ls = coll.List('abcaegaatf');
 var x = ls.indicesOf('a');
 // x => [0, 3, 6, 7]
 ```
 ```js
 // With optional index
-var ls = List('abcaegaatf');
+var ls = coll.List('abcaegaatf');
 var x = ls.indicesOf('a', 2);
 // x => [3, 6, 7]
 ```
@@ -1122,7 +1120,7 @@ Returns the indices of every item in the list that passes the `iterator
 function.
 
 ```js
-var ls = List([1,2,3,4,5,6,7]);
+var ls = coll.List([1,2,3,4,5,6,7]);
 var x = ls.indicesIf(function(item, index, list) {
   return item % 2 === 0;
 });
@@ -1130,7 +1128,7 @@ var x = ls.indicesIf(function(item, index, list) {
 ```
 ```js
 // With optional start index
-var ls = List([1,2,3,4,5,6,7]);
+var ls = coll.List([1,2,3,4,5,6,7]);
 var x = ls.indicesIf(2, function(item, index, list) {
   return item % 2 === 0;
 });
@@ -1150,7 +1148,7 @@ Iterates over the items in the list, invoking the passed `iterator` function
 for each item. Returns the list instance.
 
 ```js
-var ls = List(['Taco', 'Burrito', 'Fajita']);
+var ls = coll.List(['Taco', 'Burrito', 'Fajita']);
 var x = ls.forEach(function(item, index, list) {
   console.log('%d : %s', index, item);
 });
@@ -1174,7 +1172,7 @@ Returns `true` if at least one item in the list passes the `iterator` function.
 Otherwise `false` is returned.
 
 ```js
-var ls = List([2,4,6,9,10]);
+var ls = coll.List([2,4,6,9,10]);
 var x = ls.some(function(item, index, list) {
   return item % 2 !== 0;
 });
@@ -1199,7 +1197,7 @@ Returns `true` if every item in the list passes the `iterator` test.
 Otherwise `false` is returned.
 
 ```js
-var ls = List([2,4,6,9,10]);
+var ls = coll.List([2,4,6,9,10]);
 var x = ls.every(function(item, index, list) {
   return item <= 10;
 });
@@ -1224,14 +1222,14 @@ Reduces the list into a single accumulated value.
 Left to right.
 
 ```js
-var ls = List([1,2,3]);
+var ls = coll.List([1,2,3]);
 var sum = ls.reduce(function(a, b, index, list) {
   return a + b;
 });
 // sum => 6
 ```
 ```js
-var ls = List([3,8,2,5]);
+var ls = coll.List([3,8,2,5]);
 var max = ls.reduce(function(a, b, index, list) {
   return a >= b ? a : b;
 });
@@ -1239,7 +1237,7 @@ var max = ls.reduce(function(a, b, index, list) {
 ```
 ```js
 // With optional initval
-var ls = List([1,2,3]);
+var ls = coll.List([1,2,3]);
 var x = ls.reduce([], function(arr, b, index, list) {
   arr.push(b * 10);
   return arr;
@@ -1253,7 +1251,7 @@ Reduces the list into a single accumulated value.
 Right to left.
 
 ```js
-var ls = List('abc');
+var ls = coll.List('abc');
 var x = ls.reduceRight(function(a, b, index, list) {
   return a + b;
 });
@@ -1261,7 +1259,7 @@ var x = ls.reduceRight(function(a, b, index, list) {
 ```
 ```js
 // With optional initval
-var ls = List('abc');
+var ls = coll.List('abc');
 var x = ls.reduceRight('---', function(str, b, index, list) {
   return str + b;
 });
@@ -1360,17 +1358,17 @@ Dict Constructor
 `new` is optional
 
 ```js
-var d1 = new Dict;
-var d2 = Dict();
+var d1 = new coll.Dict;
+var d2 = coll.Dict();
 
-d1 instanceof Dict; // true
-d2 instanceof Dict; // true
+d1 instanceof coll.Dict; // true
+d2 instanceof coll.Dict; // true
 ```
 
 Accepts an object literal to initially populate the dict.
 
 ```js
-var d = Dict({a:10, b:20});
+var d = coll.Dict({a:10, b:20});
 // d => {a:10, b:20}
 ```
 
@@ -1382,7 +1380,7 @@ Dict Instance Properties
 The number of items in the dict.
 
 ```js
-var d = Dict({a:2, b:4, c:6});
+var d = coll.Dict({a:2, b:4, c:6});
 // d.length => 3
 ```
 
@@ -1391,7 +1389,7 @@ var d = Dict({a:2, b:4, c:6});
 An array of the dict's keys. Order is arbitrary.
 
 ```js
-var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+var d = coll.Dict({name:'Fred', age:5000, town:'Bedrock'});
 // d.keys => ['name', 'age', 'town']
 ```
 
@@ -1400,7 +1398,7 @@ var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
 An array of the dict's values. Order is arbitrary.
 
 ```js
-var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+var d = coll.Dict({name:'Fred', age:5000, town:'Bedrock'});
 // d.values => ['Fred', 5000, 'Bedrock']
 ```
 
@@ -1412,7 +1410,7 @@ Dict Instance Functions
 Returns `true` if `key` exists within the dict. Otherwise `false` is returned.
 
 ```js
-var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+var d = coll.Dict({name:'Fred', age:5000, town:'Bedrock'});
 d.hasKey('town');    // true
 d.hasKey('address'); // false
 ```
@@ -1426,7 +1424,7 @@ If `key` does not exist within the dict and `_default` is not passed,
 a `ReferenceError` is thrown.
 
 ```js
-var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+var d = coll.Dict({name:'Fred', age:5000, town:'Bedrock'});
 var x = d.get('town');
 // x => 'Bedrock'
 
@@ -1443,7 +1441,7 @@ then it's value will be overwritten. If the `key` does not exist, then it
 will be added. Returns the instance.
 
 ```js
-var d = Dict();
+var d = coll.Dict();
 var x = d.set('volume', .92);
 // d => {volume: .92}
 x === d; // true
@@ -1458,7 +1456,7 @@ Adds one or more key/value pairs to the dict.
 Returns the instance.
 
 ```js
-var d = Dict();
+var d = coll.Dict();
 d.add({a:'alpha', b:'bravo'});
 d.add({c:'charlie'}, {d:'delta', e:'echo'}, {f:'foxtrot'});
 // d => {
@@ -1473,7 +1471,7 @@ removed value.
 If `key` does not exist within the dict a `ReferenceError` is thrown.
 
 ```js
-var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+var d = coll.Dict({name:'Fred', age:5000, town:'Bedrock'});
 var x = d.remove('town');
 // x => 'Bedrock'
 // d => {name:'Fred', age:5000}
@@ -1486,7 +1484,7 @@ d.remove('occupation'); // throws ReferenceError
 Removes all key/value pairs from the dict. Returns the instance.
 
 ```js
-var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+var d = coll.Dict({name:'Fred', age:5000, town:'Bedrock'});
 var x = d.clear();
 // d => {}
 x === d; // true
@@ -1498,7 +1496,7 @@ Iterates over the dict, calling the `iterator` function for
 each key/value pair. Returns the instance.
 
 ```js
-var d = Dict({name:'Fred', age:5000, town:'Bedrock'});
+var d = coll.Dict({name:'Fred', age:5000, town:'Bedrock'});
 var x = d.forEach(function(key, value, dict) {
   console.log('Key: %s, Val: %s', key, value);
 });
@@ -1523,7 +1521,7 @@ Returns `true` if at least one key/value pair in the dict passes the
 Otherwise `false` is returned.
 
 ```js
-var d = Dict();
+var d = coll.Dict();
 d.set('Creep',            {year:1993, album:'Pablo Honey'});
 d.set('Paranoid Android', {year:1997, album:'OK Computer'});
 d.set('Karma Police',     {year:1997, album:'OK Computer'});
@@ -1547,7 +1545,7 @@ Returns `true` if every key/value pair in the dict passes the
 Otherwise `false` is returned.
 
 ```js
-var d = Dict();
+var d = coll.Dict();
 d.set('Creep',            {year:1993, album:'Pablo Honey'});
 d.set('Paranoid Android', {year:1997, album:'OK Computer'});
 d.set('Karma Police',     {year:1997, album:'OK Computer'});
@@ -1570,7 +1568,7 @@ Returns a new `Dict` composed of key/value pairs that pass the
 `iterator` function.
 
 ```js
-var d = Dict();
+var d = coll.Dict();
 d.set('Creep',            {year:1993, album:'Pablo Honey'});
 d.set('Paranoid Android', {year:1997, album:'OK Computer'});
 d.set('Karma Police',     {year:1997, album:'OK Computer'});
@@ -1596,7 +1594,7 @@ Returns a new `Dict` composed of key/value pairs that fail the
 `iterator` function.
 
 ```js
-var d = Dict();
+var d = coll.Dict();
 d.set('Creep',            {year:1993, album:'Pablo Honey'});
 d.set('Paranoid Android', {year:1997, album:'OK Computer'});
 d.set('Karma Police',     {year:1997, album:'OK Computer'});
@@ -1620,12 +1618,12 @@ d.reject(obj, function(key, value, dict) {
 Returns a copy of the dict in a new instance.
 
 ```js
-var d = Dict({a:2, b:4});
+var d = coll.Dict({a:2, b:4});
 var x = d.clone();
 // x => {a:2, b:4}
 // d => {a:2, b:4}
-x instanceof Dict; // true
-x === d;           // false
+x instanceof coll.Dict; // true
+x === d;                // false
 ```
 
 <a name='dict-toliteral'></a>
@@ -1636,7 +1634,7 @@ determine the key.
 
 
 ```js
-var d = Dict({a:10, b:20, c:30});
+var d = coll.Dict({a:10, b:20, c:30});
 var obj = d.toLiteral();
 // obj => {a:10, b:20, c:30}
 for (var key in obj) {
@@ -1649,7 +1647,7 @@ for (var key in obj) {
 ```
 ```js
 // With optional serializer
-var d = Dict({a:10, b:20, c:30});
+var d = coll.Dict({a:10, b:20, c:30});
 var obj = d.toLiteral(function(key, value) {
   return key.toUpperCase();
 });
@@ -1661,7 +1659,7 @@ var obj = d.toLiteral(function(key, value) {
 Returns the dict's key/value pairs in an array of 'tuples'.
 
 ```js
-var d = Dict({a:10, b:20, c:30});
+var d = coll.Dict({a:10, b:20, c:30});
 var x = d.toArray();
 // x => [['a', 10], ['b', 20], ['c', 30]]
 ```
@@ -1709,17 +1707,17 @@ Map Constructor
 `new` is optional
 
 ```js
-var m1 = new Map;
-var m2 = Map();
+var m1 = new coll.Map;
+var m2 = coll.Map();
 
-m1 instanceof Map; // true
-m2 instanceof Map; // true
+m1 instanceof coll.Map; // true
+m2 instanceof coll.Map; // true
 ```
 
 Accepts an array of key/value pairs ('tuples') to initially populate the map.
 
 ```js
-var m = Map([['a', 10], [/foo/i, 20]]);
+var m = coll.Map([['a', 10], [/foo/i, 20]]);
 // m => {
 //  'a'    => 10,
 //  /foo/i => 20
@@ -1734,7 +1732,7 @@ Map Instance Properties
 The number of items in the map.
 
 ```js
-var m = Map([['a', 10], [/foo/i, 20]]);
+var m = coll.Map([['a', 10], [/foo/i, 20]]);
 // m.length => 2
 ```
 
@@ -1743,7 +1741,7 @@ var m = Map([['a', 10], [/foo/i, 20]]);
 An array of the map's keys. Order is arbitrary.
 
 ```js
-var m = Map([[{a:1}, 'dog'], [{b:2}, 'cat'], [23.389, 'rock']]);
+var m = coll.Map([[{a:1}, 'dog'], [{b:2}, 'cat'], [23.389, 'rock']]);
 // m.keys => [{a:1}, {b:2}, 23.389]
 ```
 
@@ -1752,7 +1750,7 @@ var m = Map([[{a:1}, 'dog'], [{b:2}, 'cat'], [23.389, 'rock']]);
 An array of the dict's values. Order is arbitrary.
 
 ```js
-var m = Map([[{a:1}, 'dog'], [{b:2}, 'cat'], [23.389, 'rock']]);
+var m = coll.Map([[{a:1}, 'dog'], [{b:2}, 'cat'], [23.389, 'rock']]);
 // m.values => ['dog', 'cat', 'rock']
 ```
 
@@ -1765,7 +1763,7 @@ Returns `true` if `key` exists within the map. Otherwise `false` is returned.
 Keys are determined and are unique by strict equality.
 
 ```js
-var m = Map();
+var m = coll.Map();
 var key1 = {a:1};
 var key2 = /foo/i;
 m.set(key1, 'a');
@@ -1789,7 +1787,7 @@ a `ReferenceError` is thrown.
 Keys are determined and are unique by strict equality.
 
 ```js
-var m = Map();
+var m = coll.Map();
 var key1 = /foo/gi;
 m.set(key1, 'stuff');
 m.set(23.89, 'thing');
@@ -1813,7 +1811,7 @@ then it's value will be overwritten. If the `key` does not exist, then it
 will be added. Returns the instance.
 
 ```js
-var m = Map();
+var m = coll.Map();
 var x = m.set('volume', .92);
 // m => {
 //  'volume' => .92
@@ -1833,7 +1831,7 @@ removed value.
 If `key` does not exist within the map a `ReferenceError` is thrown.
 
 ```js
-var m = Map();
+var m = coll.Map();
 var key1 = {name:'Jen'};
 var key2 = {name:'Tim'};
 m.set(key1, 83.234);
@@ -1856,7 +1854,7 @@ m.remove({name:'Jen'}); // throws ReferenceError
 Removes all key/value pairs from the map. Returns the instance.
 
 ```js
-var m = Map([[/yo/, 'joe'], [new Date, 123]]);
+var m = coll.Map([[/yo/, 'joe'], [new Date, 123]]);
 var x = m.clear();
 // m => {}
 x === m; // true
@@ -1868,7 +1866,7 @@ Iterates over the map, calling the `iterator` function for
 each key/value pair. Returns the instance.
 
 ```js
-var m = Map();
+var m = coll.Map();
 m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
 m.set(new Date(2012, 3, 17), 'Taxes!!');
 m.set(new Date(2012, 9, 31), 'Halloween');
@@ -1897,7 +1895,7 @@ Returns `true` if at least one key/value pair in the map passes the
 Otherwise `false` is returned.
 
 ```js
-var m = Map();
+var m = coll.Map();
 m.set(new Date(2011, 9, 31), 'Halloween');
 m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
 m.set(new Date(2012, 3, 17), 'Taxes!!');
@@ -1923,7 +1921,7 @@ Returns `true` if every key/value pair in the map passes the
 Otherwise `false` is returned.
 
 ```js
-var m = Map();
+var m = coll.Map();
 m.set(new Date(2011, 9, 31), 'Halloween');
 m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
 m.set(new Date(2012, 3, 17), 'Taxes!!');
@@ -1953,7 +1951,7 @@ Returns a new `Map` composed of key/value pairs that pass the
 `iterator` function.
 
 ```js
-var m = Map();
+var m = coll.Map();
 m.set(new Date(2011, 9, 31), 'Halloween');
 m.set(new Date(2012, 0, 1),  'New Years');
 m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
@@ -1983,7 +1981,7 @@ Returns a new `Map` composed of key/value pairs that fail the
 `iterator` function.
 
 ```js
-var m = Map();
+var m = coll.Map();
 m.set(new Date(2011, 9, 31), 'Halloween');
 m.set(new Date(2012, 0, 1),  'New Years');
 m.set(new Date(2012, 4, 5),  'Cinco de Mayo');
@@ -2011,7 +2009,7 @@ m.reject(obj, function(key, value, dict) {
 Returns a copy of the map in a new instance.
 
 ```js
-var m = Map([[{a:1}, 11], [{b:2}, 22]]);
+var m = coll.Map([[{a:1}, 11], [{b:2}, 22]]);
 var x = m.clone();
 
 // x => {
@@ -2022,8 +2020,8 @@ var x = m.clone();
 //  {a:1} => 11,
 //  {b:2} => 22
 // }
-x instanceof Map; // true
-x === m;          // false
+x instanceof coll.Map; // true
+x === m;               // false
 ```
 
 <a name='map-toliteral'></a>
@@ -2039,7 +2037,7 @@ risk losing key/value pairs due to key collision and/or the keys produced
 may not be that descriptive.
 
 ```js
-var m = Map();
+var m = coll.Map();
 var key1 = {position:'rb', team:'Vikings'};
 var key2 = {position:'wr', team:'Cardinals'};
 var key3 = {position:'ss', team:'Steelers'};
@@ -2073,7 +2071,7 @@ x = m.toLiteral();
 Returns the map's key/value pairs in an array of 'tuples'.
 
 ```js
-var m = Map();
+var m = coll.Map();
 var key1 = {position:'rb', team:'Vikings'};
 var key2 = {position:'wr', team:'Cardinals'};
 var key3 = {position:'ss', team:'Steelers'};
