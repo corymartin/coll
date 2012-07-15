@@ -78,6 +78,8 @@ The Classes
   - [List#intersect]
   - [List#difference]
   - [List#union]
+  - *Zipping Functions*
+  - [List#zip]
   - *Indexing Functions*
   - [List#indexOf]
   - [List#lastIndexOf]
@@ -1010,6 +1012,47 @@ var x = ls.union(['peach', 'pear', 'plum', 'apple', 'mango']);
 // x => ['apple', 'orange', 'pear', 'grape', 'peach', 'plum', 'mango']
 ```
 
+<a name='list-zip'></a>
+### List#zip( iterable [, iterable*N*] )
+Returns a new `List` of `List`s by merging values of the instance list
+with the passed iterables at their corresponding indices.
+
+If passed iterables are shorter than instance list, `undefined` will
+be used for missing values. If passed iterables are longer than the
+instance list, values will be trimmed.
+
+```js
+var ls = coll.List(['alpha', 'bravo', 'charlie']);
+var x = ls.zip([2, 4, 6]);
+// x => [
+//   ['alpha',   2],
+//   ['bravo',   4],
+//   ['charlie', 6]
+// ]
+```
+
+```js
+// With a shorter iterable passed.
+var ls = coll.List(['alpha', 'bravo', 'charlie']);
+var x = ls.zip([1,2], 'abc');
+// x => [
+//   ['alpha',   1,         'a'],
+//   ['bravo',   2,         'b'],
+//   ['charlie', undefined, 'c']
+// ]
+```
+
+```js
+// With a longer iterable passed.
+var ls = coll.List(['alpha', 'bravo', 'charlie']);
+var x = ls.zip([1,2,3,4,5,6], 'abcdefghij');
+// x => [
+//   ['alpha',   1, 'a'],
+//   ['bravo',   2, 'b'],
+//   ['charlie', 3, 'c']
+// ]
+```
+
 <a name='list-indexof'></a>
 ### List#indexOf( item [, index] )
 Returns the index of the first occurence of `item` in the list.
@@ -1311,6 +1354,8 @@ var x = ls.reduceRight('---', function(str, b, index, list) {
 [List#union]:         #list-union
 [List#max]:           #list-max
 [List#min]:           #list-min
+
+[List#zip]:           #list-zip
 
 [List#take]:          #list-take
 [List#takeWhile]:     #list-takewhile
