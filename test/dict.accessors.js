@@ -36,9 +36,14 @@ describe('Dict / Map Accessor Methods', function() {
         return expect(e).to.be.a(ReferenceError);
       });
     });
-    return it('should return the optional default value if the key does not\nexist and the default is passed', function() {
+    it('should return the optional default value if the key does not\nexist and the default is passed', function() {
       expect(map.get('zzz', 999)).to.be(999);
       return expect(dict.get('zzz', 999)).to.be(999);
+    });
+    return it('should work with `NaN` as a key', function() {
+      map.set(NaN, 'not a number');
+      map.set(NaN, 'yoyoyo');
+      return expect(map.get(NaN)).to.be('yoyoyo');
     });
   });
   describe('#set', function() {
@@ -50,13 +55,18 @@ describe('Dict / Map Accessor Methods', function() {
       expect(dict.length).to.be(3);
       return expect(dict.get('kid')).to.be('bambam');
     });
-    return it('should change the value of an existing key', function() {
+    it('should change the value of an existing key', function() {
       map.set('foo', 99);
       expect(map.length).to.be(2);
       expect(map.get('foo')).to.be(99);
       dict.set('name', 'Barney');
       expect(dict.length).to.be(2);
       return expect(dict.get('name')).to.be('Barney');
+    });
+    return it('should work with `NaN` as a key', function() {
+      map.set(NaN, 'not a number');
+      map.set(NaN, 'yoyoyo');
+      return expect(map.get(NaN)).to.be('yoyoyo');
     });
   });
   describe('Map#set', function() {

@@ -61,7 +61,7 @@ describe('util function', function() {
       return expect(x).to.be(0);
     });
   });
-  return describe('isNumeric()', function() {
+  describe('isNumeric()', function() {
     it('should return true for numbers', function() {
       expect(util.isNumeric(23)).to.be(true);
       return expect(util.isNumeric(23.3802)).to.be(true);
@@ -84,6 +84,13 @@ describe('util function', function() {
       expect(util.isNumeric(true)).to.be(false);
       expect(util.isNumeric(new Boolean(false))).to.be(false);
       return expect(util.isNumeric(new Boolean(true))).to.be(false);
+    });
+  });
+  return describe('indexOf()', function() {
+    return it('should work with NaN', function() {
+      var arr;
+      arr = [34, 'foo', NaN, /asdf/, NaN, new Date, 333];
+      return expect(util.indexOf(arr, NaN)).to.be(2);
     });
   });
 });

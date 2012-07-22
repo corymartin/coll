@@ -83,3 +83,9 @@ describe 'util function', ->
       expect(util.isNumeric new Boolean(false)).to.be false
       expect(util.isNumeric new Boolean(true)).to.be false
 
+
+  describe 'indexOf()', ->
+    it 'should work with NaN', ->
+      arr = [34, 'foo', NaN, /asdf/, NaN, new Date, 333]
+      expect(util.indexOf arr, NaN).to.be 2
+

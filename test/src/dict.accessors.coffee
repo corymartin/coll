@@ -34,6 +34,11 @@ describe 'Dict / Map Accessor Methods', ->
 
       expect(dict.get('zzz', 999)).to.be 999
 
+    it 'should work with `NaN` as a key', ->
+      map.set NaN, 'not a number'
+      map.set NaN, 'yoyoyo'
+      expect(map.get(NaN)).to.be 'yoyoyo'
+
 
   describe '#set', ->
     it 'should add a new key/value pair to the dictionary', ->
@@ -53,6 +58,12 @@ describe 'Dict / Map Accessor Methods', ->
       dict.set 'name', 'Barney'
       expect(dict.length).to.be 2
       expect(dict.get('name')).to.be 'Barney'
+
+    it 'should work with `NaN` as a key', ->
+      map.set NaN, 'not a number'
+      map.set NaN, 'yoyoyo'
+      expect(map.get(NaN)).to.be 'yoyoyo'
+
 
   describe 'Map#set', ->
     it 'should be able to use objects as keys', ->
