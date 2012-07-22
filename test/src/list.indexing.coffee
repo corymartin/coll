@@ -45,6 +45,11 @@ describe 'List Indexing Methods', ->
       index = ls.indexOf 'z'
       expect(index).to.be -1
 
+    it 'should find a NaN value', ->
+      ls = List [3, 'foo', NaN, /asdf/, NaN, 92]
+      index = ls.indexOf NaN
+      expect(index).to.be 2
+
 
   describe '#lastIndexOf', ->
     ls = null
@@ -87,6 +92,11 @@ describe 'List Indexing Methods', ->
     it 'should return -1 if the item is not found', ->
       index = ls.lastIndexOf 'z'
       expect(index).to.be -1
+
+    it 'should find a NaN value', ->
+      ls = List [3, 'foo', NaN, /asdf/, NaN, 92]
+      index = ls.lastIndexOf NaN
+      expect(index).to.be 4
 
 
   describe '#indicesOf', ->

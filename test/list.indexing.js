@@ -47,10 +47,16 @@ describe('List Indexing Methods', function() {
       index = ls.indexOf('b', -7);
       return expect(index).to.be(2);
     });
-    return it('should return -1 if the item is not found', function() {
+    it('should return -1 if the item is not found', function() {
       var index;
       index = ls.indexOf('z');
       return expect(index).to.be(-1);
+    });
+    return it('should find a NaN value', function() {
+      var index;
+      ls = List([3, 'foo', NaN, /asdf/, NaN, 92]);
+      index = ls.indexOf(NaN);
+      return expect(index).to.be(2);
     });
   });
   describe('#lastIndexOf', function() {
@@ -96,10 +102,16 @@ describe('List Indexing Methods', function() {
       index = ls.lastIndexOf('b', -99);
       return expect(index).to.be(-1);
     });
-    return it('should return -1 if the item is not found', function() {
+    it('should return -1 if the item is not found', function() {
       var index;
       index = ls.lastIndexOf('z');
       return expect(index).to.be(-1);
+    });
+    return it('should find a NaN value', function() {
+      var index;
+      ls = List([3, 'foo', NaN, /asdf/, NaN, 92]);
+      index = ls.lastIndexOf(NaN);
+      return expect(index).to.be(4);
     });
   });
   describe('#indicesOf', function() {
