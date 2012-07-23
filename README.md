@@ -199,15 +199,15 @@ If only `start` is passed, a list of numbers ranging from `0` through
 that will be used as the incrementing value. The default increment is `1`.
 
 ```js
-var ls = List.range(-4, 4);
+var ls = coll.List.range(-4, 4);
 // ls => [-4, -3, -2, -1, 0, 1, 2, 3, 4]
 ```
 ```js
-var ls = List.range(3);
+var ls = coll.List.range(3);
 // ls => [0, 1, 2, 3]
 ```
 ```js
-var ls = List.range(8, 18, 2);
+var ls = coll.List.range(8, 18, 2);
 // ls => [8, 10, 12, 14, 16, 18]
 ```
 
