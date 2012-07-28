@@ -3,7 +3,6 @@ Coll
 
 JavaScript Collections for Node.js
 
-### API should be considered *alpha* and subject to change.
 
 Installation
 ============
