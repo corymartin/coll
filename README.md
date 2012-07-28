@@ -1,7 +1,7 @@
 Coll
 ====
 
-JavaScript Collections for Node.js
+JavaScript Collection Library for Node.js
 
 
 Installation

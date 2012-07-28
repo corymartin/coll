@@ -4,9 +4,9 @@
   "author": {
     "name": "Cory Martin"
   },
-  "description": "JavaScript Collections for Node.js.",
+  "description": "JavaScript Collection Library for Node.js.",
   "keywords": [
-    "collections", "list", "dict", "dictionary", "map"
+    "collection", "collections", "list", "dict", "dictionary", "map"
   ],
   "main": "./index",
   "repository": {
