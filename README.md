@@ -116,6 +116,7 @@ The Classes
   - [Dict#reject]
   - *Transformation Functions*
   - [Dict#clone]
+  - [Dict#fill]
   - [Dict#toLiteral]
   - [Dict#toArray]
 - __[Map]__
@@ -141,6 +142,7 @@ The Classes
   - [Map#reject]
   - *Transformation Functions*
   - [Map#clone]
+  - [Map#fill]
   - [Map#toLiteral]
   - [Map#toArray]
 
@@ -1670,6 +1672,39 @@ x instanceof coll.Dict; // true
 x === d;                // false
 ```
 
+<a name='dict-fill'></a>
+### Dict#fill( defaults )
+Returns a new `Dict` with the *holes* in the instance collection filled
+by the those defined in `defaults`.
+`defaults` can be an object literal or another `Dict`.
+
+```js
+// Example: Day calendar of schedule openings, 9am to 2pm
+var defaultSchedule = {
+  '9:00 am'  : 'unavailable',
+  '10:00 am' : 'unavailable',
+  '11:00 am' : 'unavailable',
+  '12:00 pm' : 'unavailable',
+  '1:00 pm'  : 'unavailable',
+  '2:00 pm'  : 'unavailable'
+}
+var openings = coll.Dict({
+  '10:00 am' : 'open',
+  '11:00 am' : 'open',
+  '1:00 pm'  : 'open'
+});
+
+var sched = openings.fill(defaultSchedule);
+// sched => {
+//   '9:00 am'  : 'unavailable',
+//   '10:00 am' : 'open',
+//   '11:00 am' : 'open',
+//   '12:00 pm' : 'unavailable',
+//   '1:00 pm'  : 'open',
+//   '2:00 pm'  : 'unavailable'
+// }
+```
+
 <a name='dict-toliteral'></a>
 ### Dict#toLiteral( [serializer] )
 Returns the key/value pairs of the dict as an object literal.
@@ -1731,6 +1766,7 @@ var x = d.toArray();
 [Dict#reject]:        #dict-reject
 
 [Dict#clone]:        #dict-clone
+[Dict#fill]:         #dict-fill
 [Dict#toLiteral]:    #dict-toliteral
 [Dict#toArray]:      #dict-toarray
 
@@ -2068,6 +2104,39 @@ x instanceof coll.Map; // true
 x === m;               // false
 ```
 
+<a name='map-fill'></a>
+### Map#fill( defaults )
+Returns a new `Map` with the *holes* in the instance collection filled
+by the those defined in `defaults`.
+`defaults` can be an Array of *tuples* or another `Map`.
+
+```js
+// Example: Day calendar of schedule openings, 9am to 2pm
+var defaultSchedule = [
+  ['9:00 am',  'unavailable'],
+  ['10:00 am', 'unavailable'],
+  ['11:00 am', 'unavailable'],
+  ['12:00 pm', 'unavailable'],
+  ['1:00 pm',  'unavailable'],
+  ['2:00 pm',  'unavailable']
+];
+var openings = coll.Map([
+  ['10:00 am', 'open'],
+  ['11:00 am', 'open'],
+  ['1:00 pm',  'open']
+]);
+
+var sched = openings.fill(defaultSchedule);
+// sched => {
+//   '9:00 am'  => 'unavailable',
+//   '10:00 am' => 'open',
+//   '11:00 am' => 'open',
+//   '12:00 pm' => 'unavailable',
+//   '1:00 pm'  => 'open',
+//   '2:00 pm'  => 'unavailable'
+// }
+```
+
 <a name='map-toliteral'></a>
 ### Map#toLiteral( [serializer] )
 Returns the key/value pairs of the map as an object literal.
@@ -2153,6 +2222,7 @@ var x = m.toArray();
 [Map#reject]:         #map-reject
 
 [Map#clone]:          #map-clone
+[Map#fill]:           #map-fill
 [Map#toLiteral]:      #map-toliteral
 [Map#toArray]:        #map-toarray
 

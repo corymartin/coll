@@ -172,3 +172,93 @@ describe 'Dict / Map Transformation Methods', ->
       expect(arr.some (pair) ->
         pair[0] == 'age' && pair[1] == 4000).to.be true
 
+
+  describe '#fill', ->
+    it '''it should fill in empty key/val pairs given a complete
+      set of key/val pairs''', ->
+      # Example: Day calendar of schedule openings, 9am to 5pm
+      dproto = {
+        '9:00 am' : false
+        '10:00 am' : false
+        '11:00 am' : false
+        '12:00 pm' : false
+        '1:00 pm' : false
+        '2:00 pm' : false
+        '3:00 pm' : false
+        '4:00 pm' : false
+        '5:00 pm' : false
+      }
+      dict = Dict {
+        '11:00 am' : true
+        '2:00 pm' : true
+        '3:00 pm' : true
+        '4:00 pm' : true
+      }
+
+      dict2 = dict.fill(dproto)
+
+      expect(dict2.get '9:00 am').to.be false
+      expect(dict2.get '10:00 am').to.be false
+      expect(dict2.get '11:00 am').to.be true
+      expect(dict2.get '12:00 pm').to.be false
+      expect(dict2.get '1:00 pm').to.be false
+      expect(dict2.get '2:00 pm').to.be true
+      expect(dict2.get '3:00 pm').to.be true
+      expect(dict2.get '4:00 pm').to.be true
+      expect(dict2.get '5:00 pm').to.be false
+
+      dict3 = dict.fill(new Dict(dproto))
+
+      expect(dict3.get '9:00 am').to.be false
+      expect(dict3.get '10:00 am').to.be false
+      expect(dict3.get '11:00 am').to.be true
+      expect(dict3.get '12:00 pm').to.be false
+      expect(dict3.get '1:00 pm').to.be false
+      expect(dict3.get '2:00 pm').to.be true
+      expect(dict3.get '3:00 pm').to.be true
+      expect(dict3.get '4:00 pm').to.be true
+      expect(dict3.get '5:00 pm').to.be false
+
+
+      mproto = [
+        ['9:00 am', false]
+        ['10:00 am', false]
+        ['11:00 am', false]
+        ['12:00 pm', false]
+        ['1:00 pm', false]
+        ['2:00 pm', false]
+        ['3:00 pm', false]
+        ['4:00 pm', false]
+        ['5:00 pm', false]
+      ]
+      map = Map [
+        ['11:00 am', true]
+        ['2:00 pm', true]
+        ['3:00 pm', true]
+        ['4:00 pm', true]
+      ]
+
+      map2 = map.fill(mproto)
+
+      expect(map2.get '9:00 am').to.be false
+      expect(map2.get '10:00 am').to.be false
+      expect(map2.get '11:00 am').to.be true
+      expect(map2.get '12:00 pm').to.be false
+      expect(map2.get '1:00 pm').to.be false
+      expect(map2.get '2:00 pm').to.be true
+      expect(map2.get '3:00 pm').to.be true
+      expect(map2.get '4:00 pm').to.be true
+      expect(map2.get '5:00 pm').to.be false
+
+      map3 = map.fill(new Map(mproto))
+
+      expect(map3.get '9:00 am').to.be false
+      expect(map3.get '10:00 am').to.be false
+      expect(map3.get '11:00 am').to.be true
+      expect(map3.get '12:00 pm').to.be false
+      expect(map3.get '1:00 pm').to.be false
+      expect(map3.get '2:00 pm').to.be true
+      expect(map3.get '3:00 pm').to.be true
+      expect(map3.get '4:00 pm').to.be true
+      expect(map3.get '5:00 pm').to.be false
+
