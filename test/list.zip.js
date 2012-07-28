@@ -3,7 +3,7 @@ var List, expect;
 
 expect = require('expect.js');
 
-List = require('../lib/coll').coll.List;
+List = require('../lib/coll').List;
 
 describe('List Zip Methods', function() {
   return describe('#zip', function() {

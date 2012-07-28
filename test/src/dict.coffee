@@ -1,7 +1,7 @@
 
 expect = require 'expect.js'
 
-{Map, Dict} = require('../lib/coll').coll
+{Map, Dict} = require('../lib/coll')
 
 describe 'Dict', ->
   describe 'constructor', ->

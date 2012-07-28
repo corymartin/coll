@@ -3,7 +3,7 @@ var Dict, Map, expect, _ref;
 
 expect = require('expect.js');
 
-_ref = require('../lib/coll').coll, Map = _ref.Map, Dict = _ref.Dict;
+_ref = require('../lib/coll'), Map = _ref.Map, Dict = _ref.Dict;
 
 describe('Dict / Map Mutators', function() {
   var dict, key1, key2, map;

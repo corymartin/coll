@@ -1,7 +1,7 @@
 
 expect = require 'expect.js'
 
-{List} = require('../lib/coll').coll
+{List} = require('../lib/coll')
 
 describe 'List Mutator Methods', ->
 

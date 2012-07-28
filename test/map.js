@@ -3,7 +3,7 @@ var Map, expect;
 
 expect = require('expect.js');
 
-Map = require('../lib/coll').coll.Map;
+Map = require('../lib/coll').Map;
 
 describe('Map', function() {
   describe('constructor', function() {
