@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/corymartin/coll.png)](http://travis-ci.org/corymartin/coll)
 Coll
 ====
 
