@@ -324,6 +324,12 @@ describe 'List Indexing Methods', ->
       expect(indexes).to.be.a List
       expect(indexes.length).to.be 0
 
+    it 'should return an empty list if the instance list is empty', ->
+      ls = new List
+      indexes = ls.indicesIf (v) -> true
+      expect(indexes).to.be.a List
+      expect(indexes.length).to.be 0
+
     it 'should accept a context object for the callback as an optional third parameter', ->
       l1 = List 'a'
       obj = foo: 'bar'

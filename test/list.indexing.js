@@ -447,6 +447,15 @@ describe('List Indexing Methods', function() {
       expect(indexes).to.be.a(List);
       return expect(indexes.length).to.be(0);
     });
+    it('should return an empty list if the instance list is empty', function() {
+      var indexes, ls;
+      ls = new List;
+      indexes = ls.indicesIf(function(v) {
+        return true;
+      });
+      expect(indexes).to.be.a(List);
+      return expect(indexes.length).to.be(0);
+    });
     it('should accept a context object for the callback as an optional third parameter', function() {
       var obj;
       l1 = List('a');
